@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<components:ViewBackBase xmlns:fx="http://ns.adobe.com/mxml/2009"
+		xmlns:s="library://ns.adobe.com/flex/spark"
+		xmlns:mx="library://ns.adobe.com/flex/mx"
+		viewActivate="view1_viewActivateHandler(event)" title="Systems" 
+		 xmlns:components="com.lmc.ralib.components.*">
+	
+	<fx:Script>
+		<![CDATA[
+			import com.lmc.ralib.Events.FactViewEvent;
+			import com.lmc.ralib.model.Host;
+			import com.lmc.ralib.model.Hosts;
+			
+			import flash.events.KeyboardEvent;
+			
+			import mx.collections.ArrayCollection;
+			import mx.events.CollectionEvent;
+			import mx.events.FlexEvent;
+			import mx.events.PropertyChangeEvent;
+			
+			import spark.events.IndexChangeEvent;
+			import spark.events.ViewNavigatorEvent;
+			[Bindable] private var menuButtons:ArrayCollection = new ArrayCollection();
+			[Bindable] private var hosts:ArrayCollection;
+			public var allhosts:Hosts;
+
+			protected function view1_viewActivateHandler(event:ViewNavigatorEvent):void
+			{
+				list.dataProvider = data.hosts;
+				menuButtons.addItem("Email");
+				menuButtons.addItem("List");
+
+			}
+		
+			protected function buttonbarClickHandler(event:IndexChangeEvent):void
+			{
+				/*if (buttonbar.selectedItem == "Email"){
+
+				}
+				*/
+			}
+			private function listChange(event:IndexChangeEvent):void{
+					var host:Host = allhosts.findbyname(event.target.selectedItem)
+					navigator.pushView(HostView, {host:host});
+			}
+			private function emailhandler(event:MouseEvent):void{
+				dispatchEvent(new FactViewEvent(FactViewEvent.CREATE_HOSTS_FACT_EMAIL,null,data.factname, false, null,data.hosts.source, data.factvalue ));
+
+			}
+		]]>
+	</fx:Script>
+	
+
+	<components:actionContent>
+		<s:Button styleName="shareactionButton" click="emailhandler(event)"  />
+	</components:actionContent>
+	<components:SearchList width="100%" height="100%" id="list" change="listChange" itemRenderer="com.lmc.ralib.renderers.SystemsIconRenderer"
+						    />
+	
+	
+</components:ViewBackBase>

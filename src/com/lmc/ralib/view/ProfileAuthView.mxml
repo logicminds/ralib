@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009" viewActivate="init()"
+		xmlns:s="library://ns.adobe.com/flex/spark" title="Authentication" xmlns:components="com.lmc.ralib.components.*">
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	<fx:Script>
+		<![CDATA[
+			import com.lmc.ralib.model.ProfileModel;
+			
+			import mx.collections.ArrayCollection;
+			import mx.core.DPIClassification;
+			import mx.core.FlexGlobals;
+			import mx.events.CloseEvent;
+			
+			import spark.events.PopUpEvent;
+			import spark.events.TextOperationEvent;
+			[Bindable] private var profile:ProfileModel;
+			[Bindable] private var padding:Number;
+			[Bindable] private var listdata:ArrayCollection; 
+
+			public function onRefresh(event:MouseEvent):void{
+				// override this to implement your own refresh method
+				this.dispatchEvent(new Event("RefreshRequested"));
+			}
+			public function onBackButton(event:MouseEvent):void{
+				profile.setcredentials(listdata.getItemAt(0).value,listdata.getItemAt(1).value);
+				this.navigator.popView();
+			}
+			override public function createReturnObject():Object{
+				var returnedObject:Object = new Object();
+				returnedObject.profile = profile;
+				return returnedObject;
+
+			}
+			private function init():void{
+				profile = data.profile;
+				padding = (10 * FlexGlobals.topLevelApplication.applicationDPI / DPIClassification.DPI_160);
+				listdata = new ArrayCollection([{label:"Username", value:profile.username, showaspassword:false},
+					{label:"Password", value:profile.password, showaspassword:true}]);
+
+			}
+			
+			
+			
+		]]>
+	</fx:Script>
+	<s:navigationContent>
+		<s:Button label="Back" click="onBackButton(event)" />
+	</s:navigationContent>
+	<s:Scroller width="100%" height="100%">
+		<s:VGroup width="100%" height="100%" gap="{padding}" paddingBottom="{padding}" paddingTop="{padding}"
+				  paddingLeft="{padding}" paddingRight="{padding}">
+	<s:ListForm  width="100%" labelField="label" title="Authentication" allowMultipleSelection="false" bottom="{padding}" top="{padding}"
+				 left="{padding}" right="{padding}"
+				 dataProvider="{listdata}" id="list"
+				 styleName="listForm" >
+		<s:itemRenderer>
+			<fx:Component>
+				<!-- Custom IconItemRenderer with arbitrary UIComponent content -->
+				<s:ListFormItemRenderer styleName="listFormItemRenderer">
+					
+					<s:TextInput displayAsPassword="{data.showaspassword}" borderVisible="false" width="200" 
+								 text="@{data.value}"  />
+				</s:ListFormItemRenderer>
+			</fx:Component>
+		</s:itemRenderer>
+		
+	</s:ListForm>
+			<!--<s:ListForm  width="100%" title="Show Password" labelField="name" 
+						 dataProvider="{listdata}" id="list"
+						 styleName="listForm" >
+				<s:itemRenderer>
+					<fx:Component>
+						<s:ListFormItemRenderer styleName="listFormItemRenderer">
+							<s:ToggleSwitch selected="false"  />
+						</s:ListFormItemRenderer>
+					</fx:Component>
+				</s:itemRenderer>
+				
+			</s:ListForm> -->
+		</s:VGroup>
+	</s:Scroller>
+	
+
+</s:View>

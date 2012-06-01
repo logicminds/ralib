@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		xmlns:s="library://ns.adobe.com/flex/spark" title="Home View" viewActivate="creategraph()"
+		xmlns:charts="com.lmc.ralib.components.charts.*">
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	<fx:Script>
+		<![CDATA[
+			import com.lmc.ralib.components.charts.DashBoardOverView;
+			//private var dashboard:DashBoardOverView;
+
+			private function creategraph(value:Boolean=false):void{
+			/*	// this is an attemp to cache the graph instead of recreating it
+				if (dashboard){
+					groupview.removeElement(dashboard);
+					dashboard = null;
+				}
+				// create new 
+				if (!dashboard){
+					this.dashboard = new DashBoardOverView();
+					dashboard.setStyle("color", "#FFFFFF");
+					dashboard.id = "dashboard"
+					dashboard.percentHeight = 100;
+					dashboard.percentWidth = 100;
+					dashboard.cacheAsBitmap = false;
+					groupview.addElement(dashboard);
+
+				} */
+			}
+		
+			
+			private function onRefreshClick(event:MouseEvent):void{
+				dashboard.refresh();
+				//creategraph();
+			}
+		]]>
+	</fx:Script>
+	<s:actionContent>
+	<s:Button styleName="refreshButton" id="but_refresh" click="onRefreshClick(event)"  />
+		
+		
+	</s:actionContent>
+	<s:navigationContent  >
+		<!--<s:Button styleName="settingsButton" fontSize="12" click="navigator.pushView(SettingsView, model)" /> -->
+		<!--<s:Button fontSize="12" label="Settings" click="navigator.pushView(SettingsView, model)" /> -->
+		
+	</s:navigationContent>
+	
+	
+	
+	<s:VGroup right="0" left="0" top="10" bottom="10"  id="groupview" >
+		<charts:DashBoardOverView id="dashboard" width="100%" height="100%" color="#FFFFFF"/>
+
+	</s:VGroup>
+
+		
+	
+</s:View>

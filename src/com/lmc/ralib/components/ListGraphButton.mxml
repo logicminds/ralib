@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Image xmlns:fx="http://ns.adobe.com/mxml/2009" currentState="list" 
+		  click="clickHandler(event)"
+		  xmlns:s="library://ns.adobe.com/flex/spark" buttonMode="true" >
+	<fx:Declarations>
+		
+		<s:MultiDPIBitmapSource id="listicon" 
+								source160dpi="@Embed('assets/icons/list24.png')"
+								source240dpi="@Embed('assets/icons/list32.png')"
+								source320dpi="@Embed('assets/icons/list48.png')" />
+		
+		<s:MultiDPIBitmapSource id="graphicon"
+								source160dpi="@Embed('assets/icons/piechart24.png')"
+								source240dpi="@Embed('assets/icons/piechart32.png')"
+								source320dpi="@Embed('assets/icons/piechart48.png')" />
+	</fx:Declarations>
+	<s:states>
+		<s:State name="list" enterState="changelisticon(event)"/>
+		<s:State name="graph"  enterState="changegraphicon(event)" />
+			
+	</s:states>
+	
+	
+	<fx:Script>
+		<![CDATA[
+			import mx.core.FlexGlobals;
+			import mx.events.FlexEvent;
+			import mx.events.StateChangeEvent;
+			
+			[Bindable] private var dpiIcon:Object;
+			
+			public function isListState():Boolean{
+				return this.currentState == "list";
+			}
+			
+			private function clickHandler(event:MouseEvent):void{
+		
+				if (isListState()){
+					this.currentState = "graph";
+					source = listicon.getSource(FlexGlobals.topLevelApplication.applicationDPI);
+
+				}
+				else{
+					this.currentState = "list";
+					source = graphicon.getSource(FlexGlobals.topLevelApplication.applicationDPI);
+
+				}
+			}
+			protected function changegraphicon(event:FlexEvent):void
+			{
+				source = listicon.getSource(FlexGlobals.topLevelApplication.applicationDPI);
+			}
+			protected function changelisticon(event:FlexEvent):void
+			{
+				source = graphicon.getSource(FlexGlobals.topLevelApplication.applicationDPI);
+			}
+			
+			
+		]]>
+	</fx:Script>
+</s:Image>

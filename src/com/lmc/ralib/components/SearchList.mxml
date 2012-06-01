@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:VGroup xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		xmlns:s="library://ns.adobe.com/flex/spark" creationComplete="init()" >
+	<fx:Declarations>
+		<!-- PldataProvidere non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	<fx:Script>
+		<![CDATA[
+			import com.lmc.ralib.Events.AlertEvent;
+			
+			import mx.collections.ArrayCollection;
+			import mx.events.FlexEvent;
+			import mx.events.PropertyChangeEvent;
+			//TODO move the search text input in the list viewport 
+			import spark.components.supportClasses.ItemRenderer;
+			import spark.components.supportClasses.ListBase;
+			import spark.events.IndexChangeEvent;
+			[Bindable] private var _itemRenderer:IFactory;
+			[Bindable] public var requireSelection:Boolean;
+			[Bindable] private var _dataProvider:ArrayCollection; 
+			[Bindable] public var data:Object = new Object();
+			private var _searchFields:Array = [];
+			
+			private function init():void{
+				
+			}
+			public function get labelField():String{
+				return list.labelField;
+			}
+			public function set labelField(field:String):void{
+				list.labelField = field;
+				_searchFields.push(field);
+			}
+			public function set searchFields(fields:Array):void{
+				_searchFields = fields;
+			}
+			// currently not used but would need to be used in filterColumn
+			public function set allowMultipleSelection(value:Boolean):void{
+				list.allowMultipleSelection = value;
+			}
+			private var _searchfields:Array;
+			public function get selectedItems():Vector.<Object>{
+				return list.selectedItems;
+			}
+			public function get selectedItem():*{
+				return list.selectedItem;
+			}
+			public function get selectedIndices():Vector.<int>{
+				return list.selectedIndices;
+			}
+			public function set selectedItems(items:Vector.<Object>):void{
+				list.selectedItems = items;
+			}
+			public function set selectedItem(obj:*):void{
+				list.selectedItem = obj;
+			}
+			public function set selectedIndices(items:Vector.<int>):void{
+				list.selectedIndices = items;
+			}
+			public function get dataProvider():ArrayCollection{
+				return _dataProvider;
+			}
+			public function refreshlist(usecache:Boolean=false):void{
+				this.dispatchEvent(new Event("RefreshListEvent"));
+			}
+			public function set dataProvider(ac:ArrayCollection):void{
+				_dataProvider = ac;
+				list.dataProvider = _dataProvider;
+				this.emptySearch();
+				ac.refresh();
+			}
+			public function get itemRenderer():IFactory{
+				return _itemRenderer;
+			}
+		
+			public function set itemRenderer(ir:IFactory):void{
+				_itemRenderer = ir;
+				list.itemRenderer = _itemRenderer;
+			}
+			public function set searchfields(fields:Array):void{
+				_searchfields = fields;
+			}
+			public function get searchfields():Array{
+				return _searchfields;
+			}
+			private function filterColumn(item:Object):Boolean
+			{
+				var content:String = filterTxt.text;
+				// If we concatenate all the fields  we can search them all at once
+				
+				var key:String;
+				// since the label field is added
+				if (_searchFields.length > 0){
+					for each (var lbl:Object in _searchFields){
+						key += item[lbl] + " ";
+
+					}
+				}
+				else{
+					key = item.toString();
+				}
+				// convert all strings to lowercase first
+				key = key.toLowerCase();
+				content = content.toLowerCase();
+				if(key.indexOf(content) != -1) 
+					return true;
+				else
+					return false;
+			}
+			///if the textbox is empty, it then calls  all of the data. I use a 'reset' button to do this as well.
+			private function filtercontent():void
+			{
+				if (dataProvider){
+					
+				
+					if (filterTxt.text.length == 0)
+					{  // don't filter if no exist in the search field
+						dataProvider.filterFunction = null;
+					}
+					else
+					{
+						dataProvider.filterFunction = filterColumn;
+					}
+					dataProvider.refresh();
+				}
+				
+			}
+			private function detectChange(evt:PropertyChangeEvent):void{
+				// need to make sure the search field is not blank
+				if (this.filterTxt.text != ""){
+					this.filtercontent();
+				}
+			}
+			public function changeHandler(event:IndexChangeEvent):void{
+				this.saveScrollPosition();
+			}
+			public function saveScrollPosition():void {
+				// first time the data might not be created yet
+				if (data == null)
+					data = new Object();
+				
+				// save the vertical scroll position
+				
+				data.verticalScrollPosition = list.dataGroup.verticalScrollPosition;
+				data.horizontalScrollPosition = list.dataGroup.horizontalScrollPosition;
+			}
+			private function restoreScrollPosition():void {
+				// the data might be null if it has never been set
+				if (data){
+					var restoredVSP:Number = data.verticalScrollPosition as Number;
+					var restoredHSP:Number = data.horizontalScrollPosition as Number;
+					
+					var maxVSP:Number = list.dataGroup.contentHeight - list.dataGroup.height;
+					var maxHSP:Number = list.dataGroup.contentWidth - list.dataGroup.width;
+					
+					// restore the saved scroll position, but don't set it to higher than the maximum
+					// to prevent from orientation changes causing a scroll into excess space
+					list.dataGroup.verticalScrollPosition = Math.min(maxVSP, restoredVSP);
+					list.dataGroup.horizontalScrollPosition = Math.min(maxHSP, restoredHSP);
+				}
+			}
+			public function set change(handler:Function):void{
+				list.addEventListener(IndexChangeEvent.CHANGE, handler);
+				
+			}
+			private function list_initHandler(event:FlexEvent):void{
+				var dataProviderChangedHandler:Function = function(e:Event):void {
+					list.addEventListener("updateComplete", updateCompleteHandler);
+				}
+				
+				var updateCompleteHandler:Function = function(e:Event):void {
+					restoreScrollPosition();
+					
+					// remove the event listeners
+					list.removeEventListener("updateComplete", updateCompleteHandler);
+					list.removeEventListener("dataProviderChanged", dataProviderChangedHandler);
+				}
+				
+				list.addEventListener("dataProviderChanged", dataProviderChangedHandler);
+				list.addEventListener(AlertEvent.OPEN, onAlertShow);
+
+			}
+			private function onAlertShow(event:AlertEvent):void{
+				this.dispatchEvent(event);
+			}
+			
+			//skinClass="com.pialabs.eskimo.skins.mobile.ios.SearchTextInputSkin"
+			private function emptySearch():void{
+				this.filterTxt.text = "";
+				this.filtercontent();
+			}
+		]]>
+	</fx:Script>
+ <s:HGroup width="100%" paddingLeft="5" paddingRight="5" paddingTop="5" paddingBottom="5" horizontalAlign="center" > 
+		<s:TextInput width="95%" id="filterTxt" change="filtercontent()" text=""
+					 paddingLeft="10" paddingRight="10" paddingTop="5" paddingBottom="5"
+					 prompt="Search"  />
+	</s:HGroup>
+	<s:List width="100%" height="100%" id="list" change="changeHandler(event)" requireSelection="{this.requireSelection}"
+			    />
+	
+</s:VGroup>
+
+

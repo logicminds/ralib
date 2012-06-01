@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		xmlns:s="library://ns.adobe.com/flex/spark"
+		xmlns:components="com.lmc.ralib.components.*" 
+		 title="Systems" viewActivate="init()">
+	
+	<fx:Script>
+		<![CDATA[	
+			import spark.events.IndexChangeEvent;
+			protected function maingrid_changeHandler(event:IndexChangeEvent):void
+			{
+				//var tracker:AnalyticsTracker = ApplicationStore.services["tracker"];
+				//tracker.trackPageview("/Systems/System/" + maingrid.selectedItems[0]);
+				var item:Object = event.currentTarget.selectedItem;
+				//this.data.hostdata = hostdata;
+				//{hostdata:this.hostdata, hostname:data.hostname}
+				navigator.pushView(HostView, {host: item} );
+				
+			}
+			private function init():void{
+				this.but_refresh.addEventListener(MouseEvent.CLICK, onRefreshClick);
+
+			}
+			
+			private function onRefreshClick(event:MouseEvent):void{
+				hostslist.refreshlist();
+			}
+			
+		]]>
+	</fx:Script>
+	
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	<s:VGroup height="100%" width="100%" >
+		<components:HostsList height="100%" width="100%" id="hostslist" change="maingrid_changeHandler" allowMultipleSelection="false" />
+		
+		
+	</s:VGroup>
+	<s:actionContent>
+		<!-- <s:Button styleName="addButton" id="addbutt" /> 
+		<s:Spacer width="5" /> -->
+		<s:Button styleName="refreshButton" id="but_refresh" />
+	</s:actionContent>
+		
+</s:View>

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:SkinnableContainer xmlns:fx="http://ns.adobe.com/mxml/2009" styleName="componentContainerStyle"
+					  xmlns:s="library://ns.adobe.com/flex/spark" width="100%">
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	<fx:Script>
+		<![CDATA[
+			import mx.collections.ArrayCollection;
+			
+			import spark.events.IndexChangeEvent;
+			public function set dataProvider(items:ArrayCollection):void{
+				buttbar.dataProvider = items;
+			}
+			public function set iconPlacement(value:String):void{
+				//buttbar.iciconPlacement = value;
+				
+			}
+			public function set requireSelection(value:Boolean):void{
+				 buttbar.requireSelection = value;
+			}
+			public function set iconField(value:String):void{
+				buttbar.iconField = value;
+			}
+			public function set labelField(value:String):void{
+				buttbar.labelField = value;
+			}
+			public function set change(value:Function):void{
+				buttbar.addEventListener(IndexChangeEvent.CHANGE, value);
+			}
+			 
+		]]>
+	</fx:Script>
+		<s:ButtonBar width="100%" id="buttbar" />
+			
+</s:SkinnableContainer>

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:SkinnablePopUpContainer xmlns:fx="http://ns.adobe.com/mxml/2009" 
+						   xmlns:s="library://ns.adobe.com/flex/spark" >
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	<fx:Script>
+		<![CDATA[
+			[Bindable] public var username:String;
+			[Bindable] public var password:String;
+			private function onSave(event:MouseEvent):void{
+				close(true, {username:username, password:password});
+			}
+			private function onCancel(event:MouseEvent):void{
+				close(true,null);
+			}
+			
+		]]>
+	</fx:Script>
+	<s:VGroup>
+		
+	<s:Form width="100%">
+		<s:FormItem label="Username">
+			<s:TextInput text="@{username}" />
+		</s:FormItem>
+		<s:FormItem label="Password">
+			<s:TextInput text="@{password}" />
+		</s:FormItem>
+		
+	</s:Form>
+	<s:HGroup width="100%" horizontalAlign="center">
+		<s:Button label="Cancel" click="onCancel(event)" />
+		<s:Button label="Save" click="onSave(event)"/>
+	</s:HGroup>
+	</s:VGroup>
+
+</s:SkinnablePopUpContainer>

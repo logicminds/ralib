@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:IconItemRenderer xmlns:fx="http://ns.adobe.com/mxml/2009"
+					xmlns:s="library://ns.adobe.com/flex/spark"
+					width="100%" iconWidth="64" iconHeight="64" messageField="value" creationComplete="init()">
+	<fx:Script>
+		<![CDATA[
+			import assets.Chevron;
+			
+			import com.flexpad.ButtonRed;
+			import com.lmc.ralib.Events.customClickEvent;
+			//TODO redo the editsystem list renderer to use the proper overloaded methods
+
+			import mx.graphics.GradientEntry;
+			import mx.graphics.LinearGradient;
+			
+			import spark.primitives.Rect;
+			import spark.utils.MultiDPIBitmapSource;
+			private var certbutt:ButtonRed = new ButtonRed();
+			
+			private var size:Number;
+			private var checksize:int;
+			private var middle:int;
+			private var _backgroundSection:Number = 0xDDDDDD;
+			
+			
+			
+			
+			public function set backgroundSection(value:Number):void {
+				_backgroundSection = value;
+			}
+			
+			private var _normalLabelField:String = "name";
+			
+			public function get normalLabelField():String {
+				return _normalLabelField;
+			}
+			
+			public function set normalLabelField(value:String):void {
+				_normalLabelField = value;
+			}
+			
+			private var _sectionField:String = "section";
+			
+			public function get sectionField():String {
+				return _sectionField;
+			}
+			
+			public function set sectionField(value:String):void {
+				if (value == _sectionField)
+					return;
+				
+				_sectionField = value;
+				invalidateProperties();
+			}
+			private function init():void{
+				
+				
+				size = applicationDPI / 5;
+				var mywidth:int = size*2;
+				middle = Math.ceil((this.height - size) / 2);
+				
+				if (certbutt){
+					
+					certbutt.label = "Edit";
+				
+					certbutt.cacheAsBitmap = true;
+					setElementPosition(certbutt, this.parent.width - mywidth - 10,middle);
+					setElementSize(certbutt, mywidth, size);
+					certbutt.addEventListener(MouseEvent.CLICK, ClickHandler);
+					
+					this.addChild(certbutt); 
+				}
+			}
+			private function ClickHandler(event:MouseEvent):void
+			{
+				var newevent:customClickEvent = new customClickEvent(this.data,"editPropertyEvent");
+				
+				owner.dispatchEvent(newevent);
+			
+				
+			}
+		
+			
+			/**
+			 * Change the style based on the data: section item or regular item
+			 */
+			override public function set data(value:Object):void {
+				if (value[_sectionField]) {
+					labelField = _sectionField;
+					labelDisplay.setStyle("textAlign", "center");
+					labelDisplay.setStyle("fontWeight", "bold");
+					labelDisplay.setStyle("color", "0xFFFFFF");
+					certbutt.visible = false;
+					
+				} 
+				else {
+					labelField = _normalLabelField;
+					labelDisplay.setStyle("textAlign", "left");
+					labelDisplay.setStyle("fontWeight", "normal");
+					labelDisplay.setStyle("color", "0x000000");
+					certbutt.visible = true;
+				
+				}
+			
+			
+				
+				super.data = value;
+				
+			}
+			
+			override protected function drawBackground(unscaledWidth:Number, unscaledHeight:Number):void {
+				super.drawBackground(unscaledWidth, unscaledHeight);
+				//change the background if we render for a section title item
+				if (data[_sectionField]) {
+					
+					var grad:String = GradientType.LINEAR;
+					var linMatrix:Matrix = new Matrix( );
+					var rotationDegrees:int = 90;
+					
+					linMatrix.createGradientBox( unscaledWidth, unscaledHeight , (rotationDegrees * Math.PI / 180) );
+					var colors:Array = [ 0x000000, 0x333333 ];
+					var alphas:Array = [ 1, 0.9 ];
+					var ratios:Array = [ 0, 255 ];
+					var focalPoint:Number = .0;
+					
+					graphics.beginGradientFill( grad , colors , alphas , ratios , linMatrix , SpreadMethod.PAD, InterpolationMethod.RGB, focalPoint); 
+					graphics.drawRect( 0, 0, unscaledWidth , unscaledHeight );
+					graphics.endFill( );
+					
+						
+					
+				}
+				
+			}
+			
+		]]>
+	</fx:Script>
+</s:IconItemRenderer>

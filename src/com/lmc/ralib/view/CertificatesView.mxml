@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009"
+		xmlns:s="library://ns.adobe.com/flex/spark"
+		xmlns:components="com.lmc.components.*"
+		xmlns:mx="library://ns.adobe.com/flex/mx" currentState="Loading" 
+		title="Certificates" xmlns:flexpad="com.flexpadmobile.*">
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	<s:states>
+		<s:State name="Normal"/>
+		<s:State name="Loading"/>
+		<s:State name="Search"/>
+
+	</s:states>
+	<fx:Script>
+		<![CDATA[
+			import com.google.analytics.AnalyticsTracker;
+		
+			
+			
+			import flashx.textLayout.debug.assert;
+			
+			import mx.collections.ArrayCollection;
+			import mx.events.CollectionEvent;
+			import mx.events.PropertyChangeEvent;
+			
+			import spark.events.IndexChangeEvent;
+			import spark.events.ViewNavigatorEvent;
+			private var filterstate:String = "";
+			
+
+
+			private function backbut_clickHandler(event:MouseEvent):void{
+				navigator.popToFirstView();
+			}
+			/*
+			[Binding] private var certmenu:ArrayCollection = ApplicationStore.services["certmenu"];
+			
+			private function stateFilter(event:IndexChangeEvent):void{
+				filterstate = certmenu.getItemAt(filterbuttons.selectedIndex).toString();
+				trace("State = " + filterstate);
+				cert.certs.filterFunction = filterColumn;
+				cert.certs.refresh();
+
+			}
+			private function detectChange(evt:PropertyChangeEvent):void{
+				// need to make sure the search field is not blank
+				if (this.filterTxt.text != ""){
+					this.filtercontent();
+				}
+			}
+		
+		
+			
+			
+		
+			private function collectionChangeHandler(event:CollectionEvent):void{
+				// return to the beginning page views
+				certlist.dataProvider = cert.certs;
+				currentState = "Normal";
+				filterstate = certmenu.getItemAt(filterbuttons.selectedIndex).toString();
+				cert.certs.filterFunction = filterColumn;
+				cert.certs.refresh();
+			}
+			
+			protected function view1_viewActivateHandler(event:ViewNavigatorEvent):void
+			{
+				 
+				 tracker = ApplicationStore.services["tracker"];
+				 tracker.trackPageview("/Certificates");
+				 certlist.addEventListener("revokeCertificate", certChangeHandler);
+				 certlist.addEventListener("acceptCertificate", certChangeHandler);
+				 certlist.addEventListener("cleanCertificate", certChangeHandler);
+				 
+				 cert = ApplicationStore.services["certcontroller"];
+				 
+				 if (! cert){
+				 	cert = new CertController();
+					ApplicationStore.services["certcontroller"] = cert;
+					cert.addEventListener("ProxyStatus", onProxyStatus);
+					cert.addEventListener(CollectionEvent.COLLECTION_CHANGE, collectionChangeHandler);
+				 }
+				 else{
+					 cert.addEventListener("ProxyStatus", onProxyStatus);
+					 cert.addEventListener(CollectionEvent.COLLECTION_CHANGE, collectionChangeHandler);
+					 certlist.dataProvider = cert.certs;
+					 currentState = "Normal";
+					 filterstate = certmenu.getItemAt(filterbuttons.selectedIndex).toString();
+					 cert.certs.filterFunction = filterColumn;
+					 cert.certs.refresh();
+				 }
+		
+			}
+			private function onProxyStatus(event:ForemanEvent):void{
+				var status:String = event.eventdata.toString();
+				certlist.removeEventListener("ProxyStatus", onProxyStatus);
+				okdia = new AlertBox(true);
+				okdia.title = "Alert";
+				okdia.width =  this.systemManager.screen.width;
+				okdia.height = this.systemManager.screen.height;
+				
+				switch (status){
+					case "NO_PROXIES_DEFINED":
+						okdia.title = "Alert";
+						okdia.message = "No proxies defined";
+						this.currentState = "Normal";
+						tracker.trackPageview("/Certificates/noproxies");
+						break;
+					case "CHANGE_FAILED":
+						okdia.title = "Alert";
+						okdia.message = "Certificate status update failed";
+						tracker.trackPageview("/Certificates/changefailed");
+						break;
+					case "CHANGE_SUCCESS":
+						okdia.title = "Notice";
+						okdia.message = "Certificate Change Succeeded";
+						tracker.trackPageview("/Certificates/changesuccess");
+						break;
+					case "PROXY_UNREACHABLE":
+						okdia.title = "Alert";
+						okdia.message = "Proxy is unreachable";
+						this.currentState = "Normal";
+						tracker.trackPageview("/Certificates/proxyunreachable");
+						break;
+					default:
+						okdia.message = "undefined error";
+						this.currentState = "Normal";
+						break;
+				}
+				okdia.open(this,false);
+
+			}
+			private function certChangeHandler(event:customClickEvent):void{
+				
+				cert.addEventListener("ProxyStatus", onProxyStatus);
+
+				switch (event.type){
+					
+					case "revokeCertificate":
+						cert.revoke(new certificate(event.selecteditem));
+						tracker.trackPageview("/Certificates/revoke");
+						break;
+					
+					case "acceptCertificate":
+						cert.accept(new certificate(event.selecteditem));
+						tracker.trackPageview("/Certificates/accept");
+						break;
+					
+					case "cleanCertificate":
+						cert.clean(new certificate(event.selecteditem));
+						break;
+				}
+			}
+			
+			
+			*/
+		]]>
+	</fx:Script><!--
+	<s:navigationContent>
+		<s:Button label="Back" click="backbut_clickHandler(event)" />
+	</s:navigationContent>
+	<s:actionContent>
+		<s:Button styleName="refreshButton" click="refresh()" />
+		<s:Button styleName="searchButton" click="search()" />
+	</s:actionContent>
+	<flexpad:BarGrey visible.Normal="true" visible.Loading="false" visible.Search="false"
+		width="100%" height="50">
+		<flexpad:layout>
+			<s:HorizontalLayout 
+				paddingLeft="5"
+				paddingRight="5" verticalAlign="middle" horizontalAlign="center" />
+				
+		</flexpad:layout>
+		<flexpad:ButtonBarGrey  id="filterbuttons"  textAlign="center"
+								iconField="icon" iconPlacement="top" fontSize="12" fontWeight="normal"
+								requireSelection="true" visible.Normal="true" visible.Loading="false"
+								change="stateFilter(event)" labelField="label" dataProvider="{certmenu}" />
+	</flexpad:BarGrey>
+	<s:List left="0" top="50"  right="0" bottom="0" visible.Normal="true" 
+			visible.Loading="false" id="certlist" labelField="name" itemRenderer="com.lmc.Renderers.CertListItemRenderer" />
+		
+	<s:BusyIndicator symbolColor="0xFFFFFF" id="loadingindicator" verticalCenter="-70" 
+					 horizontalCenter="0" visible.Search="false" visible.Normal="false" visible.Loading="true" />
+	<s:Label color="0xFFFFFF" text="Retreiving Data..." verticalCenter="-30"  
+			 visible.Normal="false" visible.Loading="true" visible.Search="false"
+			 horizontalCenter="0" />
+	<s:TextInput focusEnabled="true" needsSoftKeyboard="true" enabled.Search="true" enabled.Loading="false" 
+				 enabled.Normal="false" top="5" visible.Normal="false" visible.Search="true" width="100%"
+				 id="filterTxt" change="filtercontent()" visible.Loading="false" /> -->
+	<s:navigationContent>
+		
+		<s:Button label="Back" click="backbut_clickHandler(event)" />
+		
+	</s:navigationContent>
+</s:View>

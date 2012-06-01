@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		 xmlns:s="library://ns.adobe.com/flex/spark"
+			xmlns:components="com.lmc.components.*" 
+			xmlns:charts="mx.charts.*"
+			xmlns:series="mx.charts.series.*"
+			xmlns:chartClasses="mx.charts.chartClasses.*"
+			 >
+	
+	<fx:Metadata>
+		[Style(name="cornerRadius", type="Number", format="Length", inherit="no", minValue="0.0")]
+		[Style(name="paddingTop", type="Number", format="Length", inherit="no", minValue="0.0")]
+		[Style(name="paddingBottom", type="Number", format="Length", inherit="no",  minValue="0.0")]
+		[Style(name="paddingLeft", type="Number", format="Length", inherit="no", minValue="0.0")]
+		[Style(name="paddingRight", type="Number", format="Length", inherit="no", minValue="0.0")]
+	</fx:Metadata>
+		<fx:Script>
+			<![CDATA[
+				
+				
+				import mx.charts.Legend;
+				import mx.charts.PieChart;
+				import mx.charts.series.PieSeries;
+				import mx.collections.ArrayCollection;
+				import mx.events.PropertyChangeEvent;
+				import mx.graphics.SolidColorStroke;
+				
+				import spark.components.Application;
+				import spark.components.HGroup;
+				import spark.components.HScrollBar;
+				import spark.components.Scroller;
+				[Bindable] private var piedata:ArrayCollection;
+				public var piechart1:PieChart;
+				public var seriesId:PieSeries;
+				public var legend:Legend;
+				public var hgroup:HGroup;
+				public var legscroller:Scroller;
+				public function set dataProvider(dp:ArrayCollection):void{
+					
+					if (piedata != dp){
+						this.piedata = dp;
+						this.piechart1 = null;
+						this.creategraph();
+
+					}
+					
+					
+				}
+				
+				private function getData(event:PropertyChangeEvent):void{
+					
+				}
+				
+				private function displayWins(data:Object, field:String, index:Number, percentValue:Number):String {
+					var temp:String= (" " + percentValue.toFixed(0));
+					temp = temp.substr(0,6);
+					  // return data.name + ": \n" + temp + "%\n (" + data.value + ")";
+					   return  temp + "%";
+					
+				}
+			
+				
+				private function creategraph():void{
+					if (!piechart1){
+						var paddingLeft:Number = getStyle("paddingLeft");
+						var paddingRight:Number = getStyle("paddingRight");
+						var paddingTop:Number = getStyle("paddingTop");
+						var paddingBottom:Number = getStyle("paddingBottom");
+						legscroller = new Scroller();
+						
+						var w:int = this.unscaledWidth - (paddingLeft + paddingRight);
+						var h:int = this.unscaledHeight - (paddingTop + paddingBottom);
+						var s:SolidColorStroke = new SolidColorStroke(0xFFFFFF, 1);
+						
+						piechart1 = new PieChart();
+						seriesId =  new PieSeries();
+						legend = new Legend();
+						hgroup = new HGroup();
+						
+						
+						//piechart1.top = 0;
+						//piechart1.bottom = 50;
+						piechart1.percentWidth = 100;
+						piechart1.percentHeight = 100;
+						piechart1.right = 10;
+						piechart1.left = 10; 
+						 
+						piechart1.dataProvider = this.piedata;
+						
+						
+						seriesId.explodeRadius = 0.02;
+						seriesId.nameField = "value";
+						
+						seriesId.setStyle("labelPosition", "callout");
+						seriesId.setStyle("calloutGap", 2);
+						seriesId.setStyle("calloutStroke", s);
+						
+						seriesId.field = "count";
+						seriesId.labelFunction = displayWins;
+						piechart1.series = [seriesId];
+
+						hgroup.horizontalAlign = "center";
+						hgroup.percentWidth = 100;
+						hgroup.paddingLeft = 5;
+						hgroup.paddingRight = 5;
+						
+						hgroup.bottom = 5;
+						hgroup.height = 50; 
+						
+						
+						//// LEGEND /////
+						legend.dataProvider = piechart1;
+						legend.styleName = "mylegendStyle";
+						legend.percentWidth = 100;
+						legend.percentHeight = 100;
+						
+						//legend.right = 0;
+						//legend.left = 0;
+						legend.direction = "vertical";
+						var legcontainer:Group = new Group();
+						legcontainer.clipAndEnableScrolling = true;
+						
+						//legcontainer.percentWidth = 30;
+						legcontainer.addElement(legend);
+						legscroller.viewport = legcontainer;
+						
+						legscroller.percentWidth = 100;
+						legscroller.percentHeight = 100;
+					//	legscroller.left = 15;
+					//	legscroller.right = 15;
+					//	legscroller.bottom = 15;
+						//legscroller.top = 5;
+						//hgroup.addElement(legscroller);
+						
+						this.addElement(piechart1);
+
+						//this.addElement(hgroup);
+					}
+				}
+				
+			]]>
+		</fx:Script>
+		
+</s:Group>

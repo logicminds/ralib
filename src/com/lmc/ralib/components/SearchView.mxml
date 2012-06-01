@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		xmlns:s="library://ns.adobe.com/flex/spark" title="View" xmlns:components="com.lmc.ralib.components.*">
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	<fx:Script>
+		<![CDATA[
+			public function onRefresh(event:MouseEvent):void{
+				// override this to implement your own refresh method
+				this.dispatchEvent(new Event("RefreshRequested"));
+			}
+			public function onBackButton(event:MouseEvent):void{
+				this.navigator.popView();
+			}
+		]]>
+	</fx:Script>
+	<s:navigationContent>
+		<s:Button label="Back" click="onBackButton(event)" />
+	</s:navigationContent>
+</s:View>

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<components:ViewBackBase xmlns:fx="http://ns.adobe.com/mxml/2009" viewActivate="init()" title="Host Classes" 
+						   xmlns:s="library://ns.adobe.com/flex/spark" xmlns:components="com.lmc.ralib.components.*">
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	<fx:Script>
+		<![CDATA[
+			import com.lmc.ralib.Events.AlertEvent;
+			import com.lmc.ralib.Events.ClientUpdateRequestEvent;
+			
+			import mx.collections.ArrayCollection;
+			
+			import spark.components.Button;
+			public var but_save:Button = new Button();
+			private function init():void{
+				addEventListener(AlertEvent.OPEN, onInheritedClick,true);
+
+				
+			}
+			override public function createReturnObject():Object{
+				var returnedObject:Object = new Object();
+				returnedObject.host = this.data.host;
+				return returnedObject;
+				
+			}
+			private function onInheritedClick(event:AlertEvent):void{
+				dispatchEvent(event);
+			}
+			private function next():void
+			{
+				// Get all selected items
+				var selectedItems:Array = new Array;
+				for each( var obj:Object in list.dataProvider )
+				{
+					// only add the selected items
+					if( obj.Status && obj.hasparent == false )
+					{
+						selectedItems.push(obj.id);
+					}
+				}
+				// Navigate to the SelectedItemsView with selectedItems as data
+				this.dispatchEvent(new ClientUpdateRequestEvent(ClientUpdateRequestEvent.HOST,data.host,selectedItems));
+			}
+
+		]]>
+	</fx:Script>
+	<components:actionContent>
+		<s:Button label="Save" click="next()" />
+
+	</components:actionContent>
+	
+	<components:SearchList right="0" left="0" top="0" bottom="0" id="list"
+						   itemRenderer="com.lmc.ralib.renderers.CheckBoxesItemRenderer" labelField="name" />
+
+</components:ViewBackBase>

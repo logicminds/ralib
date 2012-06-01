@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<components:ViewBackBase xmlns:fx="http://ns.adobe.com/mxml/2009" creationComplete="init()"  
+		xmlns:s="library://ns.adobe.com/flex/spark" title="Host View" xmlns:components="com.lmc.ralib.components.*">
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	<fx:Script>
+		<![CDATA[
+			import com.lmc.ralib.model.Host;
+			public var host:Host;
+			import spark.events.IndexChangeEvent;
+			private function init():void{
+				
+				
+				if (navigator.poppedViewReturnedObject ){
+					host = Host(navigator.poppedViewReturnedObject.object.host);
+					trace(data);
+				}
+				else if (data){
+					host = Host(data.host);
+				}
+			}
+			protected function maingrid_changeHandler(event:IndexChangeEvent):void
+			{
+				//var tracker:AnalyticsTracker = ApplicationStore.services["tracker"];
+				//tracker.trackPageview("/Systems/System/" + maingrid.selectedItems[0]);
+				var item:Object = event.currentTarget.selectedItem;
+				navigator.pushView(item.view, {host:host} );
+			
+			}
+				
+			
+		]]>
+	</fx:Script>
+	<s:VGroup width="100%" height="100%">
+	<s:List id="list" change="maingrid_changeHandler(event)" labelField="name" width="100%"
+			 itemRenderer="com.lmc.ralib.renderers.SystemsIconRenderer">
+		
+	</s:List>
+		
+		<!-- <s:HGroup horizontalAlign="center" verticalAlign="middle" height="50" width="100%">
+			<s:Label text="Power" /> <s:ToggleSwitch label="Power"  /> 
+		</s:HGroup>
+		<s:HGroup horizontalAlign="center" verticalAlign="middle" height="50" width="100%">
+			<s:Label text="UID Light" /><s:ToggleSwitch label="UID Light"  /> 
+		</s:HGroup> -->
+	
+	</s:VGroup>
+</components:ViewBackBase>

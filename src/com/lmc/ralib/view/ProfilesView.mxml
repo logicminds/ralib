@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		xmlns:s="library://ns.adobe.com/flex/spark"
+		xmlns:components="com.lmc.ralib.components.*" viewActivate="init()"
+		 title="Profiles">
+	
+	
+	
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	<fx:Script>
+		<![CDATA[
+			import com.lmc.ralib.Events.*;
+			import com.lmc.ralib.model.ProfileModel;
+			
+			import spark.events.IndexChangeEvent;
+			[Bindable] private var _profile:ProfileModel;
+			private function init():void{
+				profileslist.addEventListener("editProfileEvent", editprofileClickHandler);
+
+			
+			}
+			private function editprofileClickHandler(event:customClickEvent):void
+			{	
+				var dataobj:Object = {name: event.currentTarget.selectedItem.name, 
+					profile: event.currentTarget.selectedItem as ProfileModel};
+				this.navigator.pushView(ProfileView, dataobj);
+			}
+			private function isEmpty():Boolean{
+				if (profileslist.dataProvider.length > 0)
+					return true;
+				else
+					return false;
+			}
+			private function onEditClick(event:customClickEvent):void{
+				var dataobj:Object = {name: event.currentTarget.selectedItem.name, 
+					profile: event.currentTarget.selectedItem as ProfileModel};
+				navigator.pushView(ProfileView, dataobj);
+			}
+			private function onAddClick(event:MouseEvent):void{
+				var newprofile:ProfileModel = new ProfileModel();
+				navigator.pushView(ProfileView);
+			}
+			public function get profile():ProfileModel{
+				if (!_profile){
+					_profile = profileslist.selectedItem as ProfileModel;
+				}
+				return _profile;
+			}
+			private function onSelectChange(event:IndexChangeEvent):void{
+				_profile = ProfileModel(event.currentTarget.selectedItem);
+			}
+			
+			
+		]]>
+	</fx:Script>
+	<s:VGroup width="100%" height="100%">
+		<components:ProfileList width="100%" height="100%" id="profileslist" change="onSelectChange(event)"
+						 top="0" bottom="0"/>
+		<s:HGroup width="100%" paddingTop="5" id="butgroup"  visible="{isEmpty()}" 
+				  paddingBottom="5" horizontalAlign="center" >
+			<s:Button label="Connect" id="butt_connect" enabled="{profileslist.selectedItem != null}" />
+		</s:HGroup>
+		
+	</s:VGroup>
+	<s:actionContent>
+		
+		<s:Button styleName="addButton" id="addbutt" click="onAddClick(event)"  />
+		<s:Spacer width="5" />
+			
+		<s:Button styleName="deleteButton" id="delbutt" />
+		
+	</s:actionContent>
+	
+		
+</s:View>

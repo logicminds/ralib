@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<s:IconItemRenderer xmlns:fx="http://ns.adobe.com/mxml/2009" 
+						  xmlns:s="library://ns.adobe.com/flex/spark"
+						  messageField="Description" height="50" 
+						   cacheAsBitmap="true" >
+	<fx:Script>
+		
+		<![CDATA[
+		/*	//TODO redo this certlist renderer
+			import com.flexpadmobile.ButtonRed;
+			import com.flexpadmobile.skin.ButtonBlueSkin;
+			import com.lmc.ralib.Events.customClickEvent;
+			import com.lmc.ralib.components.AlertBox;
+			import com.lmc.ralib.models.smartproxy;
+			
+			import flash.events.Event;
+			
+			import mx.collections.ArrayCollection;
+			import mx.controls.listClasses.IListItemRenderer;
+			import spark.events.ListEvent;
+			
+			import skins.assets.statusicon;
+			
+			import spark.components.Application;
+			import spark.components.IconItemRenderer;
+			import spark.components.supportClasses.Skin;
+			
+			private var certbutt:ButtonRed = new ButtonRed();
+
+			private var size:Number;
+			private var checksize:int;
+			private var middle:int;
+			private var dLabels:Dictionary = new Dictionary();
+			private var dSkins:Dictionary = new Dictionary();
+
+			private function toPixels(inches:Number):int{
+				return Math.round(Capabilities.screenDPI*inches);
+			}
+			
+			private function init():void
+			{
+				// Populate dictionary using the state as the key and label/skin as the value
+			/*	
+				// case when valid but want revoked
+				dLabels["valid"] = "Revoke";
+				dSkins["valid"] = com.flexpad.skin.ButtonRedSkin;
+				
+			/*	// case when revoked and want it cleaned
+				dLabels["revokedclean"] = "Clean";
+				dSkins["revokedclean"] = com.flexpad.skin.ButtonBlueSkin;
+				
+				// case when revoked but want to accept
+				dLabels["revoked"] = "Accept";
+				dSkins["revoked"] = com.flexpad.skin.ButtonGreenSkin;
+				
+				// case when pending 
+				dLabels["pending"] = "Accept";
+				dSkins["pending"] = com.flexpad.skin.ButtonGreenSkin;
+				
+				// case when pending but want revoked
+				dLabels["pendingrevoked"] = "Revoke";
+				dSkins["pendingrevoked"] = com.flexpad.skin.ButtonRedSkin;
+				this.addEventListener(TransformGestureEvent.GESTURE_SWIPE, swipeHandler); */
+			
+				
+				//this.messageField = "fingerprint";
+				/*
+				size = applicationDPI / 5;
+				var mywidth:int = size*2;
+				middle = Math.ceil((this.height - size) / 2);
+
+				if (certbutt){
+					certbutt.visible = false;
+					certbutt.cacheAsBitmap = true;
+					setElementPosition(certbutt, this.parent.width - mywidth - 10,middle);
+					setElementSize(certbutt, mywidth, size);
+					certbutt.addEventListener(MouseEvent.CLICK, ClickHandler);
+
+					this.addChild(certbutt); 
+				}
+			} 
+			private function confirmationClick(event:MouseEvent):void{
+				var type:String = certbutt.label.toLowerCase();
+				var newevent:customClickEvent;
+				var butttype:String = String(event.target.label).toLowerCase();
+				switch (butttype){
+					case "ok":
+						switch (type){
+							case "revoke":
+								newevent = new customClickEvent(this.data,"revokeCertificate");
+								owner.dispatchEvent(newevent);
+								break;
+						
+							case "accept":
+								newevent = new customClickEvent(this.data,"acceptCertificate");
+								owner.dispatchEvent(newevent);
+								break;
+						
+							case "clean":
+								newevent = new customClickEvent(this.data,"cleanCertificate");
+								owner.dispatchEvent(newevent);
+								break;
+							}
+						
+						break;
+					default:
+						break;
+					
+				}
+			}
+			
+			private function ClickHandler(event:MouseEvent):void
+			{
+				
+				//dia.title = "Confirmation";
+			//	dia.title = "Confirmation";
+				
+
+				//dia.openAlert();
+				var dia:AlertBox = new AlertBox();
+				dia.title = "Confirmation";
+				dia.message = "Are you sure you want " + this.certbutt.label.toLowerCase() + " this certificate?";
+				
+				//dia.addEventListener(MouseEvent.CLICK, confirmationClick);
+				dia.width =  this.systemManager.screen.width;
+				dia.height = this.systemManager.screen.height;
+				dia.addEventListener(MouseEvent.CLICK, confirmationClick);
+				dia.open(this,false);
+				
+				
+			}
+			
+			private function swipeHandler(event:TransformGestureEvent):void
+			{
+				// below are the rules that determine what state the item could 
+				// be in.  a valid ticket cannot be cleaned until its revoked.
+				/*var mystate:String = event.currentTarget.data.state;
+				switch(event.offsetX)
+				{
+					case 1:
+					{
+						// swiped right
+						this.certbutt.label = dLabels[mystate];
+						certbutt.setStyle("skinClass", dSkins[mystate]);
+
+						break;
+					}
+					case -1:
+					{
+						// swiped left
+						var modifiedstate:String;
+						if (mystate == "pending"){
+							modifiedstate = "pendingrevoked";
+						}
+						else if (mystate == "revoked"){
+							modifiedstate = "revokedclean";
+						}
+						else{
+							break;
+						}
+						this.certbutt.label = dLabels[modifiedstate];
+						certbutt.setStyle("skinClass", dSkins[modifiedstate]);
+						break;
+						
+					}
+				} 
+			}
+			/*
+			override public function set data(value:Object):void
+			{
+				if(value != null)
+				{
+					super.data = value;
+				
+				}
+				else{
+					return;
+				}
+			
+				if (certbutt && value.state)
+				{
+					switch (value.state){
+						
+						case "valid":
+							certbutt.label = "Revoke";
+							certbutt.setStyle("skinClass", "com.flexpad.skin.ButtonRedSkin");
+							certbutt.visible = true;
+						//	trace(value.name + " = " + value.state);
+
+							break;
+						case "revoked":
+						//	certbutt.label = "Clean";
+						//	certbutt.setStyle("skinClass", com.flexpad.skin.ButtonBlueSkin);
+						//	trace(value.name + " = " + value.state);
+							certbutt.visible = false;
+							break;
+						case "pending":
+							certbutt.label = "Accept";
+							certbutt.setStyle("skinClass", "com.flexpad.skin.ButtonGreenSkin");
+							certbutt.visible = true;
+						//	trace(value.name + " = " + value.state);
+
+							break;
+					}
+					
+				}
+			} */
+		]]>
+	</fx:Script>
+	
+</s:IconItemRenderer>

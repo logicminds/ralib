@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		xmlns:s="library://ns.adobe.com/flex/spark"
+		xmlns:components="com.lmc.components.*" activate="init()" 
+		xmlns:mx="library://ns.adobe.com/flex/mx" title="">
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	<s:states>
+		<s:State name="Normal"/>
+		<s:State name="Loading"/>
+		<s:State name="Search"/>
+		
+	</s:states>
+	<fx:Script>
+		<![CDATA[
+			import com.google.analytics.AnalyticsTracker;
+			
+			import mx.collections.ArrayCollection;
+			
+			import spark.components.SplitViewNavigator;
+			import spark.components.ViewNavigator;
+			import spark.components.WindowedApplication;
+			import spark.events.IndexChangeEvent;
+			
+
+			private function backbut_clickHandler(event:MouseEvent):void{
+				navigator.popToFirstView();
+			}
+			private function init():void{
+				
+				//var tracker:AnalyticsTracker = ApplicationStore.services["tracker"];
+				//tracker.trackPageview("/MoreView");
+			}
+			protected function moregrid_changeHandler(event:IndexChangeEvent):void
+			{
+				//var selection:Object = moremenu[event.newIndex];
+			
+				
+				// Create a reference to the SplitViewNavigator.
+				var splitNavigator:SplitViewNavigator = navigator.parentNavigator as SplitViewNavigator;
+				
+				// Create a reference to the ViewNavigator for the Detail frame.
+				var detailNavigator:ViewNavigator = splitNavigator.getViewNavigatorAt(1) as ViewNavigator;
+				
+				// Change the view of the Detail frame based on the selected List item.
+				//detailNavigator.pushView(selection.view);
+				
+			}
+		]]>
+	</fx:Script>
+	
+	
+	<s:List id="moregrid" left="0" top="0"  right="0" bottom="0" visible.Normal="true" styleName="MultiDPIFont" 
+			visible.Loading="false" change="moregrid_changeHandler(event)" 
+			 itemRenderer="com.lmc.ralib.renderers.StandardIconRenderer"  />
+	
+</s:View>

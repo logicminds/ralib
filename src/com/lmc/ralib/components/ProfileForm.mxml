@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:VGroup xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		  xmlns:s="library://ns.adobe.com/flex/spark"
+		  xmlns:pia="com.pialabs.eskimo.components.*"
+	width="100%" height="100%" paddingTop="10" currentState="default" 
+	paddingRight="10" paddingBottom="10" paddingLeft="10" >
+
+	<fx:Script>
+		<![CDATA[
+			import com.lmc.ralib.model.ProfileModel;
+			
+			import mx.collections.ArrayCollection;
+			import mx.events.CloseEvent;
+			
+			import spark.events.PopUpEvent;
+			import spark.events.TextOperationEvent;
+			
+			[Bindable] private var _profile:ProfileModel;
+			
+			public function set profile(p:ProfileModel):void{
+				// this sets all the form fields to be used in the data binding process
+				_profile = p;
+			}
+			public function get profile():ProfileModel{
+				return _profile;
+			}
+			
+		
+			
+		]]>
+	</fx:Script>
+	
+	<s:Form width="100%"  >
+		
+		<s:FormItem label="Name" width="100%" >
+			<s:TextInput prompt="Required"  id="fi_profilename" text="@{_profile.name}"/>
+		</s:FormItem>
+		<s:FormItem label="Foreman Host" width="100%" >
+			<s:TextInput  prompt="Required" text="@{_profile.host}" id="fi_host"/>
+		</s:FormItem>
+		<s:FormItem label="Port" width="100%" >
+			<s:TextInput id="fi_port" text="@{_profile.port}" prompt="Required" />
+		</s:FormItem>
+		
+		
+	</s:Form>
+	
+	
+	
+	
+		
+		
+		
+	
+	
+
+</s:VGroup>
+

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		xmlns:s="library://ns.adobe.com/flex/spark" 
+		
+		xmlns:mx="library://ns.adobe.com/flex/mx" title="FilterView" 
+		viewActivate="init()" xmlns:components="com.lmc.ralib.components.*">
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	<fx:Script>
+		<![CDATA[
+			import mx.collections.ArrayCollection;
+			import mx.events.FlexEvent;
+			
+			import spark.events.IndexChangeEvent;
+			import spark.events.ListEvent;
+			[Bindable] private var selected:Vector.<Object>;
+			private function init():void{
+				
+			}
+			public function set selectedItems(items:Vector.<Object>):void{
+				selected = items;
+			}
+			
+		]]>
+	</fx:Script>
+	<s:List id="list" width="100%" height="100%" fontSize="12" textAlign="left" labelField="name"
+						  requireSelection="false" selectedItems="{selected}" 
+						  allowMultipleSelection="true" />
+		<!-- <components:GroupList id="list" width="100%" height="100%" fontSize="12" textAlign="left"
+				requireSelection="false" 
+				allowMultipleSelection="true" /> -->
+	
+	
+</s:View>

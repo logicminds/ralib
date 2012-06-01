@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<components:ViewBackBase xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		xmlns:s="library://ns.adobe.com/flex/spark" 
+		 title="Edit Group Classes" 
+		viewActivate="view1_viewActivateHandler(event)"
+		xmlns:mx="library://ns.adobe.com/flex/mx" xmlns:flexpad="com.flexpadmobile.*" 
+		xmlns:components="com.lmc.ralib.components.*"
+		>
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	
+	<fx:Script>
+		
+		<![CDATA[
+			import com.lmc.ralib.Events.AlertEvent;
+			import com.lmc.ralib.Events.ClientRequestEvent;
+			import com.lmc.ralib.Events.ClientUpdateRequestEvent;
+			import com.lmc.ralib.Events.RestClientEvent;
+			
+			import flash.events.KeyboardEvent;
+			
+			import mx.collections.ArrayCollection;
+			import mx.events.FlexEvent;
+			import mx.events.PropertyChangeEvent;
+			
+			import spark.components.CheckBox;
+		
+		
+			
+			private function backbut_clickHandler(event:MouseEvent):void{
+				navigator.popView();
+			}
+			
+		
+			protected function view1_viewActivateHandler(event:Event):void
+			{
+				
+				//tracker.trackPageview("/Groups/EditClassesGroup");
+				addEventListener(AlertEvent.OPEN, dispatchEvent,true);
+				
+			}
+			
+		
+			// Navigate to Selected Items View
+			private function next():void
+			{
+				// Get all selected items
+				var selectedItems:ArrayCollection = new ArrayCollection();
+				for each( var obj:Object in list.dataProvider )
+				{
+					// only add the selected items
+					if( obj.Status )
+					{
+						selectedItems.addItem(obj);
+					}
+				}
+				// Navigate to the SelectedItemsView with selectedItems as data
+				this.dispatchEvent(new ClientUpdateRequestEvent(ClientUpdateRequestEvent.HOSTGROUP,data.gdata,selectedItems));
+			}
+			
+		]]>
+	</fx:Script>
+	
+	<components:navigationContent>
+		
+		<s:Button label="Back" click="backbut_clickHandler(event)" />
+		
+	</components:navigationContent>
+	<components:actionContent>
+		
+		<s:Button id="but_save"   label="Save"
+				  click="next()"/>
+	</components:actionContent>
+	
+	
+	<components:SearchList left="0" top="0" right="0" bottom="0" id="list" 
+			itemRenderer="com.lmc.ralib.renderers.CheckBoxesItemRenderer" labelField="name" />
+	
+	
+</components:ViewBackBase>

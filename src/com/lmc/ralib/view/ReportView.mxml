@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<components:ViewBackBase xmlns:fx="http://ns.adobe.com/mxml/2009"
+		xmlns:s="library://ns.adobe.com/flex/spark" xmlns:flexpad="com.flexpadmobile.*"
+		 currentState="logchart"
+		xmlns:charts="com.lmc.ralib.components.charts.*"
+		xmlns:mx="library://ns.adobe.com/flex/mx"
+		viewActivate="init()" title="Report View"
+		xmlns:es="com.pialabs.eskimo.components.*" xmlns:components="com.lmc.ralib.components.*"
+		
+		>
+	
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	<fx:Script>
+		<![CDATA[
+			import com.google.analytics.AnalyticsTracker;
+			import com.lmc.ralib.Events.ReportsViewEvent;
+			import com.lmc.ralib.components.charts.MetricChart;
+			import com.lmc.ralib.components.charts.TimeChart;
+			import com.lmc.ralib.model.ReportModel;
+			import com.pialabs.eskimo.components.*;
+			
+			import mx.collections.ArrayCollection;
+			import mx.utils.ObjectUtil;
+			
+			import spark.components.TextArea;
+			import spark.events.IndexChangeEvent;
+			import spark.events.ViewNavigatorEvent;
+			//TODO logs don't show up (disapear)
+			[Bindable] private var metrics:ArrayCollection;
+			[Bindable] private var timemetrics:ArrayCollection;
+			[Bindable] private var _providers:Object;
+		
+	
+			private function backbut_clickHandler(event:MouseEvent):void{
+				navigator.popView();
+			}
+			
+	
+			private function init():void{
+				
+			}
+		    public function set Providers(providers:Object):void{
+				_providers = providers;
+			
+			}
+			private function menuChange(event:*):void{
+				if (listgraphbutton.isListState()){
+					this.currentState = "logchart";
+				}
+				else{
+					this.currentState = "timechart";
+				}
+			}
+		]]>
+	</fx:Script>
+	
+	<components:states>
+		<s:State name="timechart" />
+		<s:State name="metricchart"/>
+		<s:State name="logchart"/>
+	</components:states>
+	
+		<flexpad:BarGrey width="100%" top="0" id="bar" >
+			<flexpad:layout>
+				<s:HorizontalLayout verticalAlign="middle" horizontalAlign="center" paddingLeft="5"
+									paddingRight="5" paddingTop="5" paddingBottom="5" />
+			</flexpad:layout>
+			<s:HGroup width="100%" horizontalAlign="left">
+				<s:Label text="{'Report # ' + this.data.report.id}" fontWeight="bold"  />
+				
+			</s:HGroup>
+			<s:HGroup width="100%" horizontalAlign="right">
+				<components:ListGraphButton id="listgraphbutton" click="menuChange(event)" right="5" />
+			</s:HGroup>
+		</flexpad:BarGrey>
+		
+		<charts:ReportTimeChart width="100%" top="{bar.height}" right="0" left="0" bottom="0" visible.timechart="true" visible="false"
+							dataProvider="{_providers.timemetrics}" excludeFrom="logchart" />
+		
+		<s:TextArea verticalScrollPolicy="auto" paddingBottom="10" visible.timechart="false" visible="true" 
+					selectable="false" text="{_providers.logview}"
+					id="logarea" width="100%" top="{bar.height}" bottom="0" editable="false" />
+	
+	
+</components:ViewBackBase>

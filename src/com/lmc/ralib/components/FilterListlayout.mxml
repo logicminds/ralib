@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Callout xmlns:fx="http://ns.adobe.com/mxml/2009" height="100%"
+		   xmlns:s="library://ns.adobe.com/flex/spark" close="done_clickHandler(event)"
+		   xmlns:mx="library://ns.adobe.com/flex/mx" xmlns:components="com.lmc.ralib.components.*" >
+	<!-- <s:layout>
+		<s:VerticalLayout/>
+	</s:layout> -->
+	
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	<fx:Script>
+		<![CDATA[
+			import com.lmc.ralib.Events.FilterListLayoutEvent;
+			import com.lmc.ralib.components.FilterView;
+			import com.lmc.ralib.components.FilterViewEvent;
+			
+			import mx.collections.ArrayCollection;
+			import mx.events.FlexMouseEvent;
+			
+			import spark.events.PopUpEvent;
+			private var filter:com.lmc.ralib.components.FilterView
+			[Bindable] public var selected:Vector.<Object>;
+			[Bindable] public var items:ArrayCollection;
+			private function init():void{
+				
+			}
+			
+			protected function done_clickHandler(event:*):void {
+				// Create the String to represent the returned data.
+				var retData:Vector.<Object> = list.selectedItems;
+				
+				dispatchEvent(new FilterListLayoutEvent(FilterListLayoutEvent.CLOSE, retData));
+						
+				// Close the Callout and return the data.
+				this.close(true, retData);
+			}
+			
+		]]>
+	</fx:Script>
+		
+	
+	
+		<s:HGroup horizontalAlign="center" id="group" width="100%" paddingTop="5" top="0">
+			<s:Button label="Close" click="done_clickHandler(event)" />
+		</s:HGroup>
+		<s:List id="list" width="100%" textAlign="left" labelField="name" top="{group.height + 5}" bottom="0"
+			requireSelection="false"  dataProvider="{items}" selectedItems="{selected}"
+			allowMultipleSelection="true" />
+		
+</s:Callout>

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<components:ViewBackBase xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		xmlns:s="library://ns.adobe.com/flex/spark" xmlns:components="com.lmc.ralib.components.*"
+		xmlns:mx="library://ns.adobe.com/flex/mx"
+		title="Edit Group View"  >
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	<fx:Script>
+		<![CDATA[
+			import com.google.analytics.AnalyticsTracker;
+			import com.lmc.ralib.model.HostGroup;
+			
+			import mx.collections.ArrayCollection;
+			import mx.events.FlexEvent;
+			
+			import spark.events.IndexChangeEvent;
+			[Bindable] private var menu:ArrayCollection = new ArrayCollection([{actions:"Edit Hosts"}, {actions:"Edit Classes"}]);
+			
+			
+		
+			private function list_changeHandler(event:IndexChangeEvent):void{
+				{
+					switch(list.selectedItem.actions){
+						case "Edit Hosts":
+							navigator.pushView(EditHostsGroupView, {gdata:data.gdata});
+							break;
+						case "Edit Classes":
+							navigator.pushView(EditClassesGroupView, {gdata:data.gdata});
+							break;
+					}
+					
+				}
+			}
+		]]>
+	</fx:Script>
+	
+	<s:List id="list" allowMultipleSelection="false" left="0" right="0" top="0" bottom="0" 
+			change="list_changeHandler(event)" labelField="actions" 
+			dataProvider="{menu}" />
+</components:ViewBackBase>

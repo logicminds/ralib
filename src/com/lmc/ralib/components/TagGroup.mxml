@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:HGroup xmlns:fx="http://ns.adobe.com/mxml/2009"
+		  xmlns:s="library://ns.adobe.com/flex/spark" clipAndEnableScrolling="true">
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	
+	<fx:Script>
+		<![CDATA[
+			import com.lmc.ralib.Events.TagEvent;
+			
+			import mx.core.IVisualElement;
+			private var taglist:Dictionary = new Dictionary();
+			public function addtag(taglabel:String, tagtype:String):void{
+				// keep from adding same item multiple times
+				if ( ! taglist[taglabel] ){
+					var nbut:TagButton = new TagButton();
+					//nbut.addEventListener(MouseEvent.CLICK, clickremovetag);
+					nbut.label = taglabel;
+					nbut.tagtype = tagtype;
+					taglist[taglabel] = nbut;
+					this.addElement(nbut);
+				}
+				
+			}
+			private function clickremovetag(event:MouseEvent):void{
+				// on click event remove tag and only remove tags with hostgroup type
+			
+					delete taglist[event.currentTarget.label];
+					this.dispatchEvent(new TagEvent("TagRemovedEvent",event.currentTarget.label, event.currentTarget.tagtype));
+					this.removeElement(event.currentTarget as TagButton);
+				
+			}
+			public function removeAllTags():void{
+				for each (var obj:Object in taglist){
+					removetag(obj.label);	
+					
+				}
+			}
+			public function removetag(taglabel:String):void{
+				
+				this.removeElement(taglist[taglabel]);
+				delete taglist[taglabel];
+
+			}
+			public function removetagtype(type:String):void{
+				
+			}
+			
+			
+			
+		]]>
+	</fx:Script>
+</s:HGroup>

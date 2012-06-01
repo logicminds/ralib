@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<components:ViewBackBase xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		xmlns:s="library://ns.adobe.com/flex/spark" title="Profile" creationComplete="viewbackbase1_creationCompleteHandler(event)"
+		xmlns:view="com.lmc.ralib.view.*"  xmlns:components="com.lmc.ralib.components.*">
+	<fx:Declarations>
+		
+	</fx:Declarations>
+	<fx:Script>
+		<![CDATA[
+			import com.lmc.ralib.Events.ClientRequestEvent;
+			import com.lmc.ralib.Events.DialogPopUpEvent;
+			import com.lmc.ralib.model.ProfileModel;
+			
+			import mx.collections.ArrayCollection;
+			import mx.core.DPIClassification;
+			import mx.core.FlexGlobals;
+			import mx.events.FlexEvent;
+			
+			import spark.events.IndexChangeEvent;
+			import spark.events.ViewNavigatorEvent;
+			[Bindable] private var _profile:ProfileModel;
+			
+			private var padding:Number = (10 * FlexGlobals.topLevelApplication.applicationDPI / DPIClassification.DPI_160);
+
+			private var actions:ArrayCollection = new ArrayCollection([{name:"Client Settings", view:ProfileClientSettingsView}, {name:"Authentication", view:ProfileAuthView}]);
+			 
+			
+			public function set profile(p:ProfileModel):void{
+				// this sets all the form fields to be used in the data binding process
+				_profile = p;
+			}
+			public function get profile():ProfileModel{
+				return _profile;
+			}
+			private function onSaveClick(event:MouseEvent):void{
+				saveDetails();
+				dispatchEvent(new ClientRequestEvent(ClientRequestEvent.STATUS,false,null,-1,-1,profile));
+			}
+			protected function actionListChange(event:IndexChangeEvent):void
+			{
+				saveDetails();
+				var item:Object = event.currentTarget.selectedItem;
+				if (item.name == "Authentication"){
+					this.dispatchEvent(new DialogPopUpEvent(DialogPopUpEvent.OPEN_USERPASS,
+						null, null, "Enter User Credentials",profile.username, profile.password));
+				}
+				else{
+					navigator.pushView(item.view, {profile:profile} );
+
+				}
+				//list2.selectedItem = null;
+				list2.selectedItems = null;
+			}
+			private function saveDetails():void{
+				_profile.name = fi_profilename.text;
+				_profile.host = fi_host.text;
+				_profile.port = fi_port.text;
+			}
+			
+			protected function viewbackbase1_creationCompleteHandler(event:FlexEvent):void
+			{
+				if (this.data ){
+					_profile = this.data.profile;
+					this.butt_save.label = "Update";
+				}
+				else if (navigator.poppedViewReturnedObject ){
+					_profile = navigator.poppedViewReturnedObject.object.profile;
+				}	
+				else{
+					_profile = new ProfileModel();
+				}
+							
+			}
+			
+		]]>
+	</fx:Script>
+	<s:Scroller width="100%" height="100%">
+		<s:VGroup width="100%" height="100%" gap="{padding}" paddingBottom="{padding}" paddingTop="{padding}"
+				  paddingLeft="{padding}" paddingRight="{padding}">
+			
+			<s:Form width="100%"  >
+				
+				<s:FormItem label="Name" width="100%" >
+					<s:TextInput prompt="Required"  id="fi_profilename" text="{_profile.name}"/>
+				</s:FormItem>
+				<s:FormItem label="Host" width="100%" >
+					<s:TextInput  prompt="Required" text="{_profile.host}" id="fi_host"/>
+				</s:FormItem>
+				<s:FormItem label="Port" width="100%" >
+					<s:TextInput id="fi_port" text="{_profile.port}" prompt="Required" />
+				</s:FormItem>
+				
+				
+			</s:Form>
+			<s:ListForm  width="100%" labelField="name" change="actionListChange(event)"
+						 dataProvider="{actions}" id="list2" title="Settings"
+						 styleName="listForm" >
+				<s:itemRenderer>
+					<fx:Component>
+						<s:ListFormItemRenderer styleName="listFormItemRenderer">
+							
+						</s:ListFormItemRenderer>
+					</fx:Component>
+				</s:itemRenderer>
+				
+			</s:ListForm>
+		</s:VGroup>
+	</s:Scroller>
+
+	
+	<components:actionContent>
+		<s:Button id="butt_save" label="Save" click="onSaveClick(event)" />
+	</components:actionContent>
+	
+</components:ViewBackBase>

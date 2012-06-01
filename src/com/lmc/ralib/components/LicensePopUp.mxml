@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:SkinnablePopUpContainer xmlns:fx="http://ns.adobe.com/mxml/2009" 
+						   xmlns:s="library://ns.adobe.com/flex/spark" width="100%" height="100%"
+						    >
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	<fx:Script>
+		<![CDATA[
+			import com.lmc.ralib.Events.LicenseEvent;
+			[Bindable] private var _license:String = "";
+			
+			public function set license(value:String):void{
+				_license = value;
+			}
+			public function get license():String{
+				return _license;
+			}
+			private function onAccept(event:MouseEvent):void{
+				this.dispatchEvent(new LicenseEvent(LicenseEvent.RESPONSE, true));
+			}
+			private function onDeny(event:MouseEvent):void{
+				this.dispatchEvent(new LicenseEvent(LicenseEvent.RESPONSE, false));
+			}
+			
+		]]>
+	</fx:Script>
+	
+	<s:VGroup width="100%" height="100%" horizontalAlign="center" paddingRight="10" paddingLeft="10" paddingBottom="10" paddingTop="10">
+		<s:HGroup width="100%" horizontalAlign="center" >
+			<s:Label width="100%" fontWeight="bold" text="User License Agreement" />
+		</s:HGroup>
+
+		<s:TextArea id="license_txt" width="100%" height="350" editable="false"  verticalScrollPolicy="auto" text="{_license}"  />
+		<s:HGroup width="100%" horizontalAlign="center" >
+			<s:Button label="Accept License" click="onAccept(event)" />
+			<s:Button label="I do not Accept" click="onDeny(event)" />
+		</s:HGroup>
+	</s:VGroup>
+</s:SkinnablePopUpContainer>

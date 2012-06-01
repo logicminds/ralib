@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<components:ViewBackBase xmlns:fx="http://ns.adobe.com/mxml/2009"
+		xmlns:s="library://ns.adobe.com/flex/spark"
+		
+		xmlns:mx="library://ns.adobe.com/flex/mx" xmlns:flexpad="com.flexpadmobile.*"
+		title="Groups" viewActivate="init()" xmlns:components="com.lmc.ralib.components.*">
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	
+	<fx:Script>
+		<![CDATA[
+			import com.google.analytics.AnalyticsTracker;
+			import com.lmc.ralib.Events.DialogPopUpEvent;
+			
+			import flash.events.KeyboardEvent;
+			
+			import mx.collections.ArrayCollection;
+			import mx.events.CollectionEvent;
+			import mx.events.PropertyChangeEvent;
+			
+			import spark.events.IndexChangeEvent;
+			import spark.events.ViewNavigatorEvent;
+			public override function backHandler(event:MouseEvent):void{
+				navigator.popToFirstView();
+			}
+			private function init():void{
+			
+				
+				//var tracker:AnalyticsTracker = ApplicationStore.services["tracker"];
+				//tracker.trackPageview("/Groups");
+				
+			}
+			
+			private function addbut_clickHandler(event:MouseEvent):void{
+				this.dispatchEvent(new DialogPopUpEvent(DialogPopUpEvent.OPEN, null, null, "Group Name"));
+			}
+			
+			protected function hostgroupsgrid_changeHandler(event:IndexChangeEvent):void
+			{
+				switch(list.selectedItems[0]){
+					default:{
+						// this will pass the group item
+						navigator.pushView(EditGroupView, {gdata:list.selectedItems[0]});
+						break;
+					}
+						
+				}
+				
+			}
+			protected function hostgroupsgrid_clickHandler(event:MouseEvent):void
+			{
+			}
+			
+		]]>
+	</fx:Script>
+	
+	<components:actionContent>
+		<s:Button styleName="refreshButton" click="list.refreshlist(false)" />
+		<s:Spacer width="5" />
+		<s:Button styleName="addButton" 
+				  click="addbut_clickHandler(event)"/>
+		
+	</components:actionContent>
+	<components:GroupList id="list" left="0" top="0" right="0" bottom="0" itemRenderer="com.lmc.ralib.renderers.StandardIconRenderer" 
+			 change="hostgroupsgrid_changeHandler"  />
+	
+	
+	
+	
+</components:ViewBackBase>

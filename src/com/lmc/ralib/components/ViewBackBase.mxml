@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009" viewActivate="baseviewActivateHandler(event)" 
+		xmlns:s="library://ns.adobe.com/flex/spark">
+	
+	<fx:Script>
+		<![CDATA[
+			import flash.system.Capabilities;
+			
+			import spark.events.ViewNavigatorEvent;
+			protected function baseviewActivateHandler(event:ViewNavigatorEvent):void
+			{
+				var platform:String = Capabilities.version;
+				// don't add backbutton on android devices
+				if (platform.substr(0,3) != "AND"){
+					this.navigationContent = [backButton];
+				}
+				this.addEventListener(KeyboardEvent.KEY_DOWN, onKeyDown);
+
+			}
+			public function backHandler(event:MouseEvent):void{
+				navigator.popView()
+			}
+			public function onRefresh(event:MouseEvent):void{
+				// override this to implement your own refresh method
+				this.dispatchEvent(new Event("RefreshRequested"));
+			}
+			protected function onKeyDown(event:KeyboardEvent):void
+			{
+				if (event.keyCode == Keyboard.BACK)
+				{
+					event.preventDefault();
+					//default action pops the view
+					backHandler(null);
+					
+				} 
+				else if (event.keyCode == Keyboard.MENU)
+				{
+					event.preventDefault();
+					//NativeApplication.nativeApplication.exit();
+					
+				} 
+				else if (event.keyCode == Keyboard.SEARCH)
+				{
+					event.preventDefault();
+					//search();
+					
+				}
+			}
+		]]>
+	</fx:Script>
+	<fx:Declarations>
+		<s:Button label="Back" id="backButton" click="backHandler(event)"/>
+	</fx:Declarations>
+</s:View>

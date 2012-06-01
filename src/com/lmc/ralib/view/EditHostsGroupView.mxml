@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<components:ViewBackBase xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		xmlns:s="library://ns.adobe.com/flex/spark" 
+		 title="Edit Group Hosts"
+		viewActivate="init()" xmlns:flexpad="com.flexpadmobile.*"
+		xmlns:mx="library://ns.adobe.com/flex/mx" xmlns:components="com.lmc.ralib.components.*">
+	
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	<fx:Script>
+		
+		<![CDATA[
+			import com.lmc.ralib.Events.AlertEvent;
+			import com.lmc.ralib.Events.ClientUpdateRequestEvent;
+			import com.lmc.ralib.model.HostGroup;
+			
+			import flash.events.KeyboardEvent;
+			
+			import mx.collections.ArrayCollection;
+			import mx.events.FlexEvent;
+			import mx.events.PropertyChangeEvent;
+			
+			import spark.components.CheckBox;
+
+
+		
+						
+			protected function init():void
+			{
+				
+				//var tracker:AnalyticsTracker = ApplicationStore.services["tracker"];
+				//tracker.trackPageview("/Group/EditHosts");
+				addEventListener(AlertEvent.OPEN, dispatchEvent,true);
+				
+			
+
+			}
+		
+						
+			// Navigate to Selected Items View
+			private function next():void
+			{
+				// Get all selected items
+				var selectedItems:Array = [];
+				var unselectedItems:Array = [];
+				for each( var obj:Object in list.dataProvider )
+				{
+					if( obj.Status )
+						// we want only the items that have changed not the inherited ones
+					{
+						selectedItems.push(obj.name);
+					}
+					else {
+						// we want items that were unchecked to change (move from one hostgroup to this one)
+						if (obj.hostgroup_id != data.gdata.id){
+							continue;
+						}
+						else{
+							unselectedItems.push(obj.name);
+						}
+					}
+				}
+			
+				dispatchEvent(new ClientUpdateRequestEvent(ClientUpdateRequestEvent.MULTIPLE_HOSTGROUP, data.gdata, selectedItems, unselectedItems));
+			}
+		
+		
+	
+		]]>
+	</fx:Script>
+	
+	
+	<components:actionContent>
+		<s:Button label="Save" click="next()" />
+	</components:actionContent>
+	
+	<components:SearchList left="0" top="0" right="0" bottom="0"
+							id="list" 
+			itemRenderer="com.lmc.ralib.renderers.CheckBoxesItemRenderer" labelField="name" />
+	
+	
+</components:ViewBackBase>

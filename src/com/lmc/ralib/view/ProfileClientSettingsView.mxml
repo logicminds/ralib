@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<components:ViewBackBase xmlns:fx="http://ns.adobe.com/mxml/2009" viewActivate="init()"
+		xmlns:s="library://ns.adobe.com/flex/spark" title="Client Settings" xmlns:components="com.lmc.ralib.components.*">
+	<fx:Declarations>
+		
+	
+	</fx:Declarations>
+	<fx:Script>
+		<![CDATA[
+			import com.lmc.ralib.components.ListasCallout;
+			import com.lmc.ralib.model.ProfileModel;
+			
+			import mx.collections.ArrayCollection;
+			import mx.core.DPIClassification;
+			import mx.core.FlexGlobals;
+			import mx.events.CloseEvent;
+			
+			import spark.events.IndexChangeEvent;
+			import spark.events.PopUpEvent;
+			import spark.events.TextOperationEvent;
+			import spark.events.ViewNavigatorEvent;
+			[Bindable] private var listdata:ArrayCollection = new ArrayCollection([{name:"Use Https"}]);
+
+			[Bindable] private var callout:ListasCallout;
+			[Bindable] private var profile:ProfileModel;
+			private var padding:Number = (10 * FlexGlobals.topLevelApplication.applicationDPI / DPIClassification.DPI_160);
+			
+			public override function backHandler(event:MouseEvent):void{
+				profile.clienttype = clientlist.selectedItem;
+				this.navigator.popView();
+			}
+			override public function createReturnObject():Object{
+				var returnedObject:Object = new Object();
+				returnedObject.profile = profile;
+				return returnedObject;
+				
+			}
+			[Bindable] private var types:ArrayCollection = new ArrayCollection([{label:"Foreman", value:"Foreman", name:"Foreman"}, 
+				{label:"Test50", value: 50, name:"Test"}, {label:"Test500", value:500, name:"Test"}, 
+				{label:"Test5000", value:5000, name:"Test"}, {label:"Test50000", value:50000, name:"Test"}]);
+			
+			private function init():void{
+				profile = data.profile;
+				listdata[0].profile = profile;
+				clientlist.selectedItem = findSelectedType();
+			}
+		
+			private function findSelectedType():Object{
+				for each (var type:Object in types){
+					if (type.label == profile.clienttype.label){
+						return type;
+					}
+				}
+				return types.getItemAt(0);
+			
+			}
+		]]>
+	</fx:Script>
+
+	<s:Scroller width="100%" height="100%">
+		<s:VGroup width="100%" height="100%" gap="{padding}" paddingBottom="{padding}" paddingTop="{padding}"
+				  paddingLeft="{padding}" paddingRight="{padding}">
+			
+			<s:Label text="Security" width="100%" textAlign="left" fontSize="16" />
+
+			<s:Form >
+				<s:FormItem label="Use Https" >
+					<s:ToggleSwitch id="toggle" selected="{data.profile.usehttps}" 
+									change="{profile.usehttps = !profile.usehttps}"   />
+
+				</s:FormItem>
+			</s:Form>
+			<s:Label text="Client Type" width="100%" textAlign="left" fontSize="16" />
+				<s:SpinnerListContainer width="90%"><s:layout>
+					<s:HorizontalLayout horizontalAlign="center" />
+				</s:layout>
+					<s:SpinnerList dataProvider="{types}" width="100%" labelField="label"
+								   selectedItem="{this.findSelectedType()}" id="clientlist" />
+				</s:SpinnerListContainer>
+			
+		</s:VGroup>
+	</s:Scroller>
+	
+</components:ViewBackBase>

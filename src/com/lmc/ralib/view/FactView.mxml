@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="utf-8"?>
+<components:ViewBackBase xmlns:fx="http://ns.adobe.com/mxml/2009"
+		xmlns:s="library://ns.adobe.com/flex/spark"
+		xmlns:mx="library://ns.adobe.com/flex/mx" currentState="List"
+		 xmlns:flexpad="com.flexpadmobile.*"
+		   viewActivate="init()" title="Fact View"
+		  xmlns:lmc="components.*" xmlns:charts="com.lmc.ralib.components.charts.*" xmlns:components="com.lmc.ralib.components.*" 
+		  >
+	
+	<components:states>
+		<s:State name="List" />
+		<s:State name="Graph" />
+	</components:states>
+	<fx:Script>
+		<![CDATA[
+			import com.google.analytics.AnalyticsTracker;
+			import com.lmc.ralib.Events.FactViewEvent;
+			import com.lmc.ralib.Events.FilterListLayoutEvent;
+			import com.lmc.ralib.components.FilterListlayout;
+			
+			import flash.events.KeyboardEvent;
+			
+			import mx.collections.ArrayCollection;
+			import mx.core.DPIClassification;
+			import mx.core.FlexGlobals;
+			import mx.events.CloseEvent;
+			import mx.events.CollectionEvent;
+			import mx.events.DropdownEvent;
+			import mx.events.FlexEvent;
+			import mx.events.PropertyChangeEvent;
+			
+			import spark.components.Image;
+			import spark.events.DropDownEvent;
+			import spark.events.IndexChangeEvent;
+			import spark.events.PopUpEvent;
+			import spark.events.ViewNavigatorEvent;
+			[Bindable] private var hostgroups:Vector.<Object>;
+			[Bindable] public var values:ArrayCollection;
+			[Bindable] private var factname:String;
+			public var query:String;
+			//private var listpop:listpopup;
+			[Bindable] private var menulist:ArrayCollection = new ArrayCollection(["List", "Graph"]);
+			public var filtercallout:FilterListlayout = new FilterListlayout();
+			
+			
+			protected function init():void
+			{
+				this.factname = this.data.fact.name;
+				query = factname
+			
+				//this.tags.addtag(factname, "fact");
+				//this.tags.addEventListener("TagRemovedEvent", onTagRemoved);
+				trace("Viewing fact: " + this.data.fact.name);
+				
+			}
+			
+			
+			
+			protected function list_changeHandler(event:IndexChangeEvent):void
+			{
+				
+				var hostquery:String;
+				var key:String = this.data.fact.name;
+				var value:String = list.selectedItem.value;
+				
+				if (this.data.hostgroup){
+					 hostquery = "+hostgroup+%3D+" + this.data.hostgroup + "+%26+facts." + key + "+%3D++%22" + value + "%22";
+
+				}
+				else{
+					hostquery = "+facts." + key + "+%3D++%22" + value + "%22";
+
+				}
+				switch(list.selectedItems[0]){
+					
+					default:
+					
+						navigator.pushView(FactSystemsView, {query:hostquery, hosts:list.selectedItem.hosts, 
+							factname:this.data.fact.name, factvalue:list.selectedItem.value});
+						trace("Value: " + list.selectedItem);
+						break;
+				}
+			
+			}
+			private function menuChange(event:*):void{
+				if (listgraphbutton.isListState()){
+					this.viewfactchart.visible = false;
+					this.list.visible = true;
+				}
+				else{
+					this.list.visible = false;
+					this.viewfactchart.visible = true;
+						
+				}
+			
+			}
+			
+			protected function emailHandler(event:MouseEvent):void
+			{
+				dispatchEvent(new FactViewEvent(FactViewEvent.CREATE_FACT_EMAIL,null,data.fact.name, false, {hostgroups:this.hostgroups}));
+			}
+	
+			private function openfilter(event:MouseEvent):void{
+			//	this.addEventListener(FilterListLayoutEvent.CHANGE, calloutcloseHandler);
+			//	this.dispatchEvent(new FilterListLayoutEvent(FilterListLayoutEvent.OPEN,this.hostgroups, 
+			//		event.currentTarget as DisplayObjectContainer));
+		
+			}
+			protected function calloutcloseHandler(event:FilterListLayoutEvent):void
+			{
+				this.removeEventListener(FilterListLayoutEvent.CHANGE, calloutcloseHandler);
+				if (event.data){
+					// user click ok and we pass the selected items from the list
+					this.hostgroups = event.data;
+					// add all the tags
+					this.tags.removeAllTags();
+					for each (var obj:Object in hostgroups){
+						this.tags.addtag(obj.name, "hostgroup");
+					}
+					this.dispatchEvent(new FactViewEvent(FactViewEvent.FILTERHOSTGROUPS, hostgroups, data.fact.name,false));
+				}
+			}
+			
+			protected function bar_preinitializeHandler(event:FlexEvent):void
+			{
+				switch(FlexGlobals.topLevelApplication.runtimeDPI){
+					case DPIClassification.DPI_160:
+						bar.minHeight = 24;
+						break;
+					case DPIClassification.DPI_240:
+						bar.minHeight = 32;
+						break;
+					case DPIClassification.DPI_320:
+						bar.minHeight = 48;
+						break;
+				}				
+			}
+			
+		]]>
+	</fx:Script>
+	
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	
+	
+	
+	<components:actionContent>
+		<s:Button styleName="refreshButton"  />
+		<s:Spacer width="5" />
+		<s:Button buttonMode="true" styleName="shareactionButton" click="emailHandler(event)" />
+    </components:actionContent>
+		
+		<flexpad:BarGrey width="100%" top="0" id="bar" preinitialize="bar_preinitializeHandler(event)" >
+			<flexpad:layout>
+				<s:HorizontalLayout verticalAlign="middle" paddingLeft="5" paddingRight="5" paddingTop="5" paddingBottom="5" />
+			</flexpad:layout>
+			<s:HGroup width="100%" horizontalAlign="left">
+				<s:Label text="{'Fact: ' + this.data.fact.name}" fontWeight="bold"  />
+
+			</s:HGroup>
+			<s:HGroup width="100%" horizontalAlign="right">
+				<components:ListGraphButton id="listgraphbutton" click="menuChange(event)" right="5" />
+			</s:HGroup>
+		</flexpad:BarGrey>
+	
+	
+	<!-- the list is too long because the height is the default -->
+	<s:List id="list" width="100%" itemRenderer="com.lmc.ralib.renderers.FactItemsRenderer" dataProvider="{values}" 
+			minHeight="20" maxHeight="{this.height - bar.height - bgroup.height}" top="{bar.height}"
+							 change="list_changeHandler(event)" labelField="value"  />
+		
+	<charts:FactOverview id="viewfactchart" width="100%" bottom="{bgroup.height}" top="{bar.height + 5} "
+					   dataProvider="{values}" visible="false"  />
+	
+	<s:HGroup width="100%" paddingLeft="5" paddingRight="5" paddingBottom="5" paddingTop="5" bottom="0" id="bgroup" >
+			<s:Scroller width="100%" verticalScrollPolicy="off"  >
+				<components:TagGroup id="tags" width="100%"  contentBackgroundColor="0xFFFFFF" /> 
+			</s:Scroller>
+		  <!--  <s:Button styleName="filterButton" id="filterbutton" click="openfilter(event)" /> -->
+	</s:HGroup>
+
+</components:ViewBackBase>

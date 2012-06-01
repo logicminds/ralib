@@ -1,0 +1,89 @@
+<s:ItemRenderer xmlns:fx="http://ns.adobe.com/mxml/2009" 
+                xmlns:s="library://ns.adobe.com/flex/spark" 
+                width="100%">
+
+    <fx:Script>
+        <![CDATA[
+			private var update:Boolean = false;
+            override public function set data(value:Object):void {
+				super.data = value;
+				if (data == value){
+					update = false;
+				}
+                if (value == null){
+					update = true;
+					updateRenderer();
+					return;
+				}
+				else{
+					update = true;
+					updateRenderer();
+				}
+				
+               
+            }
+			override protected function commitProperties():void
+			{
+				super.commitProperties();
+				update = true;
+				updateRenderer()
+				
+			}
+			private function updateRenderer():void{
+				if (!update){
+					return;
+				}
+				if (!data){
+					firstRect.percentWidth = 0;
+					itemLabel.text = null;
+				}
+				if (data.time == data.total){
+						firstRect.percentWidth = 0;
+					}
+				else{
+					firstRect.percentWidth = data.percent;
+					
+				}
+				if (data.label){
+					itemLabel.text = data.label + "  (" + (Number(data.time) * 1000).toFixed(1) + " ms)";
+					
+				}
+				
+			}
+				
+        ]]>
+    </fx:Script>
+	<s:HGroup width="100%" height="100%" horizontalAlign="left" >
+		<s:Rect width="100%" height="100%">
+			<s:fill>
+				<s:LinearGradient rotation="90">
+					<s:entries>
+						<s:GradientEntry color="0xE1F0E1" />
+						<s:GradientEntry color="0x69B469" />
+					</s:entries>
+				</s:LinearGradient>
+			</s:fill>
+		</s:Rect>
+	</s:HGroup>
+    <s:HGroup right="0" gap="5" horizontalAlign="left" verticalAlign="middle" width="100%" height="100%">
+
+        <s:Group id="firstRect" height="100%" >
+            <s:Rect width="100%" height="100%">
+                <s:fill>
+                    <s:LinearGradient rotation="90">
+                        <s:entries>
+                            <s:GradientEntry color="0xDDE4F1" />
+                            <s:GradientEntry color="0x6A88C3" />
+                        </s:entries>
+                    </s:LinearGradient>
+                </s:fill>
+            </s:Rect>
+		</s:Group>
+    </s:HGroup>
+	<s:HGroup paddingBottom="5" paddingTop="5" width="100%" height="100%" horizontalAlign="left" paddingLeft="5" >
+		<s:Label id="itemLabel" x="0" verticalCenter="0"  />
+	</s:HGroup>
+	
+        
+       
+</s:ItemRenderer>

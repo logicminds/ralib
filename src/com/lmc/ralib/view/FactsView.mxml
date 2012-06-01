@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		xmlns:s="library://ns.adobe.com/flex/spark" 
+		title="FactsView" xmlns:components="com.lmc.ralib.components.*">
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	<components:SearchList width="100%" height="100%" id="list" change="list_changeHandler"  
+						   itemRenderer="com.lmc.ralib.renderers.StandardIconRenderer" />
+	<s:actionContent>
+		<s:Button styleName="refreshButton" id="but_refresh" click="{list.refreshlist(false)}" />
+	</s:actionContent>
+	<fx:Script>
+		<![CDATA[
+			import mx.events.FlexEvent;
+			import spark.events.IndexChangeEvent;
+			import spark.events.ViewNavigatorEvent;
+			protected function view1_viewActivateHandler(event:ViewNavigatorEvent):void
+			{
+				
+				this.addEventListener(KeyboardEvent.KEY_DOWN, onKeyDown);
+			//	var tracker:AnalyticsTracker = ApplicationStore.services["tracker"];
+			//	tracker.trackPageview("/facts");
+			}
+			protected function onKeyDown(event:KeyboardEvent):void
+			{
+				if (event.keyCode == Keyboard.BACK)
+				{
+					event.preventDefault();
+					
+				} 
+				else if (event.keyCode == Keyboard.MENU)
+				{
+					event.preventDefault();
+					//NativeApplication.nativeApplication.exit();
+				} 
+				
+			}
+			protected function list_changeHandler(event:IndexChangeEvent):void
+			{
+				this.saveScrollPosition();
+				var selfact:Object = event.currentTarget.selectedItem;
+				navigator.pushView(FactView, {fact:selfact});
+			}
+			
+			private function backbut_clickHandler(event:MouseEvent):void{
+				navigator.popToFirstView();
+			}
+			
+			private function restoreScrollPosition():void {
+				// the data might be null if it has never been set
+				if (data){
+					var restoredVSP:Number = data.verticalScrollPosition as Number;
+					var restoredHSP:Number = data.horizontalScrollPosition as Number;
+					
+					var maxVSP:Number = list.contentHeight - list.height;
+					var maxHSP:Number = list.contentWidth - list.width;
+					
+					// restore the saved scroll position, but don't set it to higher than the maximum
+					// to prevent from orientation changes causing a scroll into excess space
+					list.verticalScrollPosition = Math.min(maxVSP, restoredVSP);
+					list.horizontalScrollPosition = Math.min(maxHSP, restoredHSP);
+				}
+			}
+			
+			private function saveScrollPosition():void {
+				// first time the data might not be created yet
+				if (data == null)
+					data = new Object();
+				
+				// save the vertical scroll position
+				
+				this.data.verticalScrollPosition = list.verticalScrollPosition;
+				this.data.horizontalScrollPosition = list.horizontalScrollPosition;
+			}
+			private function list_initHandler(event:FlexEvent):void{
+				var dataProviderChangedHandler:Function = function(e:Event):void {
+					list.addEventListener("updateComplete", updateCompleteHandler);
+				}
+				
+				var updateCompleteHandler:Function = function(e:Event):void {
+					restoreScrollPosition();
+					
+					// remove the event listeners
+					list.removeEventListener("updateComplete", updateCompleteHandler);
+					list.removeEventListener("dataProviderChanged", dataProviderChangedHandler);
+				}
+				
+				list.addEventListener("dataProviderChanged", dataProviderChangedHandler);
+				
+			}
+			
+			
+	
+		]]>
+	</fx:Script>
+</s:View>

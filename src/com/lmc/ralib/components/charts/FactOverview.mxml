@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" creationComplete="init()" 
+		 xmlns:s="library://ns.adobe.com/flex/spark" xmlns:charts="com.lmc.charts.*"
+		 xmlns:charts1="com.lmc.ralib.components.charts.*" xmlns:mx="library://ns.adobe.com/flex/mx" >
+	<fx:Declarations>
+		<s:MultiDPIBitmapSource id="legendicon" 
+								source160dpi="@Embed('assets/icons/legend16.png')"
+								source240dpi="@Embed('assets/icons/legend24.png')"
+								source320dpi="@Embed('assets/icons/legend32.png')" />
+
+	</fx:Declarations>
+	<fx:Metadata>
+		[Style(name="chartCornerRadius", type="Number", format="Length", inherit="no", minValue="0.0")]
+		[Style(name="chartPaddingTop", type="Number", format="Length", inherit="no", minValue="0.0")]
+		[Style(name="chartPaddingBottom", type="Number", format="Length", inherit="no",  minValue="0.0")]
+		[Style(name="chartPaddingLeft", type="Number", format="Length", inherit="no", minValue="0.0")]
+		[Style(name="chartPaddingRight", type="Number", format="Length", inherit="no", minValue="0.0")]
+		[Style(name="paddingLeft", type="Number", format="Length", inherit="no", minValue="20")]
+		[Style(name="paddingRight", type="Number", format="Length", inherit="no", minValue="20")]
+		[Style(name="fill", type="Number", format="Length", inherit="no", minValue="0.0")]
+	</fx:Metadata>
+	<s:states>
+		<s:State name="default"  />
+		<s:State name="legend" />
+	</s:states>
+	<!-- Define Transition array with one Transition object.-->
+<!--	 <s:transitions>
+		<s:Transition id="tolegendOnly" fromState="*" toState="legend">
+			<s:Sequence id="t1" targets="{[legendPanel,legendRect]}">
+				<s:Move duration="550" xFrom="{-legendsize}" xTo="10" />
+				<s:SetAction property="visible" />
+			</s:Sequence>
+		</s:Transition>
+		
+		<s:Transition id="toAnyFromAny" fromState="*" toState="*">
+			<s:Sequence id="t2" targets="{[legendPanel,legendRect]}">
+				<s:SetAction property="visible" />
+				<s:Move duration="550" xFrom="10" xTo="{-legendsize}"/>
+			</s:Sequence>
+		</s:Transition>
+	</s:transitions> -->
+	<fx:Script>
+		<![CDATA[
+			import mx.collections.ArrayCollection;
+			import mx.core.FlexGlobals;
+			import mx.core.IVisualElement;
+			import mx.core.UIComponent;
+			import mx.events.PropertyChangeEvent;
+			
+			import spark.primitives.Graphic;
+			[Bindable] private var _dp:ArrayCollection;
+			
+			private var legendheight:String = "60%";
+			private var legendwidth:String = "60%";
+		   // [Bindable] private var legendheight:int = Capabilities.screenResolutionY * .6;
+			//[Bindable] private var legendwidth:int = Capabilities.screenResolutionX * .6;
+			private function init():void{
+				this.addEventListener(TransformGestureEvent.GESTURE_SWIPE, onSwipe);
+				
+			}
+			private function onSwipe(event:TransformGestureEvent):void{
+				trace(event);
+				// pull out or push in legend drawer
+				if (event.offsetX == 1 ) {
+					// Swipe was to the right
+					currentState = 'legend';
+				}
+				else if (event.offsetX == -1 ) {
+					// Swipe was to the left
+					currentState = '';
+				}
+		
+			}
+			public function set dataProvider(model:ArrayCollection):void{
+				if (model){
+					this._dp = model;
+					this.factChart.dataProvider = model;
+					legendchart.dataProvider = this.factChart.piechart1;
+
+				}
+			}
+			public function get dataProvider():ArrayCollection{
+				return this._dp;
+			}
+			private function movePanel(event:MouseEvent):void{
+				currentState = currentState == 'legend' ? '' : 'legend';
+			}
+		]]>
+	</fx:Script>
+	
+	
+	
+	<!-- The legend of the Chart -->
+	
+	<s:Rect radiusX="6" radiusY="6" left="10" top="0" right="10" bottom="0"  >
+		<s:fill>
+			<s:SolidColor color="#2E2E2E" />
+		</s:fill>
+	</s:Rect> 
+	<s:VGroup width="100%" height="100%"  id="frontPanel"
+		paddingLeft="10" paddingRight="10"
+		paddingBottom="10"
+		paddingTop="10"
+		 >
+		<s:HGroup width="100%" paddingLeft="5" paddingTop="5" verticalAlign="top" horizontalAlign="left" id="legbuttgroup" >		    
+			<s:Image buttonMode="true" source="{legendicon.getSource(FlexGlobals.topLevelApplication.applicationDPI)}" 
+					 click="movePanel(event)" id="legicon" />
+		</s:HGroup>
+		
+    	 <charts1:factchart id="factChart" height="100%" 
+							  width="100%"
+							  cacheAsBitmap="false"
+							  paddingBottom="{getStyle('chartPaddingBottom')}"
+							  paddingLeft="{getStyle('paddingLeft')}"
+							  paddingRight="{getStyle('paddingRight')}"
+							  paddingTop="{getStyle('chartPaddingTop')}"
+							  /> 
+	</s:VGroup>
+	<s:Rect id="legendRect" x="{legicon.x + legicon.width + 10}" y="{legbuttgroup.y}" radiusX="6" 
+			radiusY="6" width="70%" height="80%" 
+		 visible="false" visible.legend="true" includeInLayout="false" includeInLayout.legend="true"  >
+		<s:fill>
+			<s:SolidColor color="#000000" alpha=".8"  />
+		</s:fill>
+		<s:stroke>
+			<s:SolidColorStroke color="0x7A7A7A" weight="2"/>
+		</s:stroke>
+		
+	</s:Rect>
+	<s:VGroup x="{legicon.x + legicon.width + 10}" width="70%" height="80%"  
+			  y="{legbuttgroup.y }"
+			  id="legendPanel" color="0xFFFFFF" 
+			  visible="false" visible.legend="true" includeInLayout="false" includeInLayout.legend="true">
+		<s:HGroup paddingTop="10" verticalCenter="middle" width="100%" clipAndEnableScrolling="true" 
+				  horizontalAlign="center" >
+			<s:Label text="Legend" fontWeight="bold" />
+		</s:HGroup>
+
+		<s:Scroller height="100%" width="100%"  contentBackgroundAlpha=".6"  verticalScrollPolicy="on" horizontalScrollPolicy="auto" >
+			<s:HGroup width="100%" height="100%" clipAndEnableScrolling="true" 
+					  horizontalAlign="left" >
+				<mx:Legend id="legendchart" styleName="mylegendStyle" color="#FFFFFF" width="100%" height="100%" 
+			    direction="horizontal"  />
+				
+			</s:HGroup>
+			
+		</s:Scroller> 
+	</s:VGroup>
+</s:Group>

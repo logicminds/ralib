@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		xmlns:s="library://ns.adobe.com/flex/spark" title="MoreView"
+		  creationComplete="init()" >
+	<fx:Declarations>
+		<s:MultiDPIBitmapSource id="certificateicon" source160dpi="@Embed('assets/icons/certificate32.png')"
+								source240dpi="@Embed('assets/icons/certificate48.png')"				
+								source320dpi="@Embed('assets/icons/certificate64.png')"/>
+		<s:MultiDPIBitmapSource id="infoicon" source160dpi="@Embed('assets/icons/info32.png')"
+								source240dpi="@Embed('assets/icons/info48.png')"				
+								source320dpi="@Embed('assets/icons/info64.png')"/>
+		<s:MultiDPIBitmapSource id="profilesicon" source160dpi="@Embed('assets/icons/profiles32.png')"
+								source240dpi="@Embed('assets/icons/profiles48.png')"				
+								source320dpi="@Embed('assets/icons/profiles64.png')"/>
+		<s:MultiDPIBitmapSource id="groupsicon" source160dpi="@Embed('assets/icons/groupsicon32.png')"
+								source240dpi="@Embed('assets/icons/groupsicon48.png')"				
+								source320dpi="@Embed('assets/icons/groupsicon64.png')"/>
+	</fx:Declarations>
+	<fx:Script>
+		<![CDATA[
+			import mx.collections.ArrayCollection;
+			import mx.core.BitmapAsset;
+			
+			import spark.events.IndexChangeEvent;
+			[Bindable] private var moremenu:ArrayCollection;
+		
+			private function init():void{
+			//	moremenu.addItem({name:"Certificates", icon:certificateicon, view:CertificatesView});
+				moremenu = new ArrayCollection();
+				moremenu.addItem({name:"Profiles", icon:profilesicon, view:ProfilesView});
+				moremenu.addItem({name:"Groups", icon:groupsicon, view:HostGroupsView});
+				moremenu.addItem({name:"Info", icon:infoicon, view:InfoView});
+			}
+			
+			private function backbut_clickHandler(event:MouseEvent):void{
+				navigator.popToFirstView();
+			}
+		
+			protected function moregrid_changeHandler(event:IndexChangeEvent):void
+			{
+				var selection:Object = moremenu[event.newIndex];
+				switch(selection.name){
+					case "Certificates":
+						navigator.pushView(CertificatesView);
+						break;
+					case "Info":
+						navigator.pushView(InfoView);
+						break;
+					case "Profiles":
+						navigator.pushView(ProfilesView);
+						break;
+					case "Groups":
+						navigator.pushView(HostGroupsView);
+						break;
+					
+				}
+			}
+		]]>
+	</fx:Script>
+	
+	
+	<s:List id="list" left="0" top="0"  right="0" bottom="0" styleName="MultiDPIFont" 
+			 change="moregrid_changeHandler(event)" 
+			dataProvider="{moremenu}" itemRenderer="com.lmc.ralib.renderers.StandardIconRenderer"  />
+</s:View>
