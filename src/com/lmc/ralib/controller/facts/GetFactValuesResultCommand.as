@@ -19,6 +19,7 @@ package com.lmc.ralib.controller.facts
 				var resultevent:ClientResultEvent = new ClientResultEvent(ClientResultEvent.FACTVALUES,model);
 				dispatch(resultevent);
 			}
+
 			
 			
 		}

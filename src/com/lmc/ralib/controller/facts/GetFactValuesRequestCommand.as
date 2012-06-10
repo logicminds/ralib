@@ -22,6 +22,7 @@ package com.lmc.ralib.controller.facts
 		}
 		override public function execute():void{
 			// check the cache first
+
 			if (model.values.length > 0 && event.usecache == true){
 				var resultevent:ClientResultEvent = new ClientResultEvent(ClientResultEvent.FACTS, model);
 				dispatch(resultevent);

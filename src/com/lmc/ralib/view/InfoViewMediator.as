@@ -26,6 +26,7 @@ package com.lmc.ralib.view
 			this.removeContextListener(ClientResultEvent.STATUS, onStatusResult);
 
 				view.infolabel[2].info = event.data.version;
+				view.infolabel.refresh();
 
 		}
 		

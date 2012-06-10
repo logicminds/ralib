@@ -118,7 +118,19 @@ package com.lmc.ralib.utils
 			}
 			
 			return "";
-		} 
+		}
+		public static function isAndroid():Boolean
+		{
+			return (Capabilities.version.substr(0,3) == "AND");
+		}
+		public static function isIOS():Boolean
+		{
+			return (Capabilities.version.substr(0,3) == "IOS");
+		}
+		public static function isMobile():Boolean
+		{
+			return (isAndroid() || isIOS()); // || isBlackberry()
+		}
 		//based on http://coockbooks.adobe.com/post_Copying_a_datagrid_data_to_the_clipboard_for_Excel-9883.html
 		protected static var tabDelimiter:String = "\t";
 		protected static var commaDelimiter:String = ","; 

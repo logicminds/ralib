@@ -1,6 +1,7 @@
 package com.lmc.ralib.controller.Application
 {
 	import com.lmc.ralib.Events.AlertEvent;
+	import com.lmc.ralib.utils.LogicMindsUtils;
 	import com.pialabs.eskimo.controls.SkinnableAlert;
 	
 	import flash.desktop.NativeApplication;
@@ -35,13 +36,16 @@ package com.lmc.ralib.controller.Application
 				callNativeAlert();
 			}
 			else {
-				Alert.show(event.message, event.title, event.alerttype,contextView as Sprite, closeHandler);
+				if (LogicMindsUtils.isMobile()){
+					SkinnableAlert.show(event.message, event.title, event.alerttype,contextView as Sprite, closeHandler);
+
+				}
+				else{
+					Alert.show(event.message, event.title, event.alerttype,contextView as Sprite, closeHandler);
+
+				}
 			}
-			/*
-			else{
-				SkinnableAlert.show(event.message, event.title, event.alerttype,contextView as Sprite, closeHandler);
-			}
-			*/	
+			
 		}
 		private function closeHandler(event:*):void{
 			var info:Object = ObjectUtil.getClassInfo(event);
