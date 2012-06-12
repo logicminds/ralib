@@ -38,19 +38,9 @@ package com.lmc.ralib.view
 
 		}
 		private function onCheckStatus(event:ClientRequestEvent):void{
-			if (view.profile.usehttps && view.profile.clienttype.name == "Foreman" && AppKeeper.isIOS() ){
-				var message:String = "If your using an untrusted Certificate, you will need to add the CA certificate to iOS"
-				this.addContextListener(PopUpEvent.CLOSE, onIOSIssue);
-				dispatch(new AlertEvent(AlertEvent.OPEN,"Alert", message,SkinnableAlert.YES|SkinnableAlert.NO));
-				//dispatch(new StageWebViewEvent(StageWebViewEvent.OPEN, "http://bit.ly/JgR66p", "Troubleshooting"));
-			}
-			
 			dispatch(event);
 		}
-		private function onIOSIssue(event:CloseEvent):void{
-			//this.removeContextListener(PopUpEvent.CLOSE, onIOSIssue);
-			//LogicMindsUtils.sendurl("http://bit.ly/JgR66p");
-		}
+		
 		private function openpassbox(event:DialogPopUpEvent):void{
 			this.addContextListener(PopUpEvent.CLOSE, onUserPassInput);
 			dispatch(event);

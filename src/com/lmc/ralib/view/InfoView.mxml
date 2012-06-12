@@ -20,7 +20,7 @@
 			[Bindable] public var appversion:String;
 			private var appkeeper:AppKeeper = new AppKeeper();
 			[Bindable] private var actions:ArrayCollection = new ArrayCollection([{name:"Email Support", url:'mailto:remoteadmin@googlegroups.com'},
-				{name:"Web Support", url:'http://www.remoteadmin.co'}]);
+				{name:"Web Support", url:'http://www.remoteadmin.co'}, {name:"Diagnostics", view:DiagnosticsView}]);
 			[Bindable] public var infolabel:ArrayCollection = new ArrayCollection([{name:"RemoteAdmin Version", info:appkeeper.getApplicationVersion()},
 			{name:"Remote Client Type", info:appkeeper.clienttype},{name:"Remote Client Version", info:"--"}]);
 
@@ -33,7 +33,13 @@
 				
 				var item:Object = event.currentTarget.selectedItem;
 				// redirect user to email or web programs
-				LogicMindsUtils.sendurl(item.url);
+				if (item.hasOwnProperty("url")){
+					LogicMindsUtils.sendurl(item.url);
+
+				}
+				else{
+					this.navigator.pushView(item.view);
+				}
 			}
 		]]>
 	</fx:Script>

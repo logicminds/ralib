@@ -51,18 +51,12 @@ package com.lmc.ralib.controller.Application
 			var info:Object = ObjectUtil.getClassInfo(event);
 			if (info.name == "mx.events::CloseEvent"){
 				this.dispatch(event);
-
 			}
 			else{
 				var nevent:CloseEvent = new CloseEvent(CloseEvent.CLOSE);
-				// For Native Alerts
 				dispatch(nevent);
-				var cevt:CloseEvent = new CloseEvent(CloseEvent.CLOSE);
-				dispatch(cevt);
-				
 			}
 			this.commandMap.release(this);
-
 		}
 		protected function callNativeAlert():void
 		{

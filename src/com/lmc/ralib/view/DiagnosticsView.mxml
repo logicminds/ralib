@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<components:ViewBackBase xmlns:fx="http://ns.adobe.com/mxml/2009" 
+						 xmlns:s="library://ns.adobe.com/flex/spark" 
+						 xmlns:mx="library://ns.adobe.com/flex/mx" xmlns:components="com.lmc.ralib.components.*">
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	<fx:Script>
+		<![CDATA[
+			import com.lmc.ralib.model.AppKeeper;
+			
+			import mx.collections.ArrayCollection;
+			import mx.core.FlexGlobals;
+			
+			import spark.events.IndexChangeEvent;
+			
+			import com.lmc.ralib.utils.LogicMindsUtils;
+			[Bindable] public var foremanvers:String;
+			[Bindable] public var appversion:String;
+			private var appkeeper:AppKeeper = new AppKeeper();
+			[Bindable] public var infolabel:ArrayCollection = new ArrayCollection([{name:"Resoultion X", info:Capabilities.screenResolutionX},
+				{name:"Resoultion Y", info:Capabilities.screenResolutionY},{name:"Screen DPI", info:Capabilities.screenDPI}]);
+			
+			
+			
+			
+		]]>
+	</fx:Script>
+	
+	
+	<s:VGroup width="100%" height="100%" horizontalAlign="center" gap="20" 
+			  paddingTop="20" paddingBottom="20" paddingLeft="10" paddingRight="10">
+		<s:ListForm  width="100%" labelField="name" 
+					 dataProvider="{infolabel}" id="list" title="Diagnositics Info"
+					 styleName="listForm" >
+			<s:itemRenderer>
+				<fx:Component>
+					<s:ListFormItemRenderer styleName="listFormItemRenderer">
+						<s:Label text="{data.info}" /> 
+					</s:ListFormItemRenderer>
+				</fx:Component>
+			</s:itemRenderer>
+			
+		</s:ListForm>
+		
+		
+		
+	</s:VGroup>
+</components:ViewBackBase>

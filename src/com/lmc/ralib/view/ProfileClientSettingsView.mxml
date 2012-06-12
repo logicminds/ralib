@@ -7,7 +7,9 @@
 	</fx:Declarations>
 	<fx:Script>
 		<![CDATA[
+			import com.lmc.ralib.Events.HelpEvent;
 			import com.lmc.ralib.components.ListasCallout;
+			import com.lmc.ralib.model.AppKeeper;
 			import com.lmc.ralib.model.ProfileModel;
 			
 			import mx.collections.ArrayCollection;
@@ -54,6 +56,19 @@
 				return types.getItemAt(0);
 			
 			}
+			private function onHttpsChange(event:Event):void{
+				profile.usehttps = !profile.usehttps;
+				if (profile.usehttps){
+					if ( profile.clienttype.name == "Foreman" && AppKeeper.isIOS() ){
+						var message:String = "If your using an untrusted Certificate, you will need to add the CA certificate to iOS.";
+						var title:String = "Troubleshooting Tip";
+						var link:String = "http://bit.ly/JgR66p";
+						dispatchEvent(new HelpEvent(HelpEvent.OPENHELP, message, title, link));
+						
+					}
+
+				}
+			}
 		]]>
 	</fx:Script>
 
@@ -66,7 +81,7 @@
 			<s:Form >
 				<s:FormItem label="Use Https" >
 					<s:ToggleSwitch id="toggle" selected="{data.profile.usehttps}" 
-									change="{profile.usehttps = !profile.usehttps}"   />
+									change="onHttpsChange(event)"   />
 
 				</s:FormItem>
 			</s:Form>

@@ -239,6 +239,11 @@
     <classEntry path="com.lmc.ralib.model.smartproxy"/>
     <classEntry path="com.lmc.ralib.model.Media"/>
     <classEntry path="com.lmc.ralib.model.Architectures"/>
+    <classEntry path="com.lmc.ralib.view.DiagnosticsViewMediator"/>
+    <classEntry path="com.lmc.ralib.view.DiagnosticsView"/>
+    <classEntry path="com.lmc.ralib.view.ProfileClientSettingsMediator"/>
+    <classEntry path="com.lmc.ralib.Events.HelpEvent"/>
+    <classEntry path="com.lmc.ralib.controller.Application.OpenHelpCommand"/>
   </includeClasses>
   <includeResources/>
   <namespaceManifests/>

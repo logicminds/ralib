@@ -50,7 +50,7 @@ package com.lmc.ralib.controller.Application
 			return false;
 		//	return true;
 		}
-		public function getlicensefromfile(path:String="assets/gpl.txt"):void{
+		public function getlicensefromfile(path:String="assets/gpl3.txt"):void{
 			var urlRequest:URLRequest = new URLRequest(path);
 			urlLoader = new URLLoader();
 			urlLoader.dataFormat = URLLoaderDataFormat.TEXT; // default
