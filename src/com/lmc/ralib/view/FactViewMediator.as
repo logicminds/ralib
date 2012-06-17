@@ -36,16 +36,18 @@ package com.lmc.ralib.view
 		}
 	
 		private function onActivate():void{
+
 			this.removeViewListener(FactViewEvent.FACTVALUES, onActivate);
 			// get fact values
-			if (view.query){
-				this.addContextListener(ClientResultEvent.FACTVALUES, onFactValues);
-				dispatch(new ClientRequestEvent(ClientRequestEvent.FACTVALUES,false, view.query));
-			}
+			dispatch(new BusyPopupEvent(BusyPopupEvent.OPEN_COMPUTING));
+			this.addContextListener(ClientResultEvent.FACTVALUES, onFactValues);
+			dispatch(new ClientRequestEvent(ClientRequestEvent.FACTVALUES,false, view.query));
 		}
 		private function onFactValues(event:ClientResultEvent):void{
 			this.removeContextListener(ClientResultEvent.FACTVALUES, onFactValues);
 			view.values = event.data.values;
+			dispatch(new BusyPopupEvent(BusyPopupEvent.CLOSE_COMPUTING));
+
 		
 		}
 		private function onMenuHandler(event:MenuEvent):void{

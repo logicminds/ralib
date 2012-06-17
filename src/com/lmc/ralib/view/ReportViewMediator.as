@@ -1,5 +1,6 @@
 package com.lmc.ralib.view
 {
+	import com.lmc.ralib.Events.BusyPopupEvent;
 	import com.lmc.ralib.Events.ReportsViewEvent;
 	import com.lmc.ralib.components.ViewMediatorBase;
 	
@@ -20,6 +21,8 @@ package com.lmc.ralib.view
 			removeContextListener(ReportsViewEvent.PARSE_REPORT_RESULT, onResult);
 			view.Providers = event.data;
 			view.logarea.text = event.data.logview;
+			dispatch(new BusyPopupEvent(BusyPopupEvent.CLOSE));
+
 		}
 	}
 }

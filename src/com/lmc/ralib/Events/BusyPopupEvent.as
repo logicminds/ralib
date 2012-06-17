@@ -6,6 +6,8 @@ package com.lmc.ralib.Events
 	{
 		public static const OPEN:String = "BusyPopupEvent.open";
 		public static const CLOSE:String = "BusyPopupEvent.close";
+		public static const OPEN_COMPUTING:String = "BusyPopupEvent.opencomputing";
+		public static const CLOSE_COMPUTING:String = "BusyPopupEvent.closecomputing";
 		public static const CLOSE_ATTEMPT:String = "BusyPopupEvent.closeattempt";
 
 		private var _parent:*;

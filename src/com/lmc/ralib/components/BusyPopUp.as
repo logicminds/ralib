@@ -5,8 +5,10 @@ package com.lmc.ralib.components
 	import flash.display.DisplayObjectContainer;
 	import flash.events.TimerEvent;
 	import flash.geom.Point;
+	import flash.system.Capabilities;
 	import flash.utils.Timer;
 	
+	import mx.core.DPIClassification;
 	import mx.core.FlexGlobals;
 	
 	import spark.components.SkinnablePopUpContainer;
@@ -17,8 +19,28 @@ package com.lmc.ralib.components
 		public function BusyPopUp()
 		{
 			super();
-			width=100;
-			height=100;
+			switch (FlexGlobals.topLevelApplication.applicationDPI)
+			{
+				case DPIClassification.DPI_320:
+				{
+					height = 200;
+					width = 200;
+					break;
+				}
+				case DPIClassification.DPI_240:
+				{
+					height = 150;
+					width = 150;
+					break;
+				}
+				default:
+				{
+					// default PPI160
+					height = 112;
+					width = 112;
+					break;
+				}
+			}
 			setStyle("skinClass", com.lmc.ralib.components.BusyPopUpSkin);
 			setStyle("backgroundAlpha",0.5);
 			setStyle("backgroundColor",0x000000);

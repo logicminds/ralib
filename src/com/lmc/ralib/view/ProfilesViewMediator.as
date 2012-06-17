@@ -22,7 +22,8 @@ package com.lmc.ralib.view
 			super();
 		}
 		override public function onRegister():void{
-			
+			dispatch(new BusyPopupEvent(BusyPopupEvent.CLOSE));
+
 			// this is triggered by user wanting to add a profile
 			eventMap.mapListener(view.delbutt,MouseEvent.CLICK, onDelete);
 			

@@ -20,7 +20,7 @@
     @playerversion AIR 2.5
     @productversion Flex 4.5
 -->
-<s:Skin xmlns:fx="http://ns.adobe.com/mxml/2009" xmlns:s="library://ns.adobe.com/flex/spark" 
+<s:Skin xmlns:fx="http://ns.adobe.com/mxml/2009" xmlns:s="library://ns.adobe.com/flex/spark" preinitialize="skin1_preinitializeHandler(event)" 
         xmlns:fb="http://ns.adobe.com/flashbuilder/2009" alpha.disabled="0.5">
     
     <fx:Metadata>
@@ -33,7 +33,13 @@
     </fx:Metadata> 
     
     <fx:Script fb:purpose="styling">
-        <![CDATA[         
+        <![CDATA[ 
+			import mx.core.DPIClassification;
+			import mx.core.FlexGlobals;
+			import mx.events.FlexEvent;
+			private var calcWidth:Number; 
+
+			
             /**
              *  @private
              */
@@ -41,6 +47,7 @@
             {
                 // Push backgroundColor and backgroundAlpha directly.
                 // Handle undefined backgroundColor by hiding the background object.
+				
                 if (isNaN(getStyle("backgroundColor")))
                 {
                     background.visible = false;
@@ -54,7 +61,31 @@
                 
                 super.updateDisplayList(unscaledWidth, unscaledHeight);
             }
-        ]]>        
+			
+			protected function skin1_preinitializeHandler(event:FlexEvent):void
+			{
+				switch (FlexGlobals.topLevelApplication.applicationDPI)
+				{
+					case DPIClassification.DPI_320:
+					{
+						calcWidth = 100;
+						break;
+					}
+					case DPIClassification.DPI_240:
+					{
+						calcWidth = 75;
+						break;
+					}
+					default:
+					{
+						// default PPI160
+						calcWidth = 56;
+						break;
+					}
+				}
+			}
+			
+		]]>        
     </fx:Script>
     
     <s:states>
@@ -107,7 +138,7 @@
 		</s:layout>
 		<s:Label id="title" right="5" left="5" paddingTop="10" top="0"  text="Loading" color="0xFFFFFF" />
 
-		<s:BusyIndicator id="busyIndicator" verticalCenter="0" horizontalCenter="0" minHeight="50" minWidth="50"/>
+		<s:BusyIndicator id="busyIndicator" verticalCenter="0" horizontalCenter="0" width="{calcWidth}" height="{calcWidth}"/>
 	</s:Group>
     </s:Group>
 </s:Skin>

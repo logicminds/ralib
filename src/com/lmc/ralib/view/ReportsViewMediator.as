@@ -45,6 +45,8 @@ package com.lmc.ralib.view
 			if (view.list.dataProvider.length > 0){
 				view.list.dataProvider.addItem(loadmoreobj);
 			}
+			dispatch(new BusyPopupEvent(BusyPopupEvent.CLOSE));
+
 		}
 		private function onRefresh(event:ReportsViewEvent):void{
 			this.addContextListener(ClientResultEvent.REPORTS, onReportsHandler);

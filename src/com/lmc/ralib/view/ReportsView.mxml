@@ -20,9 +20,11 @@
 			private var pagenumber:int = 1;
 
 			private function init():void{
-				buttons.addItem({label: "Recent"});
-				buttons.addItem({label: "Failed"});
-				buttons.addItem({label: "Eventful"});
+				if (buttons.length < 1){
+					buttons.addItem({label: "Recent"});
+					buttons.addItem({label: "Failed"});
+					buttons.addItem({label: "Eventful"});
+				}
 				if (this.data && this.data.hasOwnProperty("host")){
 					if (data.host){
 						this.hostname = data.host.name;

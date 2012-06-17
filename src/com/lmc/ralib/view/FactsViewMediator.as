@@ -20,6 +20,8 @@ package com.lmc.ralib.view
 			
 		}
 		private function onFactsHandler(event:ClientResultEvent):void{
+			dispatch(new BusyPopupEvent(BusyPopupEvent.CLOSE));
+
 			this.removeContextListener(ClientResultEvent.FACTS, onFactsHandler);
 			view.list.dataProvider = event.data.values;
 		}

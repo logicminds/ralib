@@ -18,12 +18,14 @@ package com.lmc.ralib.view
 			eventMap.mapListener(view, AlertEvent.OPEN, dispatch);
 			addContextListener(ClientUpdateResultEvent.HOSTGROUP, onUpdate);
 			dispatch(new AnalyticsTrackerEvent(AnalyticsTrackerEvent.TRACKPAGEVEW, "Group/EditClasses-RL"));
+			eventMap.mapListener(view, ClientUpdateRequestEvent.HOSTGROUP, onCorrelationReqest);
+		}
+		private function onCorrelationReqest(event:DataCorrelationEvent):void{
 			dispatch(new BusyPopupEvent(BusyPopupEvent.OPEN, "Processing"));
 			addContextListener(DataCorrelationEvent.COMBINED_CLASSES_WITH_GROUP_RESULT, onCorrelationResult);
-			eventMap.mapListener(view, ClientUpdateRequestEvent.HOSTGROUP, dispatch);
 			dispatch(new DataCorrelationEvent(DataCorrelationEvent.COMBINED_CLASSES_WITH_GROUP_REQUEST,null, null,view.data.gdata));
+
 		}
-		
 		private function onCorrelationResult(event:DataCorrelationEvent):void{
 			view.list.dataProvider = event.items;
 			dispatch(new BusyPopupEvent(BusyPopupEvent.CLOSE));

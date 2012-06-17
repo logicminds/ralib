@@ -155,22 +155,7 @@ package com.lmc.ralib.utils
 		{
 			return exportGridToCSV (grid, csv, onlySelected,true);
 		}
-		protected static function getsearchfilters():String{
-			var search:String = '';
-			var model:Locator = Locator.getInstance();
-			search += "Seasons: " + model.filtersHelper.seasonFilterHelper.seasonnames.join(',') + "\n";
-			search += "Product Lines: " + model.filtersHelper.productLineFilterHelper.productLineNames.join(',') + "\n";
-			search += "Categories: " + model.filtersHelper.categoryFilterHelper.selectedCategories.join(',') + "\n";
-			search += "Workflows: " + model.filtersHelper.workflowFilterHelper.workflownames.join(',') + "\n";	
-			search += "States: " + model.filtersHelper.stateFilterHelper.statenames.join(',') + "\n";	
-			search += "Vendors: " + model.filtersHelper.vendorFilterHelper.vendornames.join(',') + "\n";	
-			search += "Producers: " + model.filtersHelper.producerFilterHelper.producernames.join(',') + "\n";	
-			search += "Dev Coords: " + model.filtersHelper.devCoordFilterHelper.devCoordNames.join(',') + "\n";	
-			search += "Flags: " + model.filtersHelper.flagFilterHelper.selectedFlags.join(',') + "\n";
-			search += "Search Terms: " + model.filtersHelper.searchFilterHelper.searchTerms + "\n\n";		
-			
-			return search;
-		}
+		
 		protected static function exportGridToCSV (grid:Object, csv:Boolean, onlySelected:Boolean, tofile:Boolean=false):String
 		{
 			var dataSource:ICollectionView = (onlySelected ? grid.itemsSelected : grid.dataProvider) as ICollectionView;

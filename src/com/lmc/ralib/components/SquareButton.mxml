@@ -1,15 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
 <s:Group 
-	width="32" height="32"
+	preinitialize="group1_preinitializeHandler(event)"
 	xmlns:fx="http://ns.adobe.com/mxml/2009"
 	xmlns:s="library://ns.adobe.com/flex/spark"
 	xmlns:mx="library://ns.adobe.com/flex/mx">
 	<fx:Script>
 		<![CDATA[
+			import mx.core.DPIClassification;
+			import mx.core.FlexGlobals;
+			import mx.events.FlexEvent;
 			public function set number(num:int):void{
 				this.labelnumber.text = num.toString();
 			}
 		
+			protected function group1_preinitializeHandler(event:FlexEvent):void
+			{
+				switch (FlexGlobals.topLevelApplication.applicationDPI)
+				{
+					case DPIClassification.DPI_320:
+					{
+						height = 64;
+						width = 64;
+						break;
+					}
+					case DPIClassification.DPI_240:
+					{
+						height = 48;
+						width = 48;
+						break;
+					}
+					default:
+					{
+						// default PPI160
+						height = 36;
+						width = 36;
+						break;
+					}
+				}
+				
+			}
+			
 		]]>
 	</fx:Script>
 	
@@ -34,15 +64,6 @@
 			</s:LinearGradient>
 		</s:fill>
 	</s:Rect> 
-	<!--
-	<s:Rect 
-		left="0" right="0" top="0" bottom="0">
-		<s:stroke>
-			<s:SolidColorStroke 
-				color="0xffffff"
-				weight="2"/>
-		</s:stroke>
-	</s:Rect> -->
 	
 	<s:Group color="0xFFFFFF"
 			 horizontalCenter="0"
