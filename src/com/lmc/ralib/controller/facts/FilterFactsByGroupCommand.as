@@ -2,8 +2,9 @@ package com.lmc.ralib.controller.facts
 {
 	import com.lmc.ralib.Events.*;
 	import com.lmc.ralib.Events.FactViewEvent;
-	import com.lmc.ralib.model.FactValues;
 	import com.lmc.ralib.Events.RestClientEvent;
+	import com.lmc.ralib.components.BusyPopUp;
+	import com.lmc.ralib.model.FactValues;
 	
 	import flash.utils.Dictionary;
 	
@@ -26,6 +27,7 @@ package com.lmc.ralib.controller.facts
 			commandMap.detain(this);
 			/// catch event and then react to filter values 
 			this.eventDispatcher.addEventListener(RestClientEvent.GROUP_HOSTS,onResult);
+			dispatch(new BusyPopupEvent(BusyPopupEvent.OPEN_COMPUTING));
 			dispatch(new SearchEvent(SearchEvent.FIND_HOSTS_BY_GROUP,null, event.data));
 		
 		}
@@ -39,6 +41,8 @@ package com.lmc.ralib.controller.facts
 			var resultevent:ClientResultEvent = new ClientResultEvent(ClientResultEvent.FACTVALUES,model);
 			dispatch(resultevent);
 			// filter values
+			dispatch(new BusyPopupEvent(BusyPopupEvent.CLOSE_COMPUTING));
+
 			commandMap.release(this);
 
 		}

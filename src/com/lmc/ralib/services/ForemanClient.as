@@ -4,6 +4,7 @@ package com.lmc.ralib.services
 	import biz.logicminds.restclientlib.RestClient;
 	import biz.logicminds.restclientlib.RestEvent;
 	
+	import com.lmc.ralib.Events.RestClientEvent;
 	import com.lmc.ralib.model.*;
 	
 	import flash.events.EventDispatcher;
@@ -16,7 +17,6 @@ package com.lmc.ralib.services
 	import mx.utils.URLUtil;
 	
 	import org.robotlegs.mvcs.Actor;
-	import com.lmc.ralib.Events.RestClientEvent;
 	
 	public class ForemanClient extends RemoteServiceBase
 	{

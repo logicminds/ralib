@@ -26,7 +26,7 @@ package com.lmc.ralib.controller.hosts
 				return;
 			}
 			if (remoteclient.type()){
-				remoteclient.gethosts(event.query);
+				remoteclient.gethosts(event.query,RestClientEvent.HOSTS);
 			}
 			else{
 				dispatch(new AlertEvent(AlertEvent.OPEN,"Alert", "No Connection Profile is Selected"));

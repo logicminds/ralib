@@ -2,22 +2,25 @@ package com.lmc.ralib.model
 {
 	public class Bookmarks extends baseCollection
 	{
-		public function Bookmarks(jsonObject:Object, type:String)
+		public function Bookmarks(jsonObject:Object=null, type:String=null)
 		{
 			super(jsonObject, type);
-			if (!jsonObject){
-				
-			}
+			
+		}
+		public function add(bookmark:Bookmark):void{
+			values.addItem(bookmark);
+			namehash[bookmark.name] = bookmark;
+			idhash[bookmark.id] =  bookmark;
+
+			
 		}
 		public override function copy(jsonObject:Object):Boolean{
-			var newbookmark:Bookmark;
 			for each (var bookmark:Object in jsonObject){
-				newbookmark = new Bookmark(null,bookmark);
-				namehash[newbookmark.name] = newbookmark;
-				
+				this.add(new Bookmark(null,bookmark.bookmark));
 			}
 			return true;
 		}
+		
 		/*[{"bookmark":{"name":"active","public":true,"id":2,"owner_id":1,"controller":"hosts","owner_type":"User",
 		"query":"last_report > \"35 minutes ago\" and (status.applied > 0 or status.restarted > 0)"}},
 		

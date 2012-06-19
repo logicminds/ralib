@@ -6,10 +6,10 @@ package com.lmc.ralib.model
 		"query":"last_report > \"35 minutes ago\" and (status.applied > 0 or status.restarted > 0)"}}, */
 		
 		public var query:String;
-		public var ispublic:Boolean;
-		public var owner_id:int;
+		//public var ispublic:Boolean;
+		//public var owner_id:int;
 		public var controller:String;
-		public var owner_type:String;
+		//public var owner_type:String;
 		
 		public function Bookmark(type:String, jsonObject:Object=null)
 		{

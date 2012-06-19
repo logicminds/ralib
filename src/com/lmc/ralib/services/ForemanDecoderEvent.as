@@ -5,6 +5,7 @@ package com.lmc.ralib.services
 	public class ForemanDecoderEvent extends Event
 	{
 		public static const HOSTS:String             = "ForemanDecoderEvent0001";
+		public static const BOOKMARKS:String		 = "ForemanDecoderEvent.Bookmarks";
 		public static const PUPPETCLASSES:String     = "ForemanDecoderEvent0002";
 		public static const HOST:String              = "ForemanDecoderEvent0003";
 		public static const HOSTGROUPS:String        = "ForemanDecoderEvent0004";
@@ -17,9 +18,7 @@ package com.lmc.ralib.services
 		public static const HOSTFACTS:String         = "ForemanDecoderEvent0011";
 		public static const PROXYLIST:String         = "ForemanDecoderEvent0012";
 		public static const PROXYINFO:String         = "ForemanDecoderEvent0013";
-		
-		
-		
+	
 		private var _data:*;
 		
 		public function ForemanDecoderEvent(type:String, data:*=null, bubbles:Boolean=false, cancelable:Boolean=false)

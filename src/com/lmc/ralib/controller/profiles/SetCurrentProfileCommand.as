@@ -59,9 +59,10 @@ package com.lmc.ralib.controller.profiles
 				this.injector.injectInto(remoteclient);
 				this.injector.mapValue(RemoteServiceBase, remoteclient);
 				dispatch(new ClientRequestEvent(ClientRequestEvent.HOSTS,false));
+				dispatch(new ClientRequestEvent(ClientRequestEvent.BOOKMARKS,false));
+
 
 			}
-			
 			dispatch(new ApplicationEvent(ApplicationEvent.CLEAR_CACHE_REQUEST));
 			dispatch(new ProfilesEvent(ProfilesEvent.SET_CURRENT_PROFILE_RESULT, model.currentprofile));
 		}

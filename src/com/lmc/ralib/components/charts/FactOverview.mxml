@@ -136,10 +136,10 @@
 			<s:Label text="Legend" fontWeight="bold" />
 		</s:HGroup>
 
-		<s:Scroller height="100%" width="100%"  contentBackgroundAlpha=".6"  verticalScrollPolicy="on" horizontalScrollPolicy="auto" >
-			<s:HGroup width="100%" height="100%" clipAndEnableScrolling="true" 
+		<s:Scroller height="100%"  width="100%"  contentBackgroundAlpha=".6"  verticalScrollPolicy="on" horizontalScrollPolicy="auto" >
+			<s:HGroup width="100%" height="100%"  clipAndEnableScrolling="true" 
 					  horizontalAlign="left" >
-				<mx:Legend id="legendchart" styleName="mylegendStyle" color="#FFFFFF" width="100%" height="100%" 
+				<mx:Legend id="legendchart" styleName="mylegendStyle" color="#FFFFFF" width="100%" 
 			    direction="horizontal"  />
 				
 			</s:HGroup>

@@ -13,23 +13,24 @@ package com.lmc.ralib.components
 	public class HostsListMediator extends ViewMediatorBase
 	{
 		
-		[Inject] public var list:HostsList;
+		[Inject] public var view:HostsList;
 		public function HostsListMediator()
 		{
 		}
 		
 		override public function onRegister():void
 		{
-			list.addEventListener("RefreshListEvent", onRefresh);
-			getHosts(true);
+			view.addEventListener("RefreshListEvent", onRefresh);
+			if (!view.dataProvider){
+				getHosts(true);
+
+			}
 			
 		}
 		private function onHostsHandler(event:ClientResultEvent):void{
 			this.removeContextListener(ClientResultEvent.HOSTS, onHostsHandler);
-			list.dataProvider = event.data.values;
+			view.dataProvider = event.data.values;
 			dispatch(new BusyPopupEvent(BusyPopupEvent.CLOSE));
-
-		
 
 		}
 		public function getHosts(usecache:Boolean):void{

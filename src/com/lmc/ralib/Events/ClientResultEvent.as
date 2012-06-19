@@ -4,6 +4,7 @@ package com.lmc.ralib.Events
 	
 	public class ClientResultEvent extends Event
 	{
+		public static const BOOKMARKS:String         = "com.lmc.ralib.Events.ClientResultEvent.bookmarks";
 		public static const SUCCESS_RESULT:String    = "com.lmc.ralib.Events.ClientResultEvent.0014";
 		public static const FAILED_RESULT:String     = "com.lmc.ralib.Events.ClientResultEvent.0015";
 		public static const GROUP_HOSTS:String       = "com.lmc.ralib.Events.ClientResultEvent.grouphosts";

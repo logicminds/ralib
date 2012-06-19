@@ -1,5 +1,6 @@
 package com.lmc.ralib.controller.profiles
 {
+	import com.lmc.ralib.Events.ClientRequestEvent;
 	import com.lmc.ralib.Events.ProfilesEvent;
 	import com.lmc.ralib.model.AppKeeper;
 	import com.lmc.ralib.model.ProfileModel;
@@ -21,6 +22,7 @@ package com.lmc.ralib.controller.profiles
 				var profile:ProfileModel = model.currentprofile;
 				appkeeper.clienttype = model.currentprofile.clienttype.name;
 				dispatch(new ProfilesEvent(ProfilesEvent.CURRENT_PROFILE_RESULT, profile));
+
 
 			}
 		}

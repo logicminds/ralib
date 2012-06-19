@@ -1,6 +1,7 @@
 package com.lmc.ralib.controller.Application
 {
 	import com.lmc.ralib.Events.ApplicationEvent;
+	import com.lmc.ralib.model.Bookmarks;
 	import com.lmc.ralib.model.DashModel;
 	import com.lmc.ralib.model.Facts;
 	import com.lmc.ralib.model.HostGroups;
@@ -18,13 +19,13 @@ package com.lmc.ralib.controller.Application
 		[Inject] public var reports:Reports;
 		[Inject] public var facts:Facts;
 		[Inject] public var dash:DashModel;
+		[Inject] public var bookmarks:Bookmarks;
 			
 		public function ClearCacheRequestCommand()
 		{
 			super();
 		}
 		public override function execute():void{
-			//NativeApplication.nativeApplication.
 			if (hostgroups.values.length > 0){
 				hostgroups.removeAll();
 			}

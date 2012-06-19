@@ -1,6 +1,8 @@
 package com.lmc.ralib.view
 {
 	import com.lmc.ralib.Events.BusyPopupEvent;
+	import com.lmc.ralib.Events.ChangeViewEvent;
+	import com.lmc.ralib.Events.ClientRequestEvent;
 	import com.lmc.ralib.components.ViewMediatorBase;
 	
 	import org.robotlegs.mvcs.Mediator;
@@ -13,7 +15,6 @@ package com.lmc.ralib.view
 		}
 		public override function onRegister():void{
 			dispatch(new BusyPopupEvent(BusyPopupEvent.CLOSE));
-
 		}
 	}
 }

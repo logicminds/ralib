@@ -53,12 +53,15 @@
 				trace("Viewing fact: " + this.data.fact.name);
 				
 			}
-			
+			public override function backHandler(event:MouseEvent):void{
+				this.destructionPolicy = "auto";
+				super.backHandler(event);
+			}
 			
 			
 			protected function list_changeHandler(event:IndexChangeEvent):void
 			{
-				
+				this.destructionPolicy = "never";
 				var hostquery:String;
 				var key:String = this.data.fact.name;
 				var value:String = list.selectedItem.value;
@@ -74,7 +77,7 @@
 				switch(list.selectedItems[0]){
 					
 					default:
-					
+						
 						navigator.pushView(FactSystemsView, {query:hostquery, hosts:list.selectedItem.hosts, 
 							factname:this.data.fact.name, factvalue:list.selectedItem.value});
 						trace("Value: " + list.selectedItem);
@@ -101,9 +104,9 @@
 			}
 	
 			private function openfilter(event:MouseEvent):void{
-			//	this.addEventListener(FilterListLayoutEvent.CHANGE, calloutcloseHandler);
-			//	this.dispatchEvent(new FilterListLayoutEvent(FilterListLayoutEvent.OPEN,this.hostgroups, 
-			//		event.currentTarget as DisplayObjectContainer));
+				this.addEventListener(FilterListLayoutEvent.CHANGE, calloutcloseHandler);
+				this.dispatchEvent(new FilterListLayoutEvent(FilterListLayoutEvent.OPEN,this.hostgroups, 
+					event.currentTarget as DisplayObjectContainer));
 		
 			}
 			protected function calloutcloseHandler(event:FilterListLayoutEvent):void
@@ -125,13 +128,13 @@
 			{
 				switch(FlexGlobals.topLevelApplication.runtimeDPI){
 					case DPIClassification.DPI_160:
-						bar.minHeight = 24;
+						bar.minHeight = 28;
 						break;
 					case DPIClassification.DPI_240:
-						bar.minHeight = 32;
+						bar.minHeight = 36;
 						break;
 					case DPIClassification.DPI_320:
-						bar.minHeight = 48;
+						bar.minHeight = 64;
 						break;
 				}				
 			}
@@ -140,8 +143,10 @@
 	</fx:Script>
 	
 	<fx:Declarations>
-		<!-- Place non-visual elements (e.g., services, value objects) here -->
-	</fx:Declarations>
+		<s:MultiDPIBitmapSource id="filtericon"
+								source160dpi="@Embed('assets/icons/filter24.png')"
+								source240dpi="@Embed('assets/icons/filter32.png')"
+								source320dpi="@Embed('assets/icons/filter48.png')" />	</fx:Declarations>
 	
 	
 	
@@ -159,8 +164,10 @@
 				<s:Label text="{'Fact: ' + this.data.fact.name}" fontWeight="bold"  />
 
 			</s:HGroup>
-			<s:HGroup width="100%" horizontalAlign="right">
+			<s:HGroup width="100%" horizontalAlign="right" verticalAlign="middle">
 				<components:ListGraphButton id="listgraphbutton" click="menuChange(event)" right="5" />
+				<s:Image source="{filtericon}" buttonMode="true" id="filterbutton" click="openfilter(event)" />
+
 			</s:HGroup>
 		</flexpad:BarGrey>
 	
@@ -177,7 +184,6 @@
 			<s:Scroller width="100%" verticalScrollPolicy="off"  >
 				<components:TagGroup id="tags" width="100%"  contentBackgroundColor="0xFFFFFF" /> 
 			</s:Scroller>
-		  <!--  <s:Button styleName="filterButton" id="filterbutton" click="openfilter(event)" /> -->
 	</s:HGroup>
 
 </components:ViewBackBase>

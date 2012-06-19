@@ -213,7 +213,6 @@
     <classEntry path="com.lmc.ralib.skins.raButtonBarFirstButtonSkin"/>
     <classEntry path="com.lmc.ralib.renderers.EditSystemListItemRenderer"/>
     <classEntry path="com.lmc.ralib.renderers.ProfileItemRenderer"/>
-    <classEntry path="com.lmc.ralib.skins.ButtonGreyBlueSkin"/>
     <classEntry path="com.lmc.ralib.renderers.HostFactsRenderer"/>
     <classEntry path="com.lmc.ralib.skins.raButtonBarMiddleButtonSkin"/>
     <classEntry path="com.lmc.ralib.skins.ContainerSkin"/>
@@ -244,6 +243,10 @@
     <classEntry path="com.lmc.ralib.view.ProfileClientSettingsMediator"/>
     <classEntry path="com.lmc.ralib.Events.HelpEvent"/>
     <classEntry path="com.lmc.ralib.controller.Application.OpenHelpCommand"/>
+    <classEntry path="com.lmc.ralib.controller.Application.GetClientBookmarksCommand"/>
+    <classEntry path="com.lmc.ralib.controller.Application.GetClientBookmarksResultCommand"/>
+    <classEntry path="com.lmc.ralib.Events.ChangeViewEvent"/>
+    <classEntry path="com.lmc.ralib.controller.Application.LoadViewCommand"/>
   </includeClasses>
   <includeResources/>
   <namespaceManifests/>

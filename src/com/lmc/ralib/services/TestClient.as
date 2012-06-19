@@ -103,6 +103,13 @@ package com.lmc.ralib.services
 
 			
 		}
+		public override function getBookmarks():void{
+			showBusy(true);
+			var cobj:Object = createSerialObject(RestClientEvent.BOOKMARKS,com.lmc.ralib.model.Bookmarks);
+			cobj.loader = new URLLoaderObj();
+			olist[cobj.loader.id] = cobj;
+			getfromfile("apisamples/bookmarks.json", cobj);
+		}
 		public override function getstatus():void{
 			showBusy(true);
 			
