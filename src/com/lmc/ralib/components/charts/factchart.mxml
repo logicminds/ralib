@@ -55,6 +55,8 @@
 					var temp:String= (" " + percentValue.toFixed(0));
 					temp = temp.substr(0,6);
 					  // return data.name + ": \n" + temp + "%\n (" + data.value + ")";
+					// check for more than 10 items and dont' label, otherwise label the name
+					   //trace("Piechart items: " + piechart1.series.length); 
 					   return  temp + "%";
 					
 				}
@@ -109,23 +111,23 @@
 						
 						
 						//// LEGEND /////
-						legend.dataProvider = piechart1;
-						legend.styleName = "mylegendStyle";
-						legend.percentWidth = 100;
-						legend.percentHeight = 100;
+					//	legend.dataProvider = piechart1;
+					//	legend.styleName = "mylegendStyle";
+					//	legend.percentWidth = 100;
+					//	legend.percentHeight = 100;
 						
 						//legend.right = 0;
 						//legend.left = 0;
-						legend.direction = "vertical";
-						var legcontainer:Group = new Group();
-						legcontainer.clipAndEnableScrolling = true;
+					//	legend.direction = "vertical";
+					//	var legcontainer:Group = new Group();
+					//	legcontainer.clipAndEnableScrolling = true;
 						
 						//legcontainer.percentWidth = 30;
-						legcontainer.addElement(legend);
-						legscroller.viewport = legcontainer;
+					//	legcontainer.addElement(legend);
+					//	legscroller.viewport = legcontainer;
 						
-						legscroller.percentWidth = 100;
-						legscroller.percentHeight = 100;
+					//	legscroller.percentWidth = 100;
+					//	legscroller.percentHeight = 100;
 					//	legscroller.left = 15;
 					//	legscroller.right = 15;
 					//	legscroller.bottom = 15;

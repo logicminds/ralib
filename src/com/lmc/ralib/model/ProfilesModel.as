@@ -115,7 +115,9 @@ package com.lmc.ralib.model
 			return _namehash[id];
 		}
 		public function copy(p:ProfilesModel):void{
-			_namehash = p.namehash;
+			for each (var pro:ProfileModel in p.profiles){
+				_namehash[pro.id] = pro;
+			}
 			_profiles = p.profiles;
 			_profiles.refresh();
 			this.currentprofile = p.currentprofile;

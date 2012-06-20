@@ -11,7 +11,7 @@ package com.lmc.ralib.model
 		public var controller:String;
 		//public var owner_type:String;
 		
-		public function Bookmark(type:String, jsonObject:Object=null)
+		public function Bookmark(type:String=null, jsonObject:Object=null)
 		{
 			super(type, jsonObject);
 			

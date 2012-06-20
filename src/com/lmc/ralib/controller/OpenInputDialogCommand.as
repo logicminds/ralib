@@ -64,6 +64,7 @@ package com.lmc.ralib.controller
 			}
 			else{
 				var dialog:InputUserDialog = new InputUserDialog();
+				dialog.percentWidth = 90;
 				// create the SkinnablePopUpContainer
 				mediatorMap.createMediator(dialog);
 				// set the styles
@@ -98,6 +99,8 @@ package com.lmc.ralib.controller
 			}
 			else{
 				var inputdialog:InputDialog = new InputDialog();
+				inputdialog.percentWidth = 90;
+
 				// create the SkinnablePopUpContainer
 				mediatorMap.createMediator(inputdialog);
 				// set the styles

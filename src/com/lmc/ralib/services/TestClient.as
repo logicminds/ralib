@@ -50,6 +50,7 @@ package com.lmc.ralib.services
 			for (var i:int=0; i < numitems; i++){
 				var host:Host = new Host();
 				host.name = "puppetagent" + i;
+				mydata.namehash[host.name] = host;
 				mydata.values.addItem(host);
 			}
 			this.dispatch(new RestClientEvent(etype, true,mydata, 200, RestClientEvent.SUCCESS_RESULT));

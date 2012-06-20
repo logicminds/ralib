@@ -25,15 +25,14 @@
 			private function init():void{
 				
 			}
-			
-			protected function done_clickHandler(event:*):void {
-				// Create the String to represent the returned data.
-				var retData:Vector.<Object> = list.selectedItems;
+			public override function open(owner:DisplayObjectContainer, modal:Boolean=false):void{
+				if (!this.isOpen){
+					super.open(owner, modal);
+				}
+			}
+			protected function done_clickHandler(event:PopUpEvent):void {
+				dispatchEvent(new FilterListLayoutEvent(FilterListLayoutEvent.CHANGE, list.selectedItems));
 				
-				dispatchEvent(new FilterListLayoutEvent(FilterListLayoutEvent.CLOSE, retData));
-						
-				// Close the Callout and return the data.
-				this.close(true, retData);
 			}
 			
 		]]>
@@ -42,7 +41,7 @@
 	
 	
 		<s:HGroup horizontalAlign="center" id="group" width="100%" paddingTop="5" top="0">
-			<s:Button label="Close" click="done_clickHandler(event)" />
+			<s:Button label="Close" click="this.close(true, list.selectedItems)" />
 		</s:HGroup>
 		<s:List id="list" width="100%" textAlign="left" labelField="name" top="{group.height + 5}" bottom="0"
 			requireSelection="false"  dataProvider="{items}" selectedItems="{selected}"

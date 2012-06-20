@@ -166,6 +166,7 @@
 			</s:HGroup>
 			<s:HGroup width="100%" horizontalAlign="right" verticalAlign="middle">
 				<components:ListGraphButton id="listgraphbutton" click="menuChange(event)" right="5" />
+				<s:Spacer width="15" />
 				<s:Image source="{filtericon}" buttonMode="true" id="filterbutton" click="openfilter(event)" />
 
 			</s:HGroup>

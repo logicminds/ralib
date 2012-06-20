@@ -33,12 +33,16 @@
 				return _profile;
 			}
 			private function onSaveClick(event:MouseEvent):void{
-				saveDetails();
-				dispatchEvent(new ClientRequestEvent(ClientRequestEvent.STATUS,false,null,-1,-1,profile));
+				_profile.name = fi_profilename.text;
+				_profile.host = fi_host.text;
+				_profile.port = fi_port.text;
+				dispatchEvent(new ClientRequestEvent(ClientRequestEvent.STATUS,false,null,-1,-1,_profile));
 			}
 			protected function actionListChange(event:IndexChangeEvent):void
 			{
-				saveDetails();
+				_profile.name = fi_profilename.text;
+				_profile.host = fi_host.text;
+				_profile.port = fi_port.text;
 				var item:Object = event.currentTarget.selectedItem;
 				if (item.name == "Authentication"){
 					this.dispatchEvent(new DialogPopUpEvent(DialogPopUpEvent.OPEN_USERPASS,
@@ -48,14 +52,9 @@
 					navigator.pushView(item.view, {profile:profile} );
 
 				}
-				//list2.selectedItem = null;
 				list2.selectedItems = null;
 			}
-			private function saveDetails():void{
-				_profile.name = fi_profilename.text;
-				_profile.host = fi_host.text;
-				_profile.port = fi_port.text;
-			}
+			
 			
 			protected function viewbackbase1_creationCompleteHandler(event:FlexEvent):void
 			{
@@ -68,6 +67,7 @@
 				}	
 				else{
 					_profile = new ProfileModel();
+					trace("new profile created");
 				}
 							
 			}

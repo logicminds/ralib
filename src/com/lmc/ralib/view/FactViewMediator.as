@@ -17,6 +17,7 @@ package com.lmc.ralib.view
 			super();
 		}
 		override public function onRegister():void{
+			view.showBusy();
 			this.addContextListener(MenuEvent.RESULT_FACT_MENU, onMenuHandler);
 			onActivate();
 			this.addViewListener(FactViewEvent.FACTVALUES, onActivate);
@@ -28,6 +29,7 @@ package com.lmc.ralib.view
 			dispatch(new AnalyticsTrackerEvent(AnalyticsTrackerEvent.TRACKPAGEVEW, "/facts/values -RL"));
 		}
 		private function onFilterRequest(event:FactViewEvent):void{
+			view.showBusy();
 			this.addContextListener(ClientResultEvent.FACTVALUES, onFactValues);
 			dispatch(event);
 		}
@@ -39,14 +41,13 @@ package com.lmc.ralib.view
 
 			this.removeViewListener(FactViewEvent.FACTVALUES, onActivate);
 			// get fact values
-			dispatch(new BusyPopupEvent(BusyPopupEvent.OPEN_COMPUTING));
 			this.addContextListener(ClientResultEvent.FACTVALUES, onFactValues);
 			dispatch(new ClientRequestEvent(ClientRequestEvent.FACTVALUES,false, view.query));
 		}
 		private function onFactValues(event:ClientResultEvent):void{
 			this.removeContextListener(ClientResultEvent.FACTVALUES, onFactValues);
 			view.values = event.data.values;
-			dispatch(new BusyPopupEvent(BusyPopupEvent.CLOSE_COMPUTING));
+			view.closeBusy();
 
 		
 		}

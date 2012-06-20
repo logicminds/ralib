@@ -13,9 +13,9 @@ package com.lmc.ralib.components
 	
 	import spark.components.SkinnablePopUpContainer;
 
-	public class BusyPopUp extends SkinnablePopUpContainer
+	public class ProcessingBusyPopUp extends SkinnablePopUpContainer
 	{
-		public function BusyPopUp()
+		public function ProcessingBusyPopUp()
 		{
 			super();
 			switch (FlexGlobals.topLevelApplication.applicationDPI)

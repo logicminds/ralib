@@ -20,6 +20,7 @@
 			private var pagenumber:int = 1;
 
 			private function init():void{
+				this.destructionPolicy = "auto";
 				if (buttons.length < 1){
 					buttons.addItem({label: "Recent"});
 					buttons.addItem({label: "Failed"});
@@ -53,7 +54,7 @@
 			}
 			private function onChange(event:IndexChangeEvent):void{
 				//this.saveScrollPosition();
-				
+				this.destructionPolicy = "off";
 				if ((event.currentTarget as List).selectedItem.host == "Load More Reports"){
 					pagenumber++;
 					list.dataProvider.removeItemAt(list.dataProvider.length -1);

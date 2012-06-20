@@ -247,6 +247,7 @@
     <classEntry path="com.lmc.ralib.controller.Application.GetClientBookmarksResultCommand"/>
     <classEntry path="com.lmc.ralib.Events.ChangeViewEvent"/>
     <classEntry path="com.lmc.ralib.controller.Application.LoadViewCommand"/>
+    <classEntry path="com.lmc.ralib.components.ViewBase"/>
   </includeClasses>
   <includeResources/>
   <namespaceManifests/>

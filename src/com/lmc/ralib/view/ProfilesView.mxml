@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<s:View xmlns:fx="http://ns.adobe.com/mxml/2009" 
+<components:ViewBase xmlns:fx="http://ns.adobe.com/mxml/2009" 
 		xmlns:s="library://ns.adobe.com/flex/spark"
 		xmlns:components="com.lmc.ralib.components.*" viewActivate="init()"
 		 title="Profiles">
@@ -64,14 +64,14 @@
 		</s:HGroup>
 		
 	</s:VGroup>
-	<s:actionContent>
+	<components:actionContent>
 		
 		<s:Button styleName="addButton" id="addbutt" click="onAddClick(event)"  />
 		<s:Spacer width="5" />
 			
 		<s:Button styleName="deleteButton" id="delbutt" />
 		
-	</s:actionContent>
+	</components:actionContent>
 	
 		
-</s:View>
+</components:ViewBase>

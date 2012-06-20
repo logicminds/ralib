@@ -15,7 +15,7 @@ package com.lmc.ralib.controller.profiles
 		[Inject] public var profiles:ProfilesModel;
 		
 		override public function execute():void{
-			var profile:ProfileModel = profiles.findProfile((event.data as ProfileModel).id);
+			var profile:ProfileModel = profiles.findProfile(event.data.id);
 			if (profile){
 				//already exists
 				profiles.updateProfile(profile);

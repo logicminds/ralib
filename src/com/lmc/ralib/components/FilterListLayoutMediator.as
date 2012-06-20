@@ -8,24 +8,15 @@ package com.lmc.ralib.components
 	public class FilterListLayoutMediator extends Mediator
 	{
 		[Inject] public var view:FilterListlayout; 
-		//[Inject] public var viewnav:ListCalloutViewNavigator;
 		public function FilterListLayoutMediator()
 		{
 			super();
 		}
 		override public function onRegister():void
 		{
-			this.addViewListener(FilterListLayoutEvent.CLOSE, onClose);
+			this.addViewListener(FilterListLayoutEvent.CHANGE, dispatch);
 		}
-		private function onClose(event:FilterListLayoutEvent):void{
-		//	dispatch(new FilterViewEvent(FilterViewEvent.GET_ITEMS_RESULT, event.data));
-
-			view.close();
-			//this.mediatorMap.removeMediatorByView(view.getElementAt(0) as ListCalloutViewNavigator);
-			//this.mediatorMap.removeMediatorByView(view);
-			dispatch(new FilterListLayoutEvent(FilterListLayoutEvent.CHANGE, event.data));
-
-		}
+		
 	
 	}
 }

@@ -79,10 +79,16 @@
 					this.piedata.addItem({name: 'Active Hosts', value: obj.activehosts});
 				
 			}
-			private function resolveLabel(name):Bookmark{
+			private function resolveLabel(name:String):Bookmark{
+				var bookmark:Bookmark = new Bookmark();
+				bookmark.name = "ok";
+				bookmark.query = "(last_report > \"35 minutes ago\" ) and (status.failed = 0 or status.failed_restarts = 0))" +
+					" and ( (status.applied > 0 or status.restarted > 0) or status.pending = 0)";
+				bookmark.controller = "hosts";
+				
 				switch(name){
 					case "Good Hosts":
-						return bookmarks.findbyname("active");
+						return bookmark;
 						break;
 					case "Out of Sync":
 						return bookmarks.findbyname("out of sync");
@@ -91,7 +97,7 @@
 						return bookmarks.findbyname("disabled");
 						break;
 					case "Bad Hosts":
-						return bookmarks.findbyname("active");
+						return bookmarks.findbyname("error");
 						break;
 					case "Active Hosts":
 						return bookmarks.findbyname("active");

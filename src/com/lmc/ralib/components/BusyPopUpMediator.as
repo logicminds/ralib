@@ -26,7 +26,6 @@ package com.lmc.ralib.components
 			else if (event.type == BusyPopupEvent.OPEN_COMPUTING){
 				isprocessing = true;
 			}
-			view.visible = true;
 			view.open(this.contextView,false);
 
 		}
