@@ -81,13 +81,13 @@
 			<s:Form width="100%"  >
 				
 				<s:FormItem label="Name" width="100%" >
-					<s:TextInput prompt="Required"  id="fi_profilename" text="{_profile.name}"/>
+					<s:TextInput prompt="Required"  id="fi_profilename" text="{_profile.name}" softKeyboardType="default"/>
 				</s:FormItem>
 				<s:FormItem label="Host" width="100%" >
-					<s:TextInput  prompt="Required" text="{_profile.host}" id="fi_host"/>
+					<s:TextInput  prompt="Required" text="{_profile.host}" id="fi_host" softKeyboardType="url"/>
 				</s:FormItem>
 				<s:FormItem label="Port" width="100%" >
-					<s:TextInput id="fi_port" text="{_profile.port}" prompt="Required" />
+					<s:TextInput id="fi_port" text="{_profile.port}" prompt="Required" softKeyboardType="number" />
 				</s:FormItem>
 				
 				

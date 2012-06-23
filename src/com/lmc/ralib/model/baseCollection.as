@@ -15,7 +15,7 @@ package com.lmc.ralib.model
 		[Bindable] private var _values:ArrayCollection;
 		public var name:String;
 		public var id:int;
-		private var sortobject:Sort = new Sort();
+		public var sortobject:Sort = new Sort();
 		public var _type:String;
 		public var namehash:Dictionary = new Dictionary();
 		public var idhash:Dictionary = new Dictionary();

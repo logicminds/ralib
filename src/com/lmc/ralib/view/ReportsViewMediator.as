@@ -13,43 +13,40 @@ package com.lmc.ralib.view
 	{
 		[Inject] public var view:ReportsView;
 		private var getmore:Boolean = false;
-		private var loadmoreobj:ReportModel = new ReportModel();
 		
 		public function ReportsViewMediator()
 		{
 			super();
 		}
 		override public function onRegister():void{
-			loadmoreobj.host = "Load More Reports";
-			this.addViewListener(ReportsViewEvent.QUERYEVENT, onReportsViewFilter);
-			view.dispatchEvent(new ReportsViewEvent(ReportsViewEvent.QUERYEVENT, view.filter));
-			this.addViewListener(ReportsViewEvent.REFRESH, onRefresh);
+			
+			onRefresh(new ClientRequestEvent(ClientRequestEvent.REPORTS, true, view.filter));
+			addViewListener(ClientRequestEvent.REPORTS, onRefresh);
+			addViewListener(ReportsViewEvent.QUERYEVENT, onReportsViewFilter);
 		}
 		public function onReportsHandler(event:ClientResultEvent):void{
 			removeContextListener(ClientResultEvent.REPORTS, onReportsHandler);
-			var reports:Reports = event.data as Reports;
+			var reports:Reports = Reports(event.data);
+			reports.ensureLoadmore();
+
 			if (getmore){
 				// if the user wanted more reports
-				for each (var obj:ReportModel in reports.values){
+				for each (var obj:Object in reports.values){
 					// ensure we add next to last item
-					view.list.dataProvider.addItem(obj);
+					view.reports.addItem(obj);
 				}
 				getmore = false;
 			}
 			else{
-				view.list.dataProvider = (event.data as Reports).values;
-				// ensure this is added at the end
+				view.reports.source = reports.values.source;
 				
-			}
-			// ensure the "Load More" is added to the list
-			if (view.list.dataProvider.length > 0){
-				view.list.dataProvider.addItem(loadmoreobj);
 			}
 			dispatch(new BusyPopupEvent(BusyPopupEvent.CLOSE));
 
 		}
-		private function onRefresh(event:ReportsViewEvent):void{
-			this.addContextListener(ClientResultEvent.REPORTS, onReportsHandler);
+		private function onRefresh(event:ClientRequestEvent):void{
+			view.reports.removeAll();
+			addContextListener(ClientResultEvent.REPORTS, onReportsHandler);
 			dispatch(event);
 		}
 		private function onReportsViewFilter(event:ReportsViewEvent):void{

@@ -5,6 +5,7 @@ package com.lmc.ralib.model
     import mx.collections.ArrayCollection;
     import mx.utils.ObjectUtil;
     
+    import spark.collections.SortField;
     import spark.modules.Module;
 
 	public class PuppetClasses extends baseCollection

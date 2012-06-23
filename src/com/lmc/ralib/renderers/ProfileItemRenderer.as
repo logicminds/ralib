@@ -1,6 +1,6 @@
 package com.lmc.ralib.renderers
 {
-	import com.lmc.ralib.Events.customClickEvent;
+	import com.lmc.ralib.Events.CustomClickEvent;
 	import com.lmc.ralib.model.ProfileModel;
 	
 	import flash.desktop.Icon;
@@ -176,7 +176,7 @@ package com.lmc.ralib.renderers
 		private function editprofileClickHandler(event:MouseEvent):void
 		{
 			
-			var newevent:customClickEvent = new customClickEvent(this.data,"editProfileEvent");
+			var newevent:CustomClickEvent = new CustomClickEvent("editProfileEvent",this.data);
 			
 			owner.dispatchEvent(newevent);
 			

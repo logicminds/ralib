@@ -17,7 +17,7 @@
     <classEntry path="com.lmc.ralib.Events.ClientRequestEvent"/>
     <classEntry path="com.lmc.ralib.Events.AlertEvent"/>
     <classEntry path="com.lmc.ralib.Events.StageWebViewEvent"/>
-    <classEntry path="com.lmc.ralib.Events.customClickEvent"/>
+    <classEntry path="com.lmc.ralib.Events.CustomClickEvent"/>
     <classEntry path="com.lmc.ralib.Events.RestClientEvent"/>
     <classEntry path="com.lmc.ralib.Events.SearchEvent"/>
     <classEntry path="com.lmc.ralib.Events.ReportsViewEvent"/>

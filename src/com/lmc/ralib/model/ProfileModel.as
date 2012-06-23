@@ -4,9 +4,9 @@ package com.lmc.ralib.model
 	
 	import mx.utils.Base64Decoder;
 	import mx.utils.Base64Encoder;
+	import mx.utils.UIDUtil;
 	
 	import org.robotlegs.mvcs.Actor;
-	import mx.utils.UIDUtil;
 
 	[RemoteClass(alias="com.lmc.ralib.model.ProfileModel")]
 	
@@ -14,6 +14,7 @@ package com.lmc.ralib.model
 	public class ProfileModel extends Actor
 	{
 		public var name:String;
+		public var timeout:int = 30;
 		public var id:String;
 		public var host:String;
 		public var port:String;

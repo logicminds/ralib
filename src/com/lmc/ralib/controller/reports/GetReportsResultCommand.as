@@ -19,8 +19,9 @@ package com.lmc.ralib.controller.reports
 		override public function execute():void{
 			
 			if (event.success){
+				model.cloneInto(Reports(event.data));
 				if ((event.data as Reports).values.length > 0){
-					var resultevent:ClientResultEvent = new ClientResultEvent(ClientResultEvent.REPORTS,event.data);
+					var resultevent:ClientResultEvent = new ClientResultEvent(ClientResultEvent.REPORTS,model);
 					dispatch(resultevent);
 				}
 				else{
@@ -28,8 +29,6 @@ package com.lmc.ralib.controller.reports
 
 				}
 			}
-			
-			
 		
 						
 		}

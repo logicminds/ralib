@@ -58,7 +58,7 @@ package com.lmc.ralib.controller.profiles
 				appkeeper.clienttype = model.currentprofile.clienttype.name;
 				this.injector.injectInto(remoteclient);
 				this.injector.mapValue(RemoteServiceBase, remoteclient);
-				dispatch(new ClientRequestEvent(ClientRequestEvent.HOSTS,false));
+				//dispatch(new ClientRequestEvent(ClientRequestEvent.HOSTS,false));
 				dispatch(new ClientRequestEvent(ClientRequestEvent.BOOKMARKS,false));
 
 

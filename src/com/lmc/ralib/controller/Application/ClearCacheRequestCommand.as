@@ -6,6 +6,7 @@ package com.lmc.ralib.controller.Application
 	import com.lmc.ralib.model.Facts;
 	import com.lmc.ralib.model.HostGroups;
 	import com.lmc.ralib.model.Hosts;
+	import com.lmc.ralib.model.PuppetClasses;
 	import com.lmc.ralib.model.Reports;
 	
 	import flash.desktop.NativeApplication;
@@ -20,12 +21,16 @@ package com.lmc.ralib.controller.Application
 		[Inject] public var facts:Facts;
 		[Inject] public var dash:DashModel;
 		[Inject] public var bookmarks:Bookmarks;
+		[Inject] public var pclasses:PuppetClasses;
 			
 		public function ClearCacheRequestCommand()
 		{
 			super();
 		}
 		public override function execute():void{
+			if (pclasses.values.length > 0){
+				pclasses.removeAll();
+			}
 			if (hostgroups.values.length > 0){
 				hostgroups.removeAll();
 			}

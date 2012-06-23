@@ -28,10 +28,12 @@ package com.lmc.ralib.controller.classes
 			super();
 		}
 		private function sort(values:ArrayCollection,field:String="name"):void{
+			var sortByName:SortField = new SortField(field);
+			var sortBySelected:SortField = new SortField("selected",true);
 			var sortobject:Sort = new Sort();
 			if (!values.sort){
 				// no need to recreate
-				sortobject.fields = [ new SortField(field, false, false) ];
+				sortobject.fields = [ sortBySelected, sortByName];
 				values.sort = sortobject;
 			}
 			values.refresh();

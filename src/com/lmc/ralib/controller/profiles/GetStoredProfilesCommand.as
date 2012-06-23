@@ -35,7 +35,7 @@ package com.lmc.ralib.controller.profiles
 				this.injector.injectInto(remoteclient);
 				this.injector.mapValue(RemoteServiceBase, remoteclient);
 				// get the hosts as most of the application relies on hosts being present
-				dispatch(new ClientRequestEvent(ClientRequestEvent.HOSTS,false));
+				//dispatch(new ClientRequestEvent(ClientRequestEvent.HOSTS,false));
 			}
 			else if (model.profiles.length == 0){
 				dispatch(new AlertEvent(AlertEvent.OPEN,"Notice", "No Profile Exists, please create a connection profile"));

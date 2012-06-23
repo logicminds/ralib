@@ -14,12 +14,14 @@
 	<fx:Script>
 		<![CDATA[
 			import com.google.analytics.AnalyticsTracker;
+			import com.lmc.ralib.Events.CustomClickEvent;
 			import com.lmc.ralib.Events.FactViewEvent;
 			import com.lmc.ralib.Events.FilterListLayoutEvent;
 			import com.lmc.ralib.components.FilterListlayout;
 			
 			import flash.events.KeyboardEvent;
 			
+			import mx.charts.LegendItem;
 			import mx.collections.ArrayCollection;
 			import mx.core.DPIClassification;
 			import mx.core.FlexGlobals;
@@ -46,8 +48,8 @@
 			protected function init():void
 			{
 				this.factname = this.data.fact.name;
-				query = factname
-			
+				query = factname;
+				this.viewfactchart.addEventListener(CustomClickEvent.FACTCHARTCLICKED, onChartClick);
 				//this.tags.addtag(factname, "fact");
 				//this.tags.addEventListener("TagRemovedEvent", onTagRemoved);
 				trace("Viewing fact: " + this.data.fact.name);
@@ -58,10 +60,44 @@
 				super.backHandler(event);
 			}
 			
+			private function onChartClick(event:CustomClickEvent):void{
+				// turn given label into object in array
+				var factitem:Object;
+
+				if (event.selecteditem is LegendItem){
+					for each (var obj:Object in list.dataProvider){
+						if (obj.value == event.selecteditem.label){
+							factitem = obj;	
+						}
+					}
+					var value:String = event.selecteditem.toString();
+
+				}
+				else{
+					factitem = event.selecteditem;
+					var value:String = factitem.value.toString();
+
+				}
+				
+				
+				var hostquery:String;
+				var key:String = this.data.fact.name;
+				
+				if (this.data.hostgroup){
+					hostquery = "+hostgroup+%3D+" + this.data.hostgroup + "+%26+facts." + key + "+%3D++%22" + value + "%22";
+					
+				}
+				else{
+					hostquery = "+facts." + key + "+%3D++%22" + value + "%22";
+					
+				}
 			
+						
+				navigator.pushView(FactSystemsView, {query:hostquery, hosts:factitem.hosts, 
+							factname:this.data.fact.name, factvalue:factitem.value});
+			}
 			protected function list_changeHandler(event:IndexChangeEvent):void
 			{
-				this.destructionPolicy = "never";
 				var hostquery:String;
 				var key:String = this.data.fact.name;
 				var value:String = list.selectedItem.value;

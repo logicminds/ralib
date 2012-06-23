@@ -10,6 +10,7 @@ package com.lmc.ralib.controller.Application
 	
 	import org.robotlegs.mvcs.Command;
 	
+	import spark.components.TabbedViewNavigator;
 	import spark.components.ViewNavigator;
 	import spark.components.supportClasses.ViewNavigatorBase;
 	
@@ -24,14 +25,17 @@ package com.lmc.ralib.controller.Application
 			super();
 		}
 		public override function execute():void{
+			//var t:* = FlexGlobals.topLevelApplication;
 			if (FlexGlobals.topLevelApplication.hasOwnProperty('navigators')){
+				//desktop app
 				navs = FlexGlobals.topLevelApplication.navigators;
+
 			}
 			else{
+				//mobile app
 				navs = FlexGlobals.topLevelApplication.tabnavigators.navigators;
+
 			}
-			this.commandMap.detain(this);
-			this.eventDispatcher.addEventListener(ClientResultEvent.HOSTS, onResult);
 			var query:String;
 			if (event.query){
 				query = event.query;
@@ -39,15 +43,9 @@ package com.lmc.ralib.controller.Application
 			else{
 				query = event.bookmark.query;
 			}
-			
-			dispatch(new ClientRequestEvent(ClientRequestEvent.HOSTS, false, query));
+			ViewNavigator(navs[event.navid]).pushView(event.view, {query:query});
+			TabbedViewNavigator(navs[0].parentNavigator).selectedIndex = event.navid;
 		}
-		private function onResult(resultevent:ClientResultEvent):void{
-			this.eventDispatcher.removeEventListener(ClientResultEvent.HOSTS, onResult);
-			ViewNavigator(navs[event.navid]).pushView(event.view, {hosts: resultevent.data.values});
-			this.commandMap.release(this);
-
-
-		}
+		
 	}
 }

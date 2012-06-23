@@ -8,6 +8,7 @@
 	</fx:Declarations>
 	<fx:Script>
 		<![CDATA[
+			import com.lmc.ralib.Events.ClientRequestEvent;
 			import com.lmc.ralib.Events.ReportsViewEvent;
 			import com.lmc.ralib.model.Reports;
 			
@@ -18,6 +19,7 @@
 			private var hostname:String;
 			[Bindable] private var buttons:ArrayCollection = new ArrayCollection();
 			private var pagenumber:int = 1;
+			[Bindable] public var reports:ArrayCollection = new ArrayCollection();
 
 			private function init():void{
 				this.destructionPolicy = "auto";
@@ -50,7 +52,7 @@
 				
 			}
 			private function onRefreshClick(event:MouseEvent):void{
-				this.dispatchEvent(new ReportsViewEvent(ReportsViewEvent.REFRESH,filter));
+				this.dispatchEvent(new ClientRequestEvent(ClientRequestEvent.REPORTS,false,filter));
 			}
 			private function onChange(event:IndexChangeEvent):void{
 				//this.saveScrollPosition();
@@ -144,7 +146,7 @@
 	
 		</flexpad:BarGrey>
 
-	<s:List id="list" width="100%" height="100%" change="onChange(event)"  
+	<s:List id="list" width="100%" height="100%" change="onChange(event)" dataProvider="{reports}"  
 			itemRenderer="com.lmc.ralib.renderers.ReportsItemRenderer" />
 	</s:VGroup>
 	

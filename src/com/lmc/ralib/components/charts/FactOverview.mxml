@@ -41,6 +41,11 @@
 	</s:transitions> -->
 	<fx:Script>
 		<![CDATA[
+			import com.lmc.ralib.Events.CustomClickEvent;
+			import com.lmc.ralib.model.Bookmark;
+			
+			import mx.charts.events.ChartItemEvent;
+			import mx.charts.events.LegendMouseEvent;
 			import mx.collections.ArrayCollection;
 			import mx.core.FlexGlobals;
 			import mx.core.IVisualElement;
@@ -55,8 +60,9 @@
 		   // [Bindable] private var legendheight:int = Capabilities.screenResolutionY * .6;
 			//[Bindable] private var legendwidth:int = Capabilities.screenResolutionX * .6;
 			private function init():void{
-				this.addEventListener(TransformGestureEvent.GESTURE_SWIPE, onSwipe);
-				
+				addEventListener(TransformGestureEvent.GESTURE_SWIPE, onSwipe);
+				factChart.addEventListener(ChartItemEvent.ITEM_MOUSE_DOWN, dashchart_itemMouseDownHandler );
+
 			}
 			private function onSwipe(event:TransformGestureEvent):void{
 				trace(event);
@@ -84,6 +90,24 @@
 			}
 			private function movePanel(event:MouseEvent):void{
 				currentState = currentState == 'legend' ? '' : 'legend';
+			}
+		
+			private function clickLegend(event:LegendMouseEvent):void{
+				// will need to match label to bookmark and get the hosts
+				//	event.item.label;
+				dispatchEvent(new CustomClickEvent(CustomClickEvent.FACTCHARTCLICKED,event.item));
+				//dispatchEvent(new ChangeViewEvent(ChangeViewEvent.LOAD_VIEW,HostsView,0,null,bookmark));
+			}
+			
+			protected function dashchart_itemMouseDownHandler(event:ChartItemEvent):void
+			{
+				factChart.removeEventListener(ChartItemEvent.ITEM_MOUSE_DOWN, dashchart_itemMouseDownHandler );
+
+				if (event.hitSet.length > 0){
+					var item:Object = event.hitSet.shift().item;
+					dispatchEvent(new CustomClickEvent(CustomClickEvent.FACTCHARTCLICKED, item));
+				}
+			
 			}
 		]]>
 	</fx:Script>
@@ -120,7 +144,7 @@
 			radiusY="6" width="70%" height="80%" 
 		 visible="false" visible.legend="true" includeInLayout="false" includeInLayout.legend="true"  >
 		<s:fill>
-			<s:SolidColor color="#000000" alpha=".8"  />
+			<s:SolidColor color="#000000" alpha=".6"  />
 		</s:fill>
 		<s:stroke>
 			<s:SolidColorStroke color="0x7A7A7A" weight="2"/>
@@ -139,7 +163,7 @@
 		<s:Scroller height="100%"  width="100%"  contentBackgroundAlpha=".6"  verticalScrollPolicy="on" horizontalScrollPolicy="auto" >
 			<s:HGroup width="100%" height="100%"  clipAndEnableScrolling="true" 
 					  horizontalAlign="left" >
-				<mx:Legend id="legendchart" styleName="mylegendStyle" color="#FFFFFF" width="100%" 
+				<mx:Legend id="legendchart" styleName="mylegendStyle" itemMouseDown="clickLegend(event)" color="#FFFFFF" width="100%" 
 			    direction="horizontal"  />
 				
 			</s:HGroup>

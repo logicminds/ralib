@@ -5,8 +5,10 @@ package com.lmc.ralib.model
 	import flash.utils.Dictionary;
 	
 	import mx.collections.ArrayCollection;
+	import mx.collections.SortField;
 	import mx.utils.ObjectUtil;
 	
+	import spark.collections.Sort;
 	import spark.modules.Module;
 	
 	public class FactValues extends baseModel
@@ -14,7 +16,7 @@ package com.lmc.ralib.model
 		[Bindable] private var _filteredvalues:ArrayCollection;
 		private var _grouplist:Dictionary;
 		private var _factvalues:Object;
-		
+		private var sortobj:Sort = new Sort();
 		public function FactValues(jsonObject:Object=null, grouplist:Dictionary=null)
 		{
 			//obj.hostname.value
@@ -92,11 +94,20 @@ package com.lmc.ralib.model
 				
 			}
 		}
+		public function sort(field:String="name", dsc:Boolean=true):void{
+			if (!values.sort){
+				// no need to recreate
+				sortobj.fields = [ new SortField(field, false,dsc) ];
+				values.sort = sortobj;
+			}
+			values.refresh();
+			
+		}
 		public function deepcopy(obj:FactValues):void{
 			_grouplist = obj.grouplist;
 			_factvalues = obj.factvalues;
 			values.source = obj.values.source;
-			values.refresh();
+			sort("count");
 		}
 	
 		

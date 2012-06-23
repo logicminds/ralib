@@ -50,7 +50,7 @@ package com.lmc.ralib.services
 					break;
 				case "Foreman":
 					_service = new ForemanClient();
-					_service.setupClient(profile.host, profile.port,profile.credentials, profile.usehttps);
+					_service.setupClient(profile.host, profile.port,profile.credentials, profile.usehttps,profile.timeout);
 					break;
 				case "Puppet":
 					// doesn't exist yet
@@ -58,7 +58,7 @@ package com.lmc.ralib.services
 				default:
 					case "Foreman":
 					_service = new ForemanClient();
-					_service.setupClient(profile.host, profile.port,profile.credentials, profile.usehttps);
+					_service.setupClient(profile.host, profile.port,profile.credentials, profile.usehttps, profile.timeout);
 					break;	
 				
 				

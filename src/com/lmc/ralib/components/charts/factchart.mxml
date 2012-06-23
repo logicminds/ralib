@@ -16,10 +16,9 @@
 	</fx:Metadata>
 		<fx:Script>
 			<![CDATA[
-				
-				
 				import mx.charts.Legend;
 				import mx.charts.PieChart;
+				import mx.charts.events.ChartItemEvent;
 				import mx.charts.series.PieSeries;
 				import mx.collections.ArrayCollection;
 				import mx.events.PropertyChangeEvent;
@@ -35,6 +34,7 @@
 				public var legend:Legend;
 				public var hgroup:HGroup;
 				public var legscroller:Scroller;
+				private var MAXGRAPHITEMS:int = 10;
 				public function set dataProvider(dp:ArrayCollection):void{
 					
 					if (piedata != dp){
@@ -46,7 +46,7 @@
 					
 					
 				}
-				
+					
 				private function getData(event:PropertyChangeEvent):void{
 					
 				}
@@ -56,12 +56,19 @@
 					temp = temp.substr(0,6);
 					  // return data.name + ": \n" + temp + "%\n (" + data.value + ")";
 					// check for more than 10 items and dont' label, otherwise label the name
-					   //trace("Piechart items: " + piechart1.series.length); 
-					   return  temp + "%";
+					   //trace("Piechart items: " + piechart1.series.length);
+					if (MAXGRAPHITEMS >= piedata.length ){
+						return data.value + " ( " + temp + "% )";
+					}
+					else{
+						return  temp + "%";
+					}
 					
 				}
 			
-				
+				private function onItemClick(event:ChartItemEvent):void{
+					this.dispatchEvent(event);
+				}
 				private function creategraph():void{
 					if (!piechart1){
 						var paddingLeft:Number = getStyle("paddingLeft");
@@ -69,17 +76,28 @@
 						var paddingTop:Number = getStyle("paddingTop");
 						var paddingBottom:Number = getStyle("paddingBottom");
 						legscroller = new Scroller();
-						
+
 						var w:int = this.unscaledWidth - (paddingLeft + paddingRight);
 						var h:int = this.unscaledHeight - (paddingTop + paddingBottom);
 						var s:SolidColorStroke = new SolidColorStroke(0xFFFFFF, 1);
 						
 						piechart1 = new PieChart();
 						seriesId =  new PieSeries();
+						if (piedata.length <= MAXGRAPHITEMS){
+							seriesId.setStyle("labelPosition", "insideWithCallout");
+
+						}
+						else{
+							seriesId.setStyle("labelPosition", "none");
+							
+						}
+						seriesId.setStyle("calloutGap", 2);
+						seriesId.setStyle("calloutStroke", s);
 						legend = new Legend();
 						hgroup = new HGroup();
 						
-						
+						piechart1.addEventListener(ChartItemEvent.ITEM_MOUSE_DOWN, onItemClick );
+
 						//piechart1.top = 0;
 						//piechart1.bottom = 50;
 						piechart1.percentWidth = 100;
@@ -93,9 +111,7 @@
 						seriesId.explodeRadius = 0.02;
 						seriesId.nameField = "value";
 						
-						seriesId.setStyle("labelPosition", "callout");
-						seriesId.setStyle("calloutGap", 2);
-						seriesId.setStyle("calloutStroke", s);
+						
 						
 						seriesId.field = "count";
 						seriesId.labelFunction = displayWins;

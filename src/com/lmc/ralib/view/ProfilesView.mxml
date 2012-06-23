@@ -21,7 +21,7 @@
 
 			
 			}
-			private function editprofileClickHandler(event:customClickEvent):void
+			private function editprofileClickHandler(event:CustomClickEvent):void
 			{	
 				var dataobj:Object = {name: event.currentTarget.selectedItem.name, 
 					profile: event.currentTarget.selectedItem as ProfileModel};
@@ -33,7 +33,7 @@
 				else
 					return false;
 			}
-			private function onEditClick(event:customClickEvent):void{
+			private function onEditClick(event:CustomClickEvent):void{
 				var dataobj:Object = {name: event.currentTarget.selectedItem.name, 
 					profile: event.currentTarget.selectedItem as ProfileModel};
 				navigator.pushView(ProfileView, dataobj);

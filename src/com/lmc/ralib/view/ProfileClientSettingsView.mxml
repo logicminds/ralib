@@ -28,6 +28,7 @@
 			private var padding:Number = (10 * FlexGlobals.topLevelApplication.applicationDPI / DPIClassification.DPI_160);
 			
 			public override function backHandler(event:MouseEvent):void{
+				profile.timeout = int(timeout.text);
 				profile.clienttype = clientlist.selectedItem;
 				this.navigator.popView();
 			}
@@ -78,13 +79,22 @@
 			
 			<s:Label text="Security" fontWeight="bold" width="100%" textAlign="left" />
 
-			<s:Form>
-				<s:FormItem label="Use Https" >
-						<s:ToggleSwitch id="toggle" selected="{data.profile.usehttps}" 
+			<s:Form width="100%">
+				<s:FormItem label="Use Https" width="100%" >
+						<s:ToggleSwitch width="100%" id="toggle" selected="{data.profile.usehttps}" 
 										change="onHttpsChange(event)"   />
 				</s:FormItem>
 			</s:Form>
-			<s:Label text="Client Type" width="100%" textAlign="left" fontSize="16" />
+			
+			<s:Label text="Settings" fontWeight="bold" width="100%" textAlign="left" />
+
+			<s:Form width="100%">
+
+				<s:FormItem label="Client Timeout (s)" >
+					<s:TextInput id="timeout" text="{data.profile.timeout}" softKeyboardType="number" />
+				</s:FormItem>
+			</s:Form>
+			<s:Label text="Client Type" fontWeight="bold" width="100%" textAlign="left" />
 				<s:SpinnerListContainer width="90%"><s:layout>
 					<s:HorizontalLayout horizontalAlign="center" />
 				</s:layout>

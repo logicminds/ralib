@@ -6,5 +6,10 @@
 	<fx:Declarations>
 		<!-- Place non-visual elements (e.g., services, value objects) here -->
 	</fx:Declarations>
+	<fx:Script>
+		<![CDATA[
+			public var query:String;
+		]]>
+	</fx:Script>
 	
 </components:SearchList>

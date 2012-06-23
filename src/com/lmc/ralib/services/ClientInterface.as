@@ -7,7 +7,7 @@ package com.lmc.ralib.services
 	{
 		function type():String;
 		function version():String;	
-	    function setupClient(host:String, port:String, creds:String, secure:Boolean):void; 
+	    function setupClient(host:String, port:String, creds:String, secure:Boolean, timeout:int=30):void; 
 		function gethosts(query:String=null, etype:String=null):void;
 		function gethostinfo(host:String, hostresource:String=null):void
 		function gethostgroups():void;

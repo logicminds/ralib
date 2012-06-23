@@ -21,6 +21,7 @@ package com.lmc.ralib.model
 			return true;
 		}
 		
+		
 		/*[{"bookmark":{"name":"active","public":true,"id":2,"owner_id":1,"controller":"hosts","owner_type":"User",
 		"query":"last_report > \"35 minutes ago\" and (status.applied > 0 or status.restarted > 0)"}},
 		

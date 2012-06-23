@@ -88,17 +88,17 @@
 					case "ok":
 						switch (type){
 							case "revoke":
-								newevent = new customClickEvent(this.data,"revokeCertificate");
+								newevent = new customClickEvent("revokeCertificate",this.data);
 								owner.dispatchEvent(newevent);
 								break;
 						
 							case "accept":
-								newevent = new customClickEvent(this.data,"acceptCertificate");
+								newevent = new customClickEvent("acceptCertificate",this.data);
 								owner.dispatchEvent(newevent);
 								break;
 						
 							case "clean":
-								newevent = new customClickEvent(this.data,"cleanCertificate");
+								newevent = new customClickEvent("cleanCertificate",this.data);
 								owner.dispatchEvent(newevent);
 								break;
 							}

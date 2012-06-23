@@ -20,16 +20,18 @@ package com.lmc.ralib.controller.hosts
 			var query:String = "";
 
 			if (event.hostgroup){
-				query += "hostgroup%3D" + event.hostgroup;
+				query += "hostgroup%3D+" + event.hostgroup;
 			}
 			else if (event.hostgroups){
 				// cycle through list and create search query
 				for each (var obj:Object in event.hostgroups){
-					query += "hostgroup%3D";
-					query += obj.name;
-					query += "+or"
+					query = query + "hostgroup%3D+";
+					query = query + "%22" + obj.name.split(" ").join("+") + "%22";
+					query = query + "+or+";
 				}
 			}
+			//search=hostgroup+%3D+ubuntu-test+or+hostgroup+%3D+%22ice+web+prod%22+or+hostgroup+%3D++%22ice+hosts%22
+			
 			if (remoteclient.type()){
 				remoteclient.gethosts(query, RestClientEvent.GROUP_HOSTS);
 			}

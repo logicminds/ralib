@@ -80,15 +80,9 @@
 				
 			}
 			private function resolveLabel(name:String):Bookmark{
-				var bookmark:Bookmark = new Bookmark();
-				bookmark.name = "ok";
-				bookmark.query = "(last_report > \"35 minutes ago\" ) and (status.failed = 0 or status.failed_restarts = 0))" +
-					" and ( (status.applied > 0 or status.restarted > 0) or status.pending = 0)";
-				bookmark.controller = "hosts";
-				
 				switch(name){
 					case "Good Hosts":
-						return bookmark;
+						return bookmarks.findbyname("ok hosts");
 						break;
 					case "Out of Sync":
 						return bookmarks.findbyname("out of sync");
@@ -122,7 +116,7 @@
 			protected function dashchart_itemMouseDownHandler(event:ChartItemEvent):void
 			{
 				var bookmark:Bookmark  = resolveLabel(event.hitSet.shift().item.name);
-				this.dispatchEvent(new ChangeViewEvent(ChangeViewEvent.LOAD_VIEW,HostsView,0,null,bookmark));
+				this.dispatchEvent(new ChangeViewEvent(ChangeViewEvent.LOAD_VIEW,HostsView,1,null,bookmark));
 			}
 			
 		]]>

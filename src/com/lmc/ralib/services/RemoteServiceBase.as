@@ -60,7 +60,7 @@ package com.lmc.ralib.services
 		public function getBookmarks():void{
 			notsupported();
 		}
-		public function setupClient(host:String, port:String, creds:String, secure:Boolean):void{
+		public function setupClient(host:String, port:String, creds:String, secure:Boolean, timeout:int=30):void{
 			notsupported();
 				
 

@@ -40,7 +40,7 @@ package com.lmc.ralib.services
 			return "0.4.0";
 			
 		}
-		public override function setupClient(host:String, port:String, creds:String, secure:Boolean):void{
+		public override function setupClient(host:String, port:String, creds:String, secure:Boolean, timeout:int=30):void{
 			// sets up the restclient
 			if (creds && creds.length > 0){
 				restclient.credentials = creds;
@@ -48,6 +48,7 @@ package com.lmc.ralib.services
 			restclient.host = host;
 			restclient.port = port
 			restclient.secure = secure;
+			restclient.timeout = timeout;
 		}
 		public override function getBookmarks():void{
 			showBusy(true);

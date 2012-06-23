@@ -7,7 +7,7 @@
 	<fx:Script>
 		<![CDATA[	
 			import mx.events.FlexEvent;
-			
+			public var query:String;
 			import spark.events.IndexChangeEvent;
 			protected function maingrid_changeHandler(event:IndexChangeEvent):void
 			{
@@ -20,26 +20,39 @@
 				
 			}
 			private function init():void{
+				
 				this.but_refresh.addEventListener(MouseEvent.CLICK, onRefreshClick);
 
 			}
 			
 			private function onRefreshClick(event:MouseEvent):void{
-				hostslist.refreshlist();
+				this.dispatchEvent(new Event("HostsRefreshListEvent"));
+
 			}
-			
+			private function onShowAll(event:MouseEvent):void{
+				query = null;
+				but_showall.visible = false;
+				but_showall.includeInLayout = false;
+				but_refresh.includeInLayout = true;
+				but_refresh.visible = true;
+				this.dispatchEvent(new Event("HostsRefreshListEvent"));
+
+			}
 			protected function view1_creationCompleteHandler(event:FlexEvent):void
 			{
-				
-				if (data && data.hasOwnProperty("hosts")){
+				if (data && data.hasOwnProperty("query")){
+					query = data.query;
+					but_showall.visible = true;
+					but_showall.includeInLayout = true;
 					but_refresh.includeInLayout = false;
-					hostslist.dataProvider = data.hosts;
+					but_refresh.visible = false;
+
 				}
-				else{
-					this.backButton.includeInLayout = false;
-				}
-				
+				this.backButton.includeInLayout = false;
+				this.backButton.visible = false;
 			}
+			
+			
 			
 		]]>
 	</fx:Script>
@@ -48,15 +61,18 @@
 		<!-- Place non-visual elements (e.g., services, value objects) here -->
 	</fx:Declarations>
 	<s:VGroup height="100%" width="100%" >
-		<components:HostsList height="100%" width="100%" id="hostslist" 
-							  change="maingrid_changeHandler" allowMultipleSelection="false" />
+		<components:SearchList height="100%" width="100%" id="hostslist" labelField="name" 
+							   change="maingrid_changeHandler" allowMultipleSelection="false" />
 		
 		
 	</s:VGroup>
+	
 	<components:actionContent>
 		<!-- <s:Button styleName="addButton" id="addbutt" /> 
 		<s:Spacer width="5" /> -->
-		<s:Button styleName="refreshButton" id="but_refresh" />
+		<s:Button styleName="refreshButton" id="but_refresh" click="onRefreshClick(event)" />
+		<s:Button label="Show All" id="but_showall" click="onShowAll(event)" includeInLayout="false" visible="false" />
+
 	</components:actionContent>
 		
 </components:ViewBackBase>

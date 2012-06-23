@@ -1,7 +1,7 @@
 package com.lmc.ralib.renderers
 {
 	import com.lmc.ralib.Events.AlertEvent;
-	import com.lmc.ralib.Events.customClickEvent;
+	import com.lmc.ralib.Events.CustomClickEvent;
 	import com.lmc.ralib.model.ProfileModel;
 	import com.pialabs.eskimo.controls.SkinnableAlert;
 	

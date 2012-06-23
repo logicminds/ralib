@@ -7,7 +7,7 @@
 			import assets.Chevron;
 			
 			import com.flexpad.ButtonRed;
-			import com.lmc.ralib.Events.customClickEvent;
+			import com.lmc.ralib.Events.CustomClickEvent;
 			//TODO redo the editsystem list renderer to use the proper overloaded methods
 
 			import mx.graphics.GradientEntry;
@@ -73,7 +73,7 @@
 			}
 			private function ClickHandler(event:MouseEvent):void
 			{
-				var newevent:customClickEvent = new customClickEvent(this.data,"editPropertyEvent");
+				var newevent:CustomClickEvent = new CustomClickEvent("editPropertyEvent",this.data);
 				
 				owner.dispatchEvent(newevent);
 			

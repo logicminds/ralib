@@ -23,25 +23,23 @@ package com.lmc.ralib.controller.facts
 			var query:String = "";
 			// cycle through list and create search query
 			factname = event.factname;
-		
 			commandMap.detain(this);
 			/// catch event and then react to filter values 
 			this.eventDispatcher.addEventListener(RestClientEvent.GROUP_HOSTS,onResult);
-			dispatch(new BusyPopupEvent(BusyPopupEvent.OPEN_COMPUTING));
 			dispatch(new SearchEvent(SearchEvent.FIND_HOSTS_BY_GROUP,null, event.data));
 		
 		}
-		private function onResult(event:RestClientEvent):void{
-			// we now have the hosts 
+		private function onResult(gevent:RestClientEvent):void{
+			// we now have the hosts
+			this.eventDispatcher.removeEventListener(RestClientEvent.GROUP_HOSTS,onResult);
 			var grouphosts:Dictionary = new Dictionary()
-			for each (var item:Object in event.data.values){
+			for each (var item:Object in gevent.data.values){
 				grouphosts[item.name] = item;
 			}
 			model.grouplist = grouphosts;
 			var resultevent:ClientResultEvent = new ClientResultEvent(ClientResultEvent.FACTVALUES,model);
 			dispatch(resultevent);
 			// filter values
-			dispatch(new BusyPopupEvent(BusyPopupEvent.CLOSE_COMPUTING));
 
 			commandMap.release(this);
 

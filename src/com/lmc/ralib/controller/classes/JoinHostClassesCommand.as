@@ -2,20 +2,21 @@ package com.lmc.ralib.controller.classes
 {
 	import com.lmc.ralib.Events.ClientRequestEvent;
 	import com.lmc.ralib.Events.DataCorrelationEvent;
+	import com.lmc.ralib.Events.RestClientEvent;
 	import com.lmc.ralib.model.Host;
 	import com.lmc.ralib.model.HostGroup;
 	import com.lmc.ralib.model.HostGroups;
 	import com.lmc.ralib.model.PuppetClass;
 	import com.lmc.ralib.model.PuppetClasses;
-	import com.lmc.ralib.Events.RestClientEvent;
 	
 	import flash.utils.Dictionary;
 	
 	import mx.collections.ArrayCollection;
 	import mx.collections.Sort;
-	import mx.collections.SortField;
 	
 	import org.robotlegs.mvcs.Command;
+	
+	import spark.collections.SortField;
 	
 	public class JoinHostClassesCommand extends Command
 	{
@@ -42,10 +43,12 @@ package com.lmc.ralib.controller.classes
 			
 		}
 		private function sort(values:ArrayCollection,field:String="name"):void{
+			var sortByName:SortField = new SortField(field);
+			var sortBySelected:SortField = new SortField("selected",true);
 			var sortobject:Sort = new Sort();
 			if (!values.sort){
 				// no need to recreate
-				sortobject.fields = [ new SortField(field, false, false) ];
+				sortobject.fields = [ sortBySelected, sortByName];
 				values.sort = sortobject;
 			}
 			values.refresh();
@@ -135,7 +138,7 @@ package com.lmc.ralib.controller.classes
 				combined.addItem(cobj);
 			}
 			trace("After Total Classes:" + combined.length);
-
+			
 			sort(combined);
 			commandMap.release(this);
 

@@ -6,6 +6,7 @@ package com.lmc.ralib.view
 	import com.lmc.ralib.components.ViewMediatorBase;
 	import com.lmc.ralib.model.*;
 	
+	import flash.events.Event;
 	import flash.events.MouseEvent;
 	
 	import mx.events.CloseEvent;
@@ -25,7 +26,8 @@ package com.lmc.ralib.view
 		//	this.eventMap.mapListener(view.addbutt,MouseEvent.CLICK, onMouseClick);
 		//	this.addContextListener(SystemModelEvent.SYSTEM_ADDED, onAdded);
 		//	this.addContextListener(CloseEvent.CLOSE, onAlertClose);
-			
+			view.addEventListener("HostsRefreshListEvent", onRefresh);
+			getHosts();
 		}
 		private function onAlertClose(event:CloseEvent):void{
 			trace("alert closed");
@@ -40,6 +42,22 @@ package com.lmc.ralib.view
 			//view.systemtext.text = "";
 			//dispatch(new AlertEvent(AlertEvent.OPEN,"Alert", event.system + " was added"));
 			
+		}
+		private function onHostsHandler(event:ClientResultEvent):void{
+			this.removeContextListener(ClientResultEvent.HOSTS, onHostsHandler);
+			view.hostslist.dataProvider = event.data.values;
+			dispatch(new BusyPopupEvent(BusyPopupEvent.CLOSE));
+			
+		}
+		public function getHosts(usecache:Boolean=true):void{
+			if (view.query != null){
+				usecache = false;
+			}
+			this.addContextListener(ClientResultEvent.HOSTS, onHostsHandler);
+			dispatch(new ClientRequestEvent(ClientRequestEvent.HOSTS, usecache, view.query));
+		}
+		private function onRefresh(event:Event):void{
+			getHosts(false);
 		}
 	}
 }

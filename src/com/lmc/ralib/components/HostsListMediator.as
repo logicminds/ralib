@@ -21,10 +21,9 @@ package com.lmc.ralib.components
 		override public function onRegister():void
 		{
 			view.addEventListener("RefreshListEvent", onRefresh);
-			if (!view.dataProvider){
-				getHosts(true);
+			
+			getHosts();
 
-			}
 			
 		}
 		private function onHostsHandler(event:ClientResultEvent):void{
@@ -33,9 +32,12 @@ package com.lmc.ralib.components
 			dispatch(new BusyPopupEvent(BusyPopupEvent.CLOSE));
 
 		}
-		public function getHosts(usecache:Boolean):void{
+		public function getHosts(usecache:Boolean=true):void{
+			if (view.query != null){
+				usecache = false;
+			}
 			this.addContextListener(ClientResultEvent.HOSTS, onHostsHandler);
-			dispatch(new ClientRequestEvent(ClientRequestEvent.HOSTS, usecache));
+			dispatch(new ClientRequestEvent(ClientRequestEvent.HOSTS, usecache, view.query));
 		}
 		private function onRefresh(event:Event):void{
 			getHosts(false);
