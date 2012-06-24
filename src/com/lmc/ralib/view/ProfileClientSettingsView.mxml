@@ -60,7 +60,7 @@
 			private function onHttpsChange(event:Event):void{
 				profile.usehttps = !profile.usehttps;
 				if (profile.usehttps){
-					if ( profile.clienttype.name == "Foreman" && AppKeeper.isIOS() ){
+					if ( (profile.clienttype.name == "Foreman" || clientlist.selectedItem.label == "Foreman") && AppKeeper.isIOS() ){
 						var message:String = "If your using an untrusted Certificate, you will need to add the CA certificate to iOS.";
 						var title:String = "Troubleshooting Tip";
 						var link:String = "http://bit.ly/JgR66p";
@@ -78,13 +78,18 @@
 				  paddingLeft="{padding}" paddingRight="{padding}">
 			
 			<s:Label text="Security" fontWeight="bold" width="100%" textAlign="left" />
-
 			<s:Form width="100%">
-				<s:FormItem label="Use Https" width="100%" >
-						<s:ToggleSwitch width="100%" id="toggle" selected="{data.profile.usehttps}" 
-										change="onHttpsChange(event)"   />
+				
+				<s:FormItem label="Use Https" >
+					<s:HGroup horizontalAlign="left" width="100%" verticalAlign="middle" contentBackgroundColor="0xFFFFFF" >
+						<s:Spacer width="100%" />
+						<s:ToggleSwitch id="toggle" selected="{data.profile.usehttps}" 
+										change="onHttpsChange(event)" click="onHttpsChange(event)"   />
+					</s:HGroup>
 				</s:FormItem>
+				
 			</s:Form>
+			
 			
 			<s:Label text="Settings" fontWeight="bold" width="100%" textAlign="left" />
 

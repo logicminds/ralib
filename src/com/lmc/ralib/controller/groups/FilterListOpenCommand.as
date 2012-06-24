@@ -37,6 +37,7 @@ package com.lmc.ralib.controller.groups
 			filtercallout.selected = event.data;
 		}
 		private function onResult(event:ClientResultEvent):void{
+			this.eventDispatcher.removeEventListener(ClientResultEvent.HOSTGROUPS, onResult);
 			openCallout();
 			commandMap.release(this);
 		}
