@@ -2,7 +2,7 @@
 <components:ViewBackBase xmlns:fx="http://ns.adobe.com/mxml/2009"
 		xmlns:s="library://ns.adobe.com/flex/spark"
 		xmlns:mx="library://ns.adobe.com/flex/mx" currentState="List"
-		 xmlns:flexpad="com.flexpadmobile.*"
+		 xmlns:flexpad="com.flexpadmobile.*" creationComplete="viewbackbase1_creationCompleteHandler(event)"
 		   viewActivate="init()" title="Fact View"
 		  xmlns:lmc="components.*" xmlns:charts="com.lmc.ralib.components.charts.*" xmlns:components="com.lmc.ralib.components.*" 
 		  >
@@ -36,7 +36,7 @@
 			import spark.events.IndexChangeEvent;
 			import spark.events.PopUpEvent;
 			import spark.events.ViewNavigatorEvent;
-			[Bindable] private var hostgroups:Vector.<Object>;
+			public var hostgroups:Vector.<Object>; 
 			[Bindable] public var values:ArrayCollection;
 			[Bindable] private var factname:String;
 			public var query:String;
@@ -47,16 +47,22 @@
 			
 			protected function init():void
 			{
-				this.factname = this.data.fact.name;
+				destructionPolicy = "auto";
+				if (data.hasOwnProperty("hostgroups")){
+					hostgroups = data.hostgroups;
+				}
+				else{
+					hostgroups = new Vector.<Object>;
+				}
+				factname = data.fact.name;
 				query = factname;
-				this.viewfactchart.addEventListener(CustomClickEvent.FACTCHARTCLICKED, onChartClick);
-				//this.tags.addtag(factname, "fact");
-				//this.tags.addEventListener("TagRemovedEvent", onTagRemoved);
-				trace("Viewing fact: " + this.data.fact.name);
+				viewfactchart.addEventListener(CustomClickEvent.FACTCHARTCLICKED, onChartClick);
+				//tags.addtag(factname, "fact");
+				//tags.addEventListener("TagRemovedEvent", onTagRemoved);
+				trace("Viewing fact: " + data.fact.name);
 				
 			}
 			public override function backHandler(event:MouseEvent):void{
-				this.destructionPolicy = "auto";
 				super.backHandler(event);
 			}
 			
@@ -81,41 +87,42 @@
 				
 				
 				var hostquery:String;
-				var key:String = this.data.fact.name;
+				var key:String = data.fact.name;
 				
-				if (this.data.hostgroup){
-					hostquery = "+hostgroup+%3D+" + this.data.hostgroup + "+%26+facts." + key + "+%3D++%22" + value + "%22";
+				if (data.hostgroup){
+					hostquery = "+hostgroup+%3D+" + data.hostgroup + "+%26+facts." + key + "+%3D++%22" + value + "%22";
 					
 				}
 				else{
 					hostquery = "+facts." + key + "+%3D++%22" + value + "%22";
 					
 				}
-			
-						
+				data.hostgroups = hostgroups;
 				navigator.pushView(FactSystemsView, {query:hostquery, hosts:factitem.hosts, 
-							factname:this.data.fact.name, factvalue:factitem.value});
+							factname:data.fact.name, factvalue:factitem.value, factviewdata:data});
 			}
 			protected function list_changeHandler(event:IndexChangeEvent):void
 			{
 				var hostquery:String;
-				var key:String = this.data.fact.name;
+				var key:String = data.fact.name;
 				var value:String = list.selectedItem.value;
 				
-				if (this.data.hostgroup){
-					 hostquery = "+hostgroup+%3D+" + this.data.hostgroup + "+%26+facts." + key + "+%3D++%22" + value + "%22";
+				if (data.hostgroup){
+					 hostquery = "+hostgroup+%3D+" + data.hostgroup + "+%26+facts." + key + "+%3D++%22" + value + "%22";
 
 				}
 				else{
 					hostquery = "+facts." + key + "+%3D++%22" + value + "%22";
 
 				}
+				data.hostgroups = hostgroups;
+
 				switch(list.selectedItems[0]){
 					
 					default:
 						
 						navigator.pushView(FactSystemsView, {query:hostquery, hosts:list.selectedItem.hosts, 
-							factname:this.data.fact.name, factvalue:list.selectedItem.value});
+							factname:data.fact.name, factvalue:list.selectedItem.value,factviewdata:data});
 						trace("Value: " + list.selectedItem);
 						break;
 				}
@@ -123,12 +130,12 @@
 			}
 			private function menuChange(event:*):void{
 				if (listgraphbutton.isListState()){
-					this.viewfactchart.visible = false;
-					this.list.visible = true;
+					viewfactchart.visible = false;
+					list.visible = true;
 				}
 				else{
-					this.list.visible = false;
-					this.viewfactchart.visible = true;
+					list.visible = false;
+					viewfactchart.visible = true;
 						
 				}
 			
@@ -136,27 +143,27 @@
 			
 			protected function emailHandler(event:MouseEvent):void
 			{
-				dispatchEvent(new FactViewEvent(FactViewEvent.CREATE_FACT_EMAIL,null,data.fact.name, false, {hostgroups:this.hostgroups}));
+				dispatchEvent(new FactViewEvent(FactViewEvent.CREATE_FACT_EMAIL,null,data.fact.name, false, {hostgroups:hostgroups}));
 			}
 	
 			private function openfilter(event:MouseEvent):void{
-				this.addEventListener(FilterListLayoutEvent.CHANGE, calloutcloseHandler);
-				this.dispatchEvent(new FilterListLayoutEvent(FilterListLayoutEvent.OPEN,this.hostgroups, 
+				addEventListener(FilterListLayoutEvent.CHANGE, calloutcloseHandler);
+				dispatchEvent(new FilterListLayoutEvent(FilterListLayoutEvent.OPEN,hostgroups, 
 					event.currentTarget as DisplayObjectContainer));
 		
 			}
 			protected function calloutcloseHandler(event:FilterListLayoutEvent):void
 			{
-				this.removeEventListener(FilterListLayoutEvent.CHANGE, calloutcloseHandler);
+				removeEventListener(FilterListLayoutEvent.CHANGE, calloutcloseHandler);
 				if (event.data){
 					// user click ok and we pass the selected items from the list
-					this.hostgroups = event.data;
+					hostgroups = event.data;
 					// add all the tags
-					this.tags.removeAllTags();
+					tags.removeAllTags();
 					for each (var obj:Object in hostgroups){
-						this.tags.addtag(obj.name, "hostgroup");
+						tags.addtag(obj.name, "hostgroup");
 					}
-					this.dispatchEvent(new FactViewEvent(FactViewEvent.FILTERHOSTGROUPS, hostgroups, data.fact.name,false));
+					dispatchEvent(new FactViewEvent(FactViewEvent.FILTERHOSTGROUPS, hostgroups, data.fact.name,false));
 				}
 			}
 			
@@ -174,6 +181,18 @@
 						break;
 				}				
 			}
+			private function onRefreshClick(event:MouseEvent):void{
+				
+				dispatchEvent(new FactViewEvent(FactViewEvent.FILTERHOSTGROUPS, hostgroups, data.fact.name,false));
+
+			}
+			
+			protected function viewbackbase1_creationCompleteHandler(event:FlexEvent):void
+			{
+				if (navigator.poppedViewReturnedObject ){
+					data = navigator.poppedViewReturnedObject.object;
+				}
+			}
 			
 		]]>
 	</fx:Script>
@@ -187,7 +206,7 @@
 	
 	
 	<components:actionContent>
-		<s:Button styleName="refreshButton"  />
+		<s:Button styleName="refreshButton" click="onRefreshClick(event)"  />
 		<s:Spacer width="5" />
 		<s:Button buttonMode="true" styleName="shareactionButton" click="emailHandler(event)" />
     </components:actionContent>
@@ -197,7 +216,7 @@
 				<s:HorizontalLayout verticalAlign="middle" paddingLeft="5" paddingRight="5" paddingTop="5" paddingBottom="5" />
 			</flexpad:layout>
 			<s:HGroup width="100%" horizontalAlign="left">
-				<s:Label text="{'Fact: ' + this.data.fact.name}" fontWeight="bold"  />
+				<s:Label text="{'Fact: ' + data.fact.name}" fontWeight="bold"  />
 
 			</s:HGroup>
 			<s:HGroup width="100%" horizontalAlign="right" verticalAlign="middle">
@@ -211,7 +230,7 @@
 	
 	<!-- the list is too long because the height is the default -->
 	<s:List id="list" width="100%" itemRenderer="com.lmc.ralib.renderers.FactItemsRenderer" dataProvider="{values}" 
-			minHeight="20" maxHeight="{this.height - bar.height - bgroup.height}" top="{bar.height}"
+			minHeight="20" maxHeight="{height - bar.height - bgroup.height}" top="{bar.height}"
 							 change="list_changeHandler(event)" labelField="value"  />
 		
 	<charts:FactOverview id="viewfactchart" width="100%" bottom="{bgroup.height}" top="{bar.height + 5} "

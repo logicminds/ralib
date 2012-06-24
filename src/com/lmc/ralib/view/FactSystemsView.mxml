@@ -31,7 +31,10 @@
 				menuButtons.addItem("List");
 
 			}
-		
+			override public function createReturnObject():Object{
+				return data.factviewdata;
+				
+			}
 			protected function buttonbarClickHandler(event:IndexChangeEvent):void
 			{
 				/*if (buttonbar.selectedItem == "Email"){

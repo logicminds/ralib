@@ -44,6 +44,11 @@ package com.lmc.ralib.model
 			_values.source = v.source;
 			_values.refresh();
 		}
+		public function addItem(item:*):void{
+			_values.addItem(item);
+			namehash[item.name] = item;
+			idhash[item.id] = item;
+		}
 		public function cloneInto(newmodel:baseCollection):void{
 			values.source = newmodel.values.source;
 			namehash = newmodel.namehash;

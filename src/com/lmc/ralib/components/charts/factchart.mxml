@@ -34,7 +34,7 @@
 				public var legend:Legend;
 				public var hgroup:HGroup;
 				public var legscroller:Scroller;
-				private var MAXGRAPHITEMS:int = 10;
+				private var MAXGRAPHITEMS:int = 4;
 				public function set dataProvider(dp:ArrayCollection):void{
 					
 					if (piedata != dp){
@@ -104,14 +104,9 @@
 						piechart1.percentHeight = 100;
 						piechart1.right = 10;
 						piechart1.left = 10; 
-						 
-						piechart1.dataProvider = this.piedata;
-						
-						
+						piechart1.dataProvider = this.piedata;						
 						seriesId.explodeRadius = 0.02;
 						seriesId.nameField = "value";
-						
-						
 						
 						seriesId.field = "count";
 						seriesId.labelFunction = displayWins;

@@ -31,6 +31,7 @@
 			}
 			private function onShowAll(event:MouseEvent):void{
 				query = null;
+				delete data.query;
 				but_showall.visible = false;
 				but_showall.includeInLayout = false;
 				but_refresh.includeInLayout = true;
@@ -40,7 +41,7 @@
 			}
 			protected function view1_creationCompleteHandler(event:FlexEvent):void
 			{
-				if (data && data.hasOwnProperty("query")){
+				if ( data && data.hasOwnProperty("query")){
 					query = data.query;
 					but_showall.visible = true;
 					but_showall.includeInLayout = true;

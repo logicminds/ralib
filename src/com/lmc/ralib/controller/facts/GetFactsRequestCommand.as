@@ -29,8 +29,6 @@ package com.lmc.ralib.controller.facts
 				return;
 			}
 			if (remoteclient.type()){
-				
-
 				remoteclient.getfacts();
 			
 				// Need to dispatch the loading icon and maintain this command

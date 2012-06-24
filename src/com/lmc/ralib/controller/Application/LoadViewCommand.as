@@ -43,7 +43,9 @@ package com.lmc.ralib.controller.Application
 			else{
 				query = event.bookmark.query;
 			}
+			//load view
 			ViewNavigator(navs[event.navid]).pushView(event.view, {query:query});
+			//switch navs
 			TabbedViewNavigator(navs[0].parentNavigator).selectedIndex = event.navid;
 		}
 		

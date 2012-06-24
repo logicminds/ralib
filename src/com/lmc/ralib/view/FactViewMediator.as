@@ -5,12 +5,14 @@ package com.lmc.ralib.view
 	import com.lmc.ralib.Events.FilterListLayoutEvent;
 	import com.lmc.ralib.Events.MenuEvent;
 	import com.lmc.ralib.components.ViewMediatorBase;
+	import com.lmc.ralib.model.FactValues;
 	
 	import org.robotlegs.mvcs.Mediator;
 	
 	public class FactViewMediator extends ViewMediatorBase
 	{
 		[Inject] public var view:FactView;
+		[Inject] public var factvalues:FactValues;
 		
 		public function FactViewMediator()
 		{
@@ -18,15 +20,33 @@ package com.lmc.ralib.view
 		}
 		override public function onRegister():void{
 			view.showBusy();
-			this.addContextListener(MenuEvent.RESULT_FACT_MENU, onMenuHandler);
-			onActivate();
-			this.addViewListener(FactViewEvent.FACTVALUES, onActivate);
-			this.addViewListener(FilterListLayoutEvent.OPEN, dispatch);
-			this.addContextListener(FilterListLayoutEvent.CHANGE, onFilterChange );
-			this.addViewListener(FactViewEvent.FILTERHOSTGROUPS, onFilterRequest);
-			this.addViewListener(FactViewEvent.CREATE_FACT_EMAIL, dispatch);
+			addContextListener(MenuEvent.RESULT_FACT_MENU, onMenuHandler);
+			addContextListener(FilterListLayoutEvent.CHANGE, onFilterChange );
+
+			addViewListener(FilterListLayoutEvent.OPEN, dispatch);
+			addViewListener(FactViewEvent.FILTERHOSTGROUPS, onFilterRequest);
+			addViewListener(FactViewEvent.CREATE_FACT_EMAIL, dispatch);
+			// get facts
+			if (factvalues.values.length < 1){
+				addContextListener(ClientResultEvent.FACTVALUES, onGetFactValues);
+				dispatch(new ClientRequestEvent(ClientRequestEvent.FACTVALUES,false, view.query));
+			}
+			else{
+				addContextListener(ClientResultEvent.FACTVALUES, onFactValues);
+				dispatch(new FactViewEvent(FactViewEvent.FILTERHOSTGROUPS, view.hostgroups, view.data.fact.name,true));	
+			}
+			
+			
+			//addContextListener(ClientResultEvent.FACTVALUES, onFactValues);
+			//dispatch(new FactViewEvent(FactViewEvent.FILTERHOSTGROUPS, view.hostgroups, view.data.fact.name,true));
+			
 			dispatch(new MenuEvent(MenuEvent.GET_FACT_MENU));
 			dispatch(new AnalyticsTrackerEvent(AnalyticsTrackerEvent.TRACKPAGEVEW, "/facts/values -RL"));
+		}
+		private function onGetFactValues(event:ClientResultEvent):void{
+			removeContextListener(ClientResultEvent.FACTVALUES, onGetFactValues);
+			addContextListener(ClientResultEvent.FACTVALUES, onFactValues);
+			dispatch(new FactViewEvent(FactViewEvent.FILTERHOSTGROUPS, view.hostgroups, view.data.fact.name,true));	
 		}
 		private function onFilterRequest(event:FactViewEvent):void{
 			view.showBusy();
@@ -36,14 +56,7 @@ package com.lmc.ralib.view
 		private function onFilterChange(event:FilterListLayoutEvent):void{
 			view.dispatchEvent(event);
 		}
-	
-		private function onActivate():void{
-
-			this.removeViewListener(FactViewEvent.FACTVALUES, onActivate);
-			// get fact values
-			this.addContextListener(ClientResultEvent.FACTVALUES, onFactValues);
-			dispatch(new ClientRequestEvent(ClientRequestEvent.FACTVALUES,false, view.query));
-		}
+		
 		private function onFactValues(event:ClientResultEvent):void{
 			this.removeContextListener(ClientResultEvent.FACTVALUES, onFactValues);
 			view.values = event.data.values;

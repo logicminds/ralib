@@ -39,11 +39,6 @@ package com.lmc.ralib.model
 			return true;
 		}
 		
-		public function addItem(item:PuppetClass):void{
-			values.addItem(item);
-			namehash[item.name] = item;
-			idhash[item.id] = item;
-		}
 		public function addjsonItem(item:*):void{
 			//"classes":[{"puppetclass":{"name":"bind","lookup_keys":[],"id":56}},
 			//{"puppetclass":{"name":"timesync","lookup_keys":[],"id":45}},
