@@ -44,7 +44,7 @@ package com.lmc.ralib.controller.classes
 		}
 		private function sort(values:ArrayCollection,field:String="name"):void{
 			var sortByName:SortField = new SortField(field);
-			var sortBySelected:SortField = new SortField("selected",true);
+			var sortBySelected:SortField = new SortField("selected",true,true);
 			var sortobject:Sort = new Sort();
 			if (!values.sort){
 				// no need to recreate

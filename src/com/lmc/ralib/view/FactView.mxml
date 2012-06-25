@@ -193,7 +193,8 @@
 				if (navigator.poppedViewReturnedObject ){
 					usecache = true;
 					data = navigator.poppedViewReturnedObject.object;
-					listgraphbutton.currentState = data.isgraphvisible ? "list" : "graph";
+					listgraphbutton.currentState = data.isgraphvisible ? "graph" : "list";
+					menuChange(null);
 				}
 				
 			}

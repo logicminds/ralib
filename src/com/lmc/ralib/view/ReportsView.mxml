@@ -77,6 +77,8 @@
 
 				}
 				else{
+					if (this.data == null)
+						this.data = new Object();
 					data.report = event.currentTarget.dataProvider.getItemAt(event.newIndex);
 					navigator.pushView(ReportView, data);
 				}

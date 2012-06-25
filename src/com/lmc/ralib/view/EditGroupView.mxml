@@ -15,13 +15,13 @@
 			import mx.events.FlexEvent;
 			
 			import spark.events.IndexChangeEvent;
-			[Bindable] private var menu:ArrayCollection = new ArrayCollection([{actions:"Edit Hosts"}, {actions:"Edit Classes"}]);
+			[Bindable] private var menu:ArrayCollection = new ArrayCollection([{name:"Edit Hosts"}, {name:"Edit Classes"}]);
 			
 			
 		
 			private function list_changeHandler(event:IndexChangeEvent):void{
 				{
-					switch(list.selectedItem.actions){
+					switch(list.selectedItem.name){
 						case "Edit Hosts":
 							navigator.pushView(EditHostsGroupView, {gdata:data.gdata});
 							break;
@@ -36,6 +36,6 @@
 	</fx:Script>
 	
 	<s:List id="list" allowMultipleSelection="false" left="0" right="0" top="0" bottom="0" 
-			change="list_changeHandler(event)" labelField="actions" 
+			change="list_changeHandler(event)" itemRenderer="com.lmc.ralib.renderers.StandardIconRenderer"
 			dataProvider="{menu}" />
 </components:ViewBackBase>

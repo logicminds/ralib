@@ -14,14 +14,16 @@ package com.lmc.ralib.controller.groups
 			super();
 		}
 		public override function execute():void{
+			var data:Object = new Object();
+			data.statuscode = event.statuscode;
 			switch(event.statuscode){
 				case 200:
 					dispatch(new AlertEvent(AlertEvent.OPEN,"Notice", "HostGroup Was Updated Successfully"));
-					dispatch(new ClientUpdateResultEvent(ClientUpdateResultEvent.HOSTGROUP));
+					dispatch(new ClientUpdateResultEvent(ClientUpdateResultEvent.HOSTGROUP,-1,data,true));
 					break;
 				default:
 					dispatch(new AlertEvent(AlertEvent.OPEN,"Alert", "There was a problem updating, Error: " + event.statuscode ));
-					dispatch(new ClientUpdateResultEvent(ClientUpdateResultEvent.HOSTGROUP));
+					dispatch(new ClientUpdateResultEvent(ClientUpdateResultEvent.HOSTGROUP,-1,data,false));
 
 			}
 				

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <components:ViewBackBase xmlns:fx="http://ns.adobe.com/mxml/2009" 
 		xmlns:s="library://ns.adobe.com/flex/spark" 
-		 title="Edit Group Classes" 
+		 title="Group Classes" 
 		viewActivate="view1_viewActivateHandler(event)"
 		xmlns:mx="library://ns.adobe.com/flex/mx" xmlns:flexpad="com.flexpadmobile.*" 
 		xmlns:components="com.lmc.ralib.components.*"
@@ -28,9 +28,7 @@
 		
 		
 			
-			private function backbut_clickHandler(event:MouseEvent):void{
-				navigator.popView();
-			}
+		
 			
 		
 			protected function view1_viewActivateHandler(event:Event):void
@@ -62,15 +60,8 @@
 		]]>
 	</fx:Script>
 	
-	<components:navigationContent>
-		
-		<s:Button label="Back" click="backbut_clickHandler(event)" />
-		
-	</components:navigationContent>
 	<components:actionContent>
-		
-		<s:Button id="but_save"   label="Save"
-				  click="next()"/>
+		<s:Button id="but_save" label="Save" click="next()"/>
 	</components:actionContent>
 	
 	
