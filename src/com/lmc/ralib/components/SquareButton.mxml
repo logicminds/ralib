@@ -68,7 +68,7 @@
 	<s:Group color="0xFFFFFF"
 			 horizontalCenter="0"
 			 verticalCenter="0">
-		<s:Label id="labelnumber" fontWeight="bold" />
+		<s:Label id="labelnumber" styleName="squarebutton" />
 	</s:Group>
 	
 	

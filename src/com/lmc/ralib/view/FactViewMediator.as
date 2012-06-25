@@ -27,18 +27,8 @@ package com.lmc.ralib.view
 			addViewListener(FactViewEvent.FILTERHOSTGROUPS, onFilterRequest);
 			addViewListener(FactViewEvent.CREATE_FACT_EMAIL, dispatch);
 			// get facts
-			if (factvalues.values.length < 1){
-				addContextListener(ClientResultEvent.FACTVALUES, onGetFactValues);
-				dispatch(new ClientRequestEvent(ClientRequestEvent.FACTVALUES,false, view.query));
-			}
-			else{
-				addContextListener(ClientResultEvent.FACTVALUES, onFactValues);
-				dispatch(new FactViewEvent(FactViewEvent.FILTERHOSTGROUPS, view.hostgroups, view.data.fact.name,true));	
-			}
-			
-			
-			//addContextListener(ClientResultEvent.FACTVALUES, onFactValues);
-			//dispatch(new FactViewEvent(FactViewEvent.FILTERHOSTGROUPS, view.hostgroups, view.data.fact.name,true));
+			addContextListener(ClientResultEvent.FACTVALUES, onGetFactValues);
+			dispatch(new ClientRequestEvent(ClientRequestEvent.FACTVALUES,view.usecache, view.query));
 			
 			dispatch(new MenuEvent(MenuEvent.GET_FACT_MENU));
 			dispatch(new AnalyticsTrackerEvent(AnalyticsTrackerEvent.TRACKPAGEVEW, "/facts/values -RL"));

@@ -63,7 +63,7 @@
 	</fx:Declarations>
 	<s:VGroup height="100%" width="100%" >
 		<components:SearchList height="100%" width="100%" id="hostslist" labelField="name" 
-							   change="maingrid_changeHandler" allowMultipleSelection="false" />
+							   change="maingrid_changeHandler" allowMultipleSelection="false" itemRenderer="com.lmc.ralib.renderers.StandardIconRenderer" />
 		
 		
 	</s:VGroup>

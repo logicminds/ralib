@@ -19,16 +19,17 @@ package com.lmc.ralib.components.charts
 			super();
 		}
 		override public function onRegister():void{
+			this.addViewListener(ClientRequestEvent.DASHBORAD, onRefresh);
 			this.addContextListener(ClientResultEvent.DASHBOARD, onDataLoad);
-			this.addViewListener("RefreshDashboardEvent", onRefresh);
+
 			dispatch(new ClientRequestEvent(ClientRequestEvent.DASHBORAD));
 			addViewListener(ChangeViewEvent.LOAD_VIEW, dispatch);
 			view.bookmarks = bookmarks;
 
 		}
-		private function onRefresh(event:Event):void{
-			this.addViewListener("RefreshDashboardEvent", onRefresh);
-			dispatch(new ClientRequestEvent(ClientRequestEvent.DASHBORAD,false));
+		private function onRefresh(event:ClientRequestEvent):void{
+			this.addContextListener(ClientResultEvent.DASHBOARD, onDataLoad);
+			dispatch(event);
 
 		}
 		private function onDataLoad(event:ClientResultEvent):void{

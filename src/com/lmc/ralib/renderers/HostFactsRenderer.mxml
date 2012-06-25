@@ -4,7 +4,7 @@
 					iconField="icon" iconDelay="0" messageField="value">
 	<fx:Script>
 		<![CDATA[
-			import assets.Chevron;
+			import com.lmc.ralib.graphics.Chevron;
 		]]>
 	</fx:Script>
 	<fx:Declarations>

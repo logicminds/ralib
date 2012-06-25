@@ -36,7 +36,10 @@
 			private function backbut_clickHandler(event:MouseEvent):void{
 				navigator.popView();
 			}
-			
+			override public function createReturnObject():Object{
+				return data;
+				
+			}
 	
 			private function init():void{
 				

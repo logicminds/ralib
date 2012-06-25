@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <components:ViewBackBase xmlns:fx="http://ns.adobe.com/mxml/2009" 
-		xmlns:s="library://ns.adobe.com/flex/spark" title="ReportsView" viewActivate="init()"
+		xmlns:s="library://ns.adobe.com/flex/spark" title="ReportsView" creationComplete="creationCompleteHandler(event)" viewActivate="activate()"
 		xmlns:flexpad="com.flexpadmobile.*" xmlns:components="com.lmc.ralib.components.*">
 				
 	<fx:Declarations>
@@ -13,15 +13,17 @@
 			import com.lmc.ralib.model.Reports;
 			
 			import mx.collections.ArrayCollection;
+			import mx.events.FlexEvent;
 			
 			import spark.events.IndexChangeEvent;
 			public var filter:String;
 			private var hostname:String;
+			public var usecache:Boolean = false;
 			[Bindable] private var buttons:ArrayCollection = new ArrayCollection();
 			private var pagenumber:int = 1;
 			[Bindable] public var reports:ArrayCollection = new ArrayCollection();
 
-			private function init():void{
+			private function activate():void{
 				this.destructionPolicy = "auto";
 				if (buttons.length < 1){
 					buttons.addItem({label: "Recent"});
@@ -32,30 +34,41 @@
 					if (data.host){
 						this.hostname = data.host.name;
 						this.backButton.visible =  true;
+						this.backButton.label = "Show All";
 						filter = "host=" + this.hostname;
+						
 					}
 				}
 				else{
 					// don't show back button
 					this.backButton.visible = false;
 				}
+				
 			}
+			
 			public override function backHandler(event:MouseEvent):void{
+				// showall hosts
 				if (data.host){
-					super.backHandler(event);
+					data = null;
+					usecache = false;
+					pagenumber = 1;
+					this.hostname = null;
+					this.backButton.visible =  false;
+					filter = "";
+					this.dispatchEvent(new ClientRequestEvent(ClientRequestEvent.REPORTS,false,filter));
 				}
+				
 			}
 			override public function createReturnObject():Object{
-				var returnedObject:Object = new Object();
-				returnedObject.host = this.data.host;
-				return returnedObject;
+				return data;
 				
 			}
 			private function onRefreshClick(event:MouseEvent):void{
 				this.dispatchEvent(new ClientRequestEvent(ClientRequestEvent.REPORTS,false,filter));
 			}
 			private function onChange(event:IndexChangeEvent):void{
-				//this.saveScrollPosition();
+				//saveScrollPosition();
+				
 				this.destructionPolicy = "off";
 				if ((event.currentTarget as List).selectedItem.host == "Load More Reports"){
 					pagenumber++;
@@ -64,12 +77,14 @@
 
 				}
 				else{
-					navigator.pushView(ReportView, {report: event.currentTarget.dataProvider.getItemAt(event.newIndex)});
+					data.report = event.currentTarget.dataProvider.getItemAt(event.newIndex);
+					navigator.pushView(ReportView, data);
 				}
 			}
 			private function changeFilter(event:IndexChangeEvent):void{
 				// return to the beginning page views
 			//	this.pagenumber = 1;
+				this.saveScrollPosition();
 				if (event.newIndex == -1 ){
 					return;
 					// nothing was changed
@@ -100,12 +115,12 @@
 			}
 			private function restoreScrollPosition():void {
 				// the data might be null if it has never been set
-				if (this.data){
-					var restoredVSP:Number = this.data.appkeeper["verticalScrollPosition"] as Number;
-					var restoredHSP:Number = this.data.appkeeper["horizontalScrollPosition"] as Number;
-					
-					var maxVSP:Number = list.dataGroup.contentHeight - list.dataGroup.height;
-					var maxHSP:Number = list.dataGroup.contentWidth - list.dataGroup.width;
+				if (this.data && data.hasOwnProperty("verticalScrollPosition")){
+						var restoredVSP:Number = data.verticalScrollPosition as Number;
+						var restoredHSP:Number = data.horizontalScrollPosition as Number;
+						
+						var maxVSP:Number = vgroup.contentHeight - list.height;
+						var maxHSP:Number = vgroup.contentWidth - list.width;
 					
 					// restore the saved scroll position, but don't set it to higher than the maximum
 					// to prevent from orientation changes causing a scroll into excess space
@@ -125,13 +140,24 @@
 				this.data.horizontalScrollPosition = list.dataGroup.horizontalScrollPosition;
 			}
 			
+			protected function creationCompleteHandler(event:FlexEvent):void
+			{
+				if (navigator.poppedViewReturnedObject ){
+					data = navigator.poppedViewReturnedObject.object;
+					// Use cache
+					usecache = true;
+				}
+				
+				
+			}
+			
 		]]>
 	</fx:Script>
 	
 	<components:actionContent>
 		<s:Button styleName="refreshButton" id="but_refresh" click="onRefreshClick(event)" />
 	</components:actionContent>
-	<s:VGroup width="100%" height="100%" gap="0">
+	<s:VGroup width="100%" height="100%" gap="0" id="vgroup">
 		
 		<flexpad:BarGrey width="100%" id="bar" >
 			<flexpad:layout>

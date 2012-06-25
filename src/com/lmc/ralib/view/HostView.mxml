@@ -6,6 +6,7 @@
 	</fx:Declarations>
 	<fx:Script>
 		<![CDATA[
+			import com.lmc.ralib.Events.ChangeViewEvent;
 			import com.lmc.ralib.model.Host;
 			public var host:Host;
 			import spark.events.IndexChangeEvent;
@@ -24,8 +25,16 @@
 			{
 				//var tracker:AnalyticsTracker = ApplicationStore.services["tracker"];
 				//tracker.trackPageview("/Systems/System/" + maingrid.selectedItems[0]);
+				
 				var item:Object = event.currentTarget.selectedItem;
-				navigator.pushView(item.view, {host:host} );
+				if (item.name == "Host Reports"){
+					dispatchEvent(new ChangeViewEvent(ChangeViewEvent.LOAD_VIEW,ReportsView,2,{host:host}));
+
+				}
+				else{
+					navigator.pushView(item.view, {host:host} );
+
+				}
 			
 			}
 				
@@ -34,7 +43,7 @@
 	</fx:Script>
 	<s:VGroup width="100%" height="100%">
 	<s:List id="list" change="maingrid_changeHandler(event)" labelField="name" width="100%"
-			 itemRenderer="com.lmc.ralib.renderers.SystemsIconRenderer">
+			itemRenderer="com.lmc.ralib.renderers.StandardIconRenderer" >
 		
 	</s:List>
 		

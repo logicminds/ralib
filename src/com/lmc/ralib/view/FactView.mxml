@@ -37,8 +37,9 @@
 			import spark.events.PopUpEvent;
 			import spark.events.ViewNavigatorEvent;
 			public var hostgroups:Vector.<Object>; 
+			public var usecache:Boolean = false;
 			[Bindable] public var values:ArrayCollection;
-			[Bindable] private var factname:String;
+			private var factname:String;
 			public var query:String;
 			//private var listpop:listpopup;
 			[Bindable] private var menulist:ArrayCollection = new ArrayCollection(["List", "Graph"]);
@@ -47,9 +48,12 @@
 			
 			protected function init():void
 			{
-				destructionPolicy = "auto";
 				if (data.hasOwnProperty("hostgroups")){
 					hostgroups = data.hostgroups;
+					tags.removeAllTags();
+					for each (var obj:Object in hostgroups){
+						tags.addtag(obj.name, "hostgroup");
+					}
 				}
 				else{
 					hostgroups = new Vector.<Object>;
@@ -57,8 +61,6 @@
 				factname = data.fact.name;
 				query = factname;
 				viewfactchart.addEventListener(CustomClickEvent.FACTCHARTCLICKED, onChartClick);
-				//tags.addtag(factname, "fact");
-				//tags.addEventListener("TagRemovedEvent", onTagRemoved);
 				trace("Viewing fact: " + data.fact.name);
 				
 			}
@@ -77,12 +79,10 @@
 						}
 					}
 					var value:String = event.selecteditem.toString();
-
 				}
 				else{
 					factitem = event.selecteditem;
 					var value:String = factitem.value.toString();
-
 				}
 				
 				
@@ -97,6 +97,7 @@
 					hostquery = "+facts." + key + "+%3D++%22" + value + "%22";
 					
 				}
+				data.isgraphvisible = viewfactchart.visible;
 				data.hostgroups = hostgroups;
 				navigator.pushView(FactSystemsView, {query:hostquery, hosts:factitem.hosts, 
 							factname:data.fact.name, factvalue:factitem.value, factviewdata:data});
@@ -116,7 +117,7 @@
 
 				}
 				data.hostgroups = hostgroups;
-
+				data.isgraphvisible = viewfactchart.visible;
 				switch(list.selectedItems[0]){
 					
 					default:
@@ -190,8 +191,11 @@
 			protected function viewbackbase1_creationCompleteHandler(event:FlexEvent):void
 			{
 				if (navigator.poppedViewReturnedObject ){
+					usecache = true;
 					data = navigator.poppedViewReturnedObject.object;
+					listgraphbutton.currentState = data.isgraphvisible ? "list" : "graph";
 				}
+				
 			}
 			
 		]]>

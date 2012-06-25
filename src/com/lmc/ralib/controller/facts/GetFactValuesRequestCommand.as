@@ -24,7 +24,7 @@ package com.lmc.ralib.controller.facts
 			// check the cache first
 
 			if (model.values.length > 0 && event.usecache == true){
-				var resultevent:ClientResultEvent = new ClientResultEvent(ClientResultEvent.FACTS, model);
+				var resultevent:ClientResultEvent = new ClientResultEvent(ClientResultEvent.FACTVALUES, model);
 				dispatch(resultevent);
 				return;
 			}

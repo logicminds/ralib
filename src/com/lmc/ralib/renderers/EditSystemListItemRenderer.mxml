@@ -4,7 +4,7 @@
 					width="100%" iconWidth="64" iconHeight="64" messageField="value" creationComplete="init()">
 	<fx:Script>
 		<![CDATA[
-			import assets.Chevron;
+			import com.lmc.ralib.graphics.Chevron;
 			
 			import com.flexpad.ButtonRed;
 			import com.lmc.ralib.Events.CustomClickEvent;

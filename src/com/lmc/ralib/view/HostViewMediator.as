@@ -20,6 +20,7 @@ package com.lmc.ralib.view
 		}
 		override public function onRegister():void{
 			// get host information
+			addViewListener(ChangeViewEvent.LOAD_VIEW, dispatch);
 			addContextListener(ClientResultEvent.HOST, onhostHandler);
 			dispatch(new ClientRequestEvent(ClientRequestEvent.HOST, false,view.host.name ));
 			//ensure we have all the groups

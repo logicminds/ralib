@@ -19,8 +19,7 @@ package com.lmc.ralib.view
 			super();
 		}
 		override public function onRegister():void{
-			
-			onRefresh(new ClientRequestEvent(ClientRequestEvent.REPORTS, true, view.filter));
+			onRefresh(new ClientRequestEvent(ClientRequestEvent.REPORTS,view.usecache,view.filter));
 			addViewListener(ClientRequestEvent.REPORTS, onRefresh);
 			addViewListener(ReportsViewEvent.QUERYEVENT, onReportsViewFilter);
 		}

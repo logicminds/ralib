@@ -1,10 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <s:IconItemRenderer xmlns:fx="http://ns.adobe.com/mxml/2009"
 					xmlns:s="library://ns.adobe.com/flex/spark" labelField="name" cacheAsBitmap="true" 
-					iconField="icon"  decorator="{new Chevron()}" iconDelay="0" >
+					iconField="icon" decorator="{_decorator}"  iconDelay="0" >
 	<fx:Script>
 		<![CDATA[
-			import assets.Chevron;
+			
+			[Embed(source = "assets/images/fleche.png")]
+			private var _decorator:Class;
+			
+			
 		]]>
 	</fx:Script>
 	<fx:Declarations>

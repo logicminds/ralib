@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<components:ViewBase xmlns:fx="http://ns.adobe.com/mxml/2009" 
-		xmlns:s="library://ns.adobe.com/flex/spark" 
+<components:ViewBase xmlns:fx="http://ns.adobe.com/mxml/2009" creationComplete="creationCompleteHandler(event)" 
+		xmlns:s="library://ns.adobe.com/flex/spark" viewActivate="viewActivateHandler(event)" 
 		title="FactsView" xmlns:components="com.lmc.ralib.components.*">
 	<fx:Declarations>
 		<!-- Place non-visual elements (e.g., services, value objects) here -->
 	</fx:Declarations>
-	<components:SearchList width="100%" height="100%" id="list" change="list_changeHandler" searchFields="['name']"  
+	<components:SearchList width="100%" height="100%" id="list" change="changeHandler" searchFields="['name']"  
 						   itemRenderer="com.lmc.ralib.renderers.StandardIconRenderer" />
 	<components:actionContent>
 		<s:Button styleName="refreshButton" id="but_refresh" click="{list.refreshlist(false)}" />
@@ -16,9 +16,10 @@
 			import spark.events.IndexChangeEvent;
 			import spark.events.ViewNavigatorEvent;
 			
-			protected function list_changeHandler(event:IndexChangeEvent):void
+			protected function changeHandler(event:IndexChangeEvent):void
 			{
 				this.saveScrollPosition();
+				data.filtertext = this.list.filterTxt.text;
 				var selfact:Object = event.currentTarget.selectedItem;
 				navigator.pushView(FactView, {fact:selfact});
 			}
@@ -29,7 +30,7 @@
 			
 			private function restoreScrollPosition():void {
 				// the data might be null if it has never been set
-				if (data){
+				if (data && data.hasOwnProperty("verticalScrollPosition")){
 					var restoredVSP:Number = data.verticalScrollPosition as Number;
 					var restoredHSP:Number = data.horizontalScrollPosition as Number;
 					
@@ -65,13 +66,27 @@
 					list.removeEventListener("updateComplete", updateCompleteHandler);
 					list.removeEventListener("dataProviderChanged", dataProviderChangedHandler);
 				}
-				
 				list.addEventListener("dataProviderChanged", dataProviderChangedHandler);
+				
+			} 
+			protected function creationCompleteHandler(event:FlexEvent):void
+			{
+				if (navigator.poppedViewReturnedObject ){
+					data = navigator.poppedViewReturnedObject.object;
+				}
 				
 			}
 			
-			
 	
+			protected function viewActivateHandler(event:ViewNavigatorEvent):void
+			{
+				if (data && data.hasOwnProperty("filtertext")){
+					this.list.filterTxt.text = data.filtertext;
+					
+				}
+				
+			}
+			
 		]]>
 	</fx:Script>
 </components:ViewBase>
