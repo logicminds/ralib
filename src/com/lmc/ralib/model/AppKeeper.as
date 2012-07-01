@@ -8,6 +8,8 @@ package com.lmc.ralib.model
 	
 	public class AppKeeper extends Actor
 	{
+		
+		private var alerts:Object = new Object();
 		// this class is used to store view data throughout the program
 		// things like scroll positions or last button clicked
 		public var values:Dictionary;
@@ -15,6 +17,15 @@ package com.lmc.ralib.model
 		{
 			super();
 			values = new Dictionary();
+		}
+		public function pushAlertType(type:String):void{
+			alerts[type] = true;
+		}
+		public function isAlertOpen(type:String):Boolean{
+			return alerts.hasOwnProperty(type);
+		}
+		public function removeAlert(type:String):void{
+			delete alerts[type];
 		}
 		public function get clienttype():String{
 			if (!values["clienttype"]){

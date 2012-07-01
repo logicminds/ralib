@@ -19,9 +19,7 @@
 				
 			}
 			override public function createReturnObject():Object{
-				var returnedObject:Object = new Object();
-				returnedObject.host = this.data.host;
-				return returnedObject;
+				return data;
 				
 			}
 			private function onInheritedClick(event:AlertEvent):void{

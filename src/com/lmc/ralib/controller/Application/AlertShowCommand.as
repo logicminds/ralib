@@ -1,6 +1,7 @@
 package com.lmc.ralib.controller.Application
 {
 	import com.lmc.ralib.Events.AlertEvent;
+	import com.lmc.ralib.model.AppKeeper;
 	import com.lmc.ralib.utils.LogicMindsUtils;
 	import com.pialabs.eskimo.controls.SkinnableAlert;
 	
@@ -25,12 +26,17 @@ package com.lmc.ralib.controller.Application
 	public class AlertShowCommand extends Command
 	{
 		[Inject] public var event:AlertEvent;
-		
+		[Inject] public var appkeeper:AppKeeper;
 		public function AlertShowCommand()
 		{
 			super();
 		}
 		override public function execute():void{
+			if (appkeeper.isAlertOpen(event.message)){
+				//prevent multiple alerts of the same type
+				return;
+			}
+			appkeeper.pushAlertType(event.message);
 			
 			if (NativeAlert.isSupported){
 				callNativeAlert();
@@ -47,10 +53,11 @@ package com.lmc.ralib.controller.Application
 			}
 			
 		}
-		private function closeHandler(event:*):void{
-			var info:Object = ObjectUtil.getClassInfo(event);
+		private function closeHandler(cevent:*):void{
+			var info:Object = ObjectUtil.getClassInfo(cevent);
+			appkeeper.removeAlert(event.message);
 			if (info.name == "mx.events::CloseEvent"){
-				this.dispatch(event);
+				this.dispatch(cevent);
 			}
 			else{
 				var nevent:CloseEvent = new CloseEvent(CloseEvent.CLOSE);

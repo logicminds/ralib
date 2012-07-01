@@ -10,12 +10,15 @@
 			import com.lmc.ralib.model.Host;
 			public var host:Host;
 			import spark.events.IndexChangeEvent;
+			private function onViewActivate():void{
+				
+			}
 			private function init():void{
 				
 				
 				if (navigator.poppedViewReturnedObject ){
-					host = Host(navigator.poppedViewReturnedObject.object.host);
-					trace(data);
+					data = navigator.poppedViewReturnedObject.object;
+					host = data.host;
 				}
 				else if (data){
 					host = Host(data.host);
@@ -25,6 +28,10 @@
 			{
 				//var tracker:AnalyticsTracker = ApplicationStore.services["tracker"];
 				//tracker.trackPageview("/Systems/System/" + maingrid.selectedItems[0]);
+				if (! data){
+					data = new Object();
+				}
+				data.host = host;
 				
 				var item:Object = event.currentTarget.selectedItem;
 				if (item.name == "Host Reports"){

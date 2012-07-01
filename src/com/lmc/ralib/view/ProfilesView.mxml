@@ -58,9 +58,9 @@
 	<s:VGroup width="100%" height="100%">
 		<components:ProfileList width="100%" height="100%" id="profileslist" change="onSelectChange(event)"
 						 top="0" bottom="0"/>
-		<s:HGroup width="100%" paddingTop="5" id="butgroup"  visible="{isEmpty()}" 
+		<s:HGroup width="100%" paddingTop="5" id="butgroup" paddingLeft="20" paddingRight="20"  visible="{isEmpty()}" 
 				  paddingBottom="5" horizontalAlign="center" >
-			<s:Button label="Connect" id="butt_connect" enabled="{profileslist.selectedItem != null}" />
+			<s:Button label="Connect" width="100%" id="butt_connect" enabled="{profileslist.selectedItem != null}" />
 		</s:HGroup>
 		
 	</s:VGroup>
