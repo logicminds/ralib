@@ -9,7 +9,7 @@ package com.lmc.ralib.model
 		
 		public function PartitionTables(jsonObject:Object=null)
 		{
-			super(jsonObject, "ptables");
+			super(jsonObject);
 			
 		}
 	

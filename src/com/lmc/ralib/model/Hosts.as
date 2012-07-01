@@ -8,7 +8,7 @@ package com.lmc.ralib.model
 	{
 		public function Hosts(jsonObject:Object=null)
 		{
-			super(jsonObject, "Hosts");
+			super(jsonObject);
 			
 		}
 		public override function copy(jsonObject:Object):Boolean{

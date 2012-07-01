@@ -9,7 +9,7 @@ package com.lmc.ralib.model
 		
 		public function Domains(jsonObject:Object=null)
 		{
-			super(jsonObject, "domains");
+			super(jsonObject);
 			
 		}
 		

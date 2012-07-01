@@ -11,7 +11,7 @@ package com.lmc.ralib.model
 	{
 			public function HostGroups(jsonObject:Object=null)
 			{
-				super(jsonObject, "hostsgroups");
+				super(jsonObject);
 				
 			}
 		public override function copy(jsonObject:Object):Boolean{

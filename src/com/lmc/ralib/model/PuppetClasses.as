@@ -13,7 +13,7 @@ package com.lmc.ralib.model
 		
 		public function PuppetClasses(jsonObject:Object=null)
 		{
-			super(jsonObject, "PuppetClasses");
+			super(jsonObject);
 		}
 		public override function copy(jsonObject:Object):Boolean{
 			// this is the data module we need to work with

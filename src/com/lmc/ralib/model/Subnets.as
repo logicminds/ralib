@@ -9,7 +9,7 @@ package com.lmc.ralib.model
 		
 		public function Subnets(jsonObject:Object=null)
 		{
-			super(jsonObject, "subnets");
+			super(jsonObject);
 			
 		}
 		

@@ -9,7 +9,7 @@ package com.lmc.ralib.model
 		
 		public function OperatingSystems(jsonObject:Object=null)
 		{
-			super(jsonObject, "operatingsystems");
+			super(jsonObject);
 			
 		}
 		

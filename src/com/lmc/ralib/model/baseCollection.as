@@ -19,12 +19,11 @@ package com.lmc.ralib.model
 		public var _type:String;
 		public var namehash:Dictionary = new Dictionary();
 		public var idhash:Dictionary = new Dictionary();
-		public function baseCollection(jsonObject:Object, type:String)
+		public function baseCollection(jsonObject:Object)
 		{
 			
 			_values = new ArrayCollection;
 			super();
-			_type = type;
 			
 			if (jsonObject){
 				copy(jsonObject);	

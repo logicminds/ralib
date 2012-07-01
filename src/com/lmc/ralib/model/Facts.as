@@ -6,7 +6,7 @@ package com.lmc.ralib.model
 	{
 		public function Facts(jsonObject:Object=null)
 		{
-			super(jsonObject, "Facts");
+			super(jsonObject);
 			
 		}
 		public override function copy(jsonObject:Object):Boolean{

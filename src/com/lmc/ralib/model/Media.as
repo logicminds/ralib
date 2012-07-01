@@ -9,7 +9,7 @@ package com.lmc.ralib.model
 		
 		public function Media(jsonObject:Object=null)
 		{
-			super(jsonObject, "media");
+			super(jsonObject);
 			
 		}
 	

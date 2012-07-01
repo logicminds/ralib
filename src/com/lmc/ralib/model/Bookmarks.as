@@ -2,9 +2,9 @@ package com.lmc.ralib.model
 {
 	public class Bookmarks extends baseCollection
 	{
-		public function Bookmarks(jsonObject:Object=null, type:String=null)
+		public function Bookmarks(jsonObject:Object=null)
 		{
-			super(jsonObject, type);
+			super(jsonObject);
 			
 		}
 		public function add(bookmark:Bookmark):void{

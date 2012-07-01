@@ -9,7 +9,7 @@ package com.lmc.ralib.model
 		
 		public function HardwareModels(jsonObject:Object=null)
 		{
-			super(jsonObject, "models");
+			super(jsonObject);
 			
 		}
 		/*public override function getdata(fqdn:String="", option:String=""):void{

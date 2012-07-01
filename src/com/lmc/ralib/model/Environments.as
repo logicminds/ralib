@@ -9,7 +9,7 @@ package com.lmc.ralib.model
 		
 		public function Environments(jsonObject:Object=null)
 		{
-			super(jsonObject, "environments");
+			super(jsonObject);
 			
 		}
 		

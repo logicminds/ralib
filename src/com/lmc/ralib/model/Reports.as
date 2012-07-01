@@ -7,7 +7,7 @@ package com.lmc.ralib.model
 		
 		public function Reports(jsonObject:Object=null)
 		{
-			super(jsonObject, "Reports");
+			super(jsonObject);
 			
 		}
 		public function ensureLoadmore():void{

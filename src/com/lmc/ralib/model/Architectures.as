@@ -9,7 +9,7 @@ package com.lmc.ralib.model
 		
 		public function Architectures(jsonObject:Object=null)
 		{
-			super(jsonObject, "architectures");
+			super(jsonObject);
 			
 		}
 	

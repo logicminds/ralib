@@ -10,7 +10,7 @@ package com.lmc.ralib.model
 		
 		public function ProvisioningTemplates(jsonObject:Object=null)
 		{
-			super(jsonObject, "config_templates");
+			super(jsonObject);
 			
 		}
 	
