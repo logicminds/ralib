@@ -42,7 +42,7 @@
 					navigator.pushView(item.view, {host:host} );
 
 				}
-			
+				
 			}
 				
 			

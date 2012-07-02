@@ -31,7 +31,7 @@ package com.lmc.ralib.menus
 		//	hostmenu.addItem({name:"Assign Puppet Modules", view: AssignModuleView});
 			_hostmenu.addItem({name: "Host Reports", view: ReportsView});
 			_hostmenu.addItem({name: "Host Facts", view: HostFactsView});
-		//	_hostmenu.addItem({name: "Host Properties", view: HostPropertiesView});
+			_hostmenu.addItem({name: "Host Properties", view: HostPropertiesView});
 			_hostmenu.addItem({name: "Puppet Classes", view: HostClassesView});
 			//	systemmenu.addItem("Puppet Kick");  # currently not 100% supported under foreman/smart-proxy
 			/*	systemmenu.addItem("Perform Actions");
