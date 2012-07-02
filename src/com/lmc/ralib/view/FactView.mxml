@@ -204,9 +204,9 @@
 	
 	<fx:Declarations>
 		<s:MultiDPIBitmapSource id="filtericon"
-								source160dpi="@Embed('assets/icons/filter24.png')"
-								source240dpi="@Embed('assets/icons/filter32.png')"
-								source320dpi="@Embed('assets/icons/filter48.png')" />	</fx:Declarations>
+								source160dpi="@Embed('assets/icons/filter32.png')"
+								source240dpi="@Embed('assets/icons/filter48.png')"
+								source320dpi="@Embed('assets/icons/filter64.png')" />	</fx:Declarations>
 	
 	
 	

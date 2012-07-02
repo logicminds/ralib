@@ -4,9 +4,9 @@
 		 xmlns:charts1="com.lmc.ralib.components.charts.*" xmlns:mx="library://ns.adobe.com/flex/mx" >
 	<fx:Declarations>
 		<s:MultiDPIBitmapSource id="legendicon" 
-								source160dpi="@Embed('assets/icons/legend16.png')"
-								source240dpi="@Embed('assets/icons/legend24.png')"
-								source320dpi="@Embed('assets/icons/legend32.png')" />
+								source160dpi="@Embed('assets/icons/legend32.png')"
+								source240dpi="@Embed('assets/icons/legend48.png')"
+								source320dpi="@Embed('assets/icons/legend64.png')" />
 
 	</fx:Declarations>
 	<fx:Metadata>

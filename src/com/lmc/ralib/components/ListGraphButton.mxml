@@ -5,14 +5,14 @@
 	<fx:Declarations>
 		
 		<s:MultiDPIBitmapSource id="listicon" 
-								source160dpi="@Embed('assets/icons/list24.png')"
-								source240dpi="@Embed('assets/icons/list32.png')"
-								source320dpi="@Embed('assets/icons/list48.png')" />
+								source160dpi="@Embed('assets/icons/list32.png')"
+								source240dpi="@Embed('assets/icons/list48.png')"
+								source320dpi="@Embed('assets/icons/list64.png')" />
 		
 		<s:MultiDPIBitmapSource id="graphicon"
-								source160dpi="@Embed('assets/icons/piechart24.png')"
-								source240dpi="@Embed('assets/icons/piechart32.png')"
-								source320dpi="@Embed('assets/icons/piechart48.png')" />
+								source160dpi="@Embed('assets/icons/piechart32.png')"
+								source240dpi="@Embed('assets/icons/piechart48.png')"
+								source320dpi="@Embed('assets/icons/piechart64.png')" />
 	</fx:Declarations>
 	<s:states>
 		<s:State name="list" enterState="changelisticon(event)"/>
