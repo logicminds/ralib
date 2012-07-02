@@ -30,7 +30,6 @@ package com.lmc.ralib.view
 			super();
 		}
 		override public function onRegister():void{
-			this.addContextListener(ClientResultEvent.STATUS, onStatusResult);
 			this.eventMap.mapListener(view, ClientRequestEvent.STATUS, onCheckStatus);
 			this.addContextListener(ProfilesEvent.ADDED, onAdded);
 			this.addContextListener(ProfilesEvent.UPDATED, onAdded);
@@ -38,6 +37,7 @@ package com.lmc.ralib.view
 
 		}
 		private function onCheckStatus(event:ClientRequestEvent):void{
+			this.addContextListener(ClientResultEvent.STATUS, onStatusResult);
 			dispatch(event);
 		}
 		
@@ -47,14 +47,18 @@ package com.lmc.ralib.view
 		}
 		private function onUserPassInput(event:PopUpEvent):void{
 			this.removeContextListener(PopUpEvent.CLOSE, onUserPassInput);
+			// test credentials
 			if (event.data){
 				view.profile.setcredentials(event.data.username, event.data.password);
 			}
 		}
 		private function onStatusResult(event:ClientResultEvent):void{
 			// this checks the connection
-			
+			this.removeContextListener(ClientResultEvent.STATUS, onStatusResult);
 			if (event.data){
+				if (event.data.version){
+					view.profile.clientversion = event.data.version;
+				}
 				// save or update after verifiying 
 				dispatch(new ProfilesEvent(ProfilesEvent.ADD_REQUEST, view.profile));
 			}

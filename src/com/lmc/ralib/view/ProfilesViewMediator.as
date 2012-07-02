@@ -62,8 +62,8 @@ package com.lmc.ralib.view
 		private function onAlertClose(event:CloseEvent):void{
 			//switch views
 			removeContextListener(CloseEvent.CLOSE, onAlertClose);
-			dispatch(new ApplicationEvent(ApplicationEvent.LOAD_FIRST_VIEW,com.lmc.ralib.view.HomeView));
-			view.navigator.popToFirstView();
+			//dispatch(new ApplicationEvent(ApplicationEvent.LOAD_FIRST_VIEW,com.lmc.ralib.view.HomeView));
+			//view.navigator.popToFirstView();
 		
 		}
 		private function onDelete(event:MouseEvent):void{

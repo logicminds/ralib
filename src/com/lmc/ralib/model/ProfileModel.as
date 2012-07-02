@@ -22,6 +22,7 @@ package com.lmc.ralib.model
 		public var currentprofile:Boolean;
 		public var mycredentials:String;
 		public var clienttype:Object;
+		public var clientversion:String;
 		
 		public function ProfileModel(newprofile:Object=null)
 		{

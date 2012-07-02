@@ -18,7 +18,7 @@ package com.lmc.ralib.controller.Application
 		}
 		public override function execute():void{
 			model.cloneInto(event.data);
-			dispatch(new ClientRequestEvent(ClientRequestEvent.BOOKMARKS, event.data));
+			dispatch(new ClientResultEvent(ClientResultEvent.BOOKMARKS, event.data));
 		}
 	}
 }

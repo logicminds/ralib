@@ -16,8 +16,8 @@ package com.lmc.ralib.view
 			super();
 		}
 		public override function onRegister():void{
+			
 			this.addContextListener(ClientResultEvent.STATUS, onStatusResult);
-		
 			dispatch(new ClientRequestEvent(ClientRequestEvent.STATUS));
 			
 		}
