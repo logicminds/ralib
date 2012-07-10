@@ -248,6 +248,7 @@
     <classEntry path="com.lmc.ralib.Events.ChangeViewEvent"/>
     <classEntry path="com.lmc.ralib.controller.Application.LoadViewCommand"/>
     <classEntry path="com.lmc.ralib.components.ViewBase"/>
+    <classEntry path="com.lmc.ralib.Events.HostPropertiesEvent"/>
   </includeClasses>
   <includeResources/>
   <namespaceManifests/>

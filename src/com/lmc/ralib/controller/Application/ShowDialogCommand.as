@@ -23,11 +23,11 @@ package com.lmc.ralib.controller.Application
 	
 	import spark.events.PopUpEvent;
 	
-	public class AlertShowCommand extends Command
+	public class ShowDialogCommand extends Command
 	{
 		[Inject] public var event:AlertEvent;
 		[Inject] public var appkeeper:AppKeeper;
-		public function AlertShowCommand()
+		public function ShowDialogCommand()
 		{
 			super();
 		}
@@ -42,8 +42,7 @@ package com.lmc.ralib.controller.Application
 				callNativeAlert();
 			}
 			else {
-					SkinnableAlert.show(event.message, event.title, event.alerttype,contextView as Sprite, closeHandler);
-			//		Alert.show(event.message, event.title, event.alerttype,contextView as Sprite, closeHandler);
+					SkinnableAlert.show(event.message, event.title, SkinnableAlert.OK|SkinnableAlert.CANCEL,contextView as Sprite, closeHandler);				
 			}
 			
 		}
@@ -63,10 +62,10 @@ package com.lmc.ralib.controller.Application
 		{
 			
 			if(Capabilities.os.indexOf('Linux')>-1)
-				NativeAlert.show(event.message,event.title,"OK", ""  , closeHandler,false);
+				NativeAlert.show(event.message,event.title,"OK", "Cancel"  , closeHandler,false);
 			//if (Capabilities.os.indexOf('iPhone')>-1)
 			else 
-				NativeAlert.show(event.message,event.title,"OK", "" , closeHandler);
+				NativeAlert.show(event.message,event.title,"OK", "Cancel" , closeHandler);
 		
 		}
 		
