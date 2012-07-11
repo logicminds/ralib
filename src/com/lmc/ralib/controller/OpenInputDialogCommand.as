@@ -3,7 +3,11 @@ package com.lmc.ralib.controller
 	import com.lmc.ralib.Events.DialogPopUpEvent;
 	import com.lmc.ralib.components.InputDialog;
 	import com.lmc.ralib.components.InputUserDialog;
+	import com.pialabs.eskimo.controls.SkinnableInputDialog;
+	import com.pialabs.eskimo.controls.SkinnablePasswordInputDialog;
 	
+	import flash.display.Sprite;
+	import flash.events.Event;
 	import flash.text.SoftKeyboardType;
 	
 	import mx.managers.PopUpManager;
@@ -63,16 +67,12 @@ package com.lmc.ralib.controller
 
 			}
 			else{
-				var dialog:InputUserDialog = new InputUserDialog();
-				dialog.percentWidth = 90;
-				// create the SkinnablePopUpContainer
-				mediatorMap.createMediator(dialog);
-				// set the styles
+				var dialog:SkinnablePasswordInputDialog = SkinnablePasswordInputDialog.show(event.message, event.title, 
+					SkinnablePasswordInputDialog.CANCEL|SkinnablePasswordInputDialog.OK,
+					contextView as Sprite,onUserPassTextInputDialogClosedHandler);
 				dialog.username = event.username;
 				dialog.password = event.password;
-				
-				dialog.open(this.contextView, true);
-				PopUpManager.centerPopUp(dialog);
+			
 			}
 
 		}
@@ -98,25 +98,25 @@ package com.lmc.ralib.controller
 
 			}
 			else{
-				var inputdialog:InputDialog = new InputDialog();
-				inputdialog.percentWidth = 90;
-
-				// create the SkinnablePopUpContainer
-				mediatorMap.createMediator(inputdialog);
-				// set the styles
-				inputdialog.title = event.title;
-				inputdialog.open(this.contextView, true);
-				PopUpManager.centerPopUp(inputdialog);
+				var dialog:SkinnableInputDialog = SkinnableInputDialog.show(event.message, event.title, 
+					SkinnableInputDialog.CANCEL|SkinnableInputDialog.OK,
+					contextView as Sprite,onTextInputDialogClosedHandler);
 			}
 
 		}
 		
-		private function onTextInputDialogClosedHandler(event:NativeDialogEvent):void
+		private function onTextInputDialogClosedHandler(event:*):void
 		{
 			var fields:Object = new Object();
-			for each (var n:NativeTextField in textInputDialog.textInputs)
-			{
-				fields[n.name] = n.text;
+			
+			if (event is NativeDialogEvent){
+				for each (var n:NativeTextField in textInputDialog.textInputs)
+				{
+					fields[n.name] = n.text;
+				}
+			}
+			else{
+				fields["input"] = event.currentTarget.inputvalue;
 			}
 			if (textInputDialog ){
 					//textInputDialog.removeEventListener(NativeDialogEvent.CANCELED,trace);
@@ -128,14 +128,21 @@ package com.lmc.ralib.controller
 			this.commandMap.release(this);
 				
 		}
-		private function onUserPassTextInputDialogClosedHandler(event:NativeDialogEvent):void
+		private function onUserPassTextInputDialogClosedHandler(event:*):void
 		{
 			var fields:Object = new Object();
-			textInputDialog.textInputs
-			for each (var n:NativeTextField in textInputDialog.textInputs)
-			{
-				fields[n.name] = n.text;
+
+			if (event is NativeDialogEvent){
+				for each (var n:NativeTextField in textInputDialog.textInputs)
+				{
+					fields[n.name] = n.text;
+				}
 			}
+			else{
+				fields["username"] = event.currentTarget.username;
+				fields["password"] = event.currentTarget.password;
+			}
+			
 			
 			if (textInputDialog ){
 				//textInputDialog.removeEventListener(NativeDialogEvent.CANCELED,dispatch);
