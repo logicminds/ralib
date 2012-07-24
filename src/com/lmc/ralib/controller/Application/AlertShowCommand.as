@@ -38,7 +38,7 @@ package com.lmc.ralib.controller.Application
 			}
 			appkeeper.pushAlertType(event.message);
 			
-			if (NativeAlert.isSupported){
+			if (NativeAlert.isSupported && LogicMindsUtils.isMobile()){
 				callNativeAlert();
 			}
 			else {

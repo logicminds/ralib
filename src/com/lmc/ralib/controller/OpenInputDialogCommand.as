@@ -3,6 +3,7 @@ package com.lmc.ralib.controller
 	import com.lmc.ralib.Events.DialogPopUpEvent;
 	import com.lmc.ralib.components.InputDialog;
 	import com.lmc.ralib.components.InputUserDialog;
+	import com.lmc.ralib.utils.LogicMindsUtils;
 	import com.pialabs.eskimo.controls.SkinnableInputDialog;
 	import com.pialabs.eskimo.controls.SkinnablePasswordInputDialog;
 	
@@ -40,7 +41,7 @@ package com.lmc.ralib.controller
 			
 		}
 		private function openUserPassdialog():void{
-			if(NativeTextInputDialog.isSupported){
+			if(NativeTextInputDialog.isSupported && LogicMindsUtils.isMobile()){
 				this.commandMap.detain(this);
 
 				textInputDialog = new NativeTextInputDialog();
@@ -77,7 +78,7 @@ package com.lmc.ralib.controller
 
 		}
 		private function openInputdialog():void{
-			if(NativeTextInputDialog.isSupported){
+			if(NativeTextInputDialog.isSupported && LogicMindsUtils.isMobile()){
 				this.commandMap.detain(this);
 
 				textInputDialog = new NativeTextInputDialog();
