@@ -249,6 +249,9 @@
     <classEntry path="com.lmc.ralib.controller.Application.LoadViewCommand"/>
     <classEntry path="com.lmc.ralib.components.ViewBase"/>
     <classEntry path="com.lmc.ralib.Events.HostPropertiesEvent"/>
+    <classEntry path="com.lmc.ralib.model.Proxies"/>
+    <classEntry path="com.lmc.ralib.controller.certificates.GetCertificatesRequestCommand"/>
+    <classEntry path="com.lmc.ralib.controller.Application.openViewMenuCommand"/>
   </includeClasses>
   <includeResources/>
   <namespaceManifests/>
